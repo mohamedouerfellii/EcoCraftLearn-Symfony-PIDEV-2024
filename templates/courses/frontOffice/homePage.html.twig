@@ -20,7 +20,7 @@
                     <h4 class="sub-title">Start your favourite course</h4>
                     <h2 class="main-title">Now learning from anywhere, and build your <span>bright career.</span></h2>
                     <p>It has survived not only five centuries but also the leap into electronic typesetting.</p>
-                    <a class="btn btn-primary btn-hover-dark" href="#">Start A Course</a>
+                    <a class="btn btn-primary btn-hover-dark" href="{{path('all_courses', {'page' : 1})}}">Start A Course</a>
                 </div>
                 <!-- Slider Content End -->
 
@@ -112,8 +112,8 @@
                         <!-- All Courses Wrapper Start -->
                         <div class="courses-wrapper">
                             <div class="row">
-                                <div class="col-lg-4 col-md-6">
-                                     {% for course in courses %}
+                            {% for course in courses %}
+                                <div class="col-lg-4 col-md-6">                                    
                                     <!-- Single Courses Start -->
                                     <div class="single-courses">
                                         <div class="courses-images">
@@ -134,6 +134,7 @@
                                             <h4 class="title"><a href="#">{{course.title}}</a></h4>
                                             <div class="courses-meta">
                                                 <span> <i class="icofont-clock-time"></i>{{course.duration}}</span>
+                                                <span> <i class="icofont-read-book"></i> {{course.nbrregistred}} Registered </span>
                                             </div>
                                             <div class="courses-price-review">
                                                 <div class="courses-price">
@@ -149,8 +150,8 @@
                                         </div>
                                     </div>
                                     <!-- Single Courses End -->
-                                    {% endfor %}
                                 </div>
+                                    {% endfor %}
                             </div>
                         </div>
                         <!-- All Courses Wrapper End -->
@@ -158,13 +159,13 @@
                     <div class="tab-pane fade" id="tabs2">
                         <!-- All Courses Wrapper Start -->
                         <div class="courses-wrapper">
-                            <div class="row">
+                            <div class="row">       
+                            {% for course in courses %}                        
                                 <div class="col-lg-4 col-md-6">
-                                {% for course in courses %}
                                     <!-- Single Courses Start -->
                                     <div class="single-courses">
                                         <div class="courses-images">
-                                            <a href="courses-details.html"><img src="{{ asset('contents/uploads/courses/' ~ course.image) }}" alt="Courses"></a>
+                                            <a href="{{ path('course_details', {'idCourse' : course.idcourse})}}"><img src="{{ asset('contents/uploads/courses/' ~ course.image) }}" alt="Courses"></a>
                                         </div>
                                         <div class="courses-content">
                                             <div class="courses-author">
@@ -178,7 +179,7 @@
                                                 </div>
                                             </div>
 
-                                            <h4 class="title"><a href="#">{{course.title}}</a></h4>
+                                            <h4 class="title"><a href="{{ path('course_details', {'idCourse' : course.idcourse})}}">{{course.title}}</a></h4>
                                             <div class="courses-meta">
                                                 <span> <i class="icofont-clock-time"></i>{{course.duration}}</span>
                                             </div>
@@ -195,9 +196,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Single Courses End -->
-                                    {% endfor %}
+                                    <!-- Single Courses End -->                                    
                                 </div>
+                                {% endfor %}
                             </div>
                         </div>
                         <!-- All Courses Wrapper End -->
@@ -466,7 +467,7 @@
 
                 <!-- All Courses BUtton Start -->
                 <div class="courses-btn text-center">
-                    <a href="courses.html" class="btn btn-secondary btn-hover-primary">Other Course</a>
+                    <a href="{{path('all_courses')}}" class="btn btn-secondary btn-hover-primary">Other Course</a>
                 </div>
                 <!-- All Courses BUtton End -->
 

@@ -27,6 +27,10 @@ class CoursesRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function coursePagination(){
+        return $this->createQueryBuilder('c')
+        ->getQuery();
+    }
 //    /**
 //     * @return Courses[] Returns an array of Courses objects
 //     */

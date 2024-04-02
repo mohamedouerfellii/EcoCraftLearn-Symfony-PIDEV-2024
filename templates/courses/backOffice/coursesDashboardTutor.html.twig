@@ -31,12 +31,12 @@
             <!-- Courses Item Start -->
             <div class="courses-item">
                 <div class="item-thumb">
-                    <a href="#">
+                    <a href="{{ path('tutor_course_details', {'idCourse' : course.idcourse})}}">
                         <img src="{{ asset('contents/uploads/courses/' ~ course.image) }}" alt="Courses">
                     </a>
                 </div>
                 <div class="content-title">
-                <h3 ><a href="#">{{ course.title }}</a></h3>
+                <h3 ><a href="{{ path('tutor_course_details', {'idCourse' : course.idcourse})}}">{{ course.title }}</a></h3>
                 </div>
                 <div class="content-title">
                     <span class="title">{{ course.posteddate|date("m/d/y") }}</span>
@@ -62,9 +62,6 @@
                         </span>
                         </span>
                     </div>
-                    
-                    <a class="btn btn-warning" href="{{ path('edit_course', {'idCourse' : course.idcourse})}}">Edit</i></a>
-                    <a class="btn btn-danger" href="{{ path('delete_course', {'idCourse' : course.idcourse})}}">Delete</a>
                 </div>
             </div>
             <!-- Courses Item End -->

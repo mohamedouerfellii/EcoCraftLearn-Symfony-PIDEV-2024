@@ -11,6 +11,7 @@ use App\Form\AddCourseFormType;
 use App\Form\EditCourseFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -65,6 +66,7 @@ class CoursesController extends AbstractController
             $course->setPosteddate(new \DateTime());
             $em->persist($course);
             $em->flush();
+            return $this->redirectToRoute('tutor_course_dashboard');
         }
         return $this->render('courses/backOffice/addNewCourse.html.twig',[
             'addCourseForm' => $form->createView()
@@ -95,7 +97,7 @@ class CoursesController extends AbstractController
             }
             $em->persist($course);
             $em->flush();
-            return $this->redirectToRoute('tutor_course_dashboard');
+            return $this->redirectToRoute('tutor_course_details', ['idCourse' => $course->getIdcourse()]);
             }
     return $this->render('courses/backOffice/editCourse.html.twig', [
         'editForm' => $form->createView()
@@ -108,5 +110,34 @@ class CoursesController extends AbstractController
         $em->remove($course);
         $em->flush();
         return $this->redirectToRoute('tutor_course_dashboard');
+    }
+    #[Route('/courses/{page}', name: 'all_courses')]
+    public function allCourses(ManagerRegistry $doctrine, PaginatorInterface $paginator,Request $request): Response
+    {
+        $page = $request->get('page',1);
+        $pagination =  $paginator->paginate(
+            $doctrine->getManager()->getRepository(Courses::class)->coursePagination(),
+            $page,
+            6
+        );
+        return $this->render('courses/frontOffice/allCourses.html.twig', [
+            'pagination' => $pagination
+        ]);
+    }
+    #[Route('/courseDetails{idCourse}', name: 'course_details')]
+    public function courseDetails(ManagerRegistry $doctrine,Request $request): Response
+    {
+        $course = $doctrine->getManager()->getRepository(Courses::class)->find($request->get('idCourse'));
+        return $this->render('courses/frontOffice/courseDetails.html.twig', [
+            'course' => $course
+        ]);
+    }
+    #[Route('/tutorCourseDetails{idCourse}', name: 'tutor_course_details')]
+    public function courseDetailsDashboard(ManagerRegistry $doctrine,Request $request): Response
+    {
+        $course = $doctrine->getManager()->getRepository(Courses::class)->find($request->get('idCourse'));
+        return $this->render('courses/backOffice/courseDetails.html.twig', [
+            'course' => $course
+        ]);
     }
 }

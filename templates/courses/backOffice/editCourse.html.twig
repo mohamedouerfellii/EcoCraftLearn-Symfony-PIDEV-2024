@@ -49,7 +49,7 @@
               </defs>
               </svg>
               Choose Image    
-              {{ form_widget(editForm.image,{'attr':{'id':'upload'}}) }}
+              {{ form_widget(addCourseForm.image, {'attr': {'id': 'upload', 'style': 'display: none;'}}) }}
           </label>
         </div>
         <span class="form-error">{{ form_errors(editForm.image) }}</span>
