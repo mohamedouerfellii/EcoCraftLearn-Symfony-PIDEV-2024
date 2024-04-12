@@ -21,6 +21,14 @@ class SectionsRepository extends ServiceEntityRepository
         parent::__construct($registry, Sections::class);
     }
 
+    public function sectionListByCourse(?int $idCourse){
+        return $this->createQueryBuilder('s')
+            ->where('s.course = :course')
+            ->setParameter('course',$idCourse)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Sections[] Returns an array of Sections objects
 //     */

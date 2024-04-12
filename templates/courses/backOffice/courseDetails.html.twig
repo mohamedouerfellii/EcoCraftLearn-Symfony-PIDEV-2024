@@ -54,6 +54,10 @@
                                 <ul class="nav justify-content-center">
                                     <li><button class="active" data-bs-toggle="tab" data-bs-target="#description">Description</button></li>
                                     <li><button data-bs-toggle="tab" data-bs-target="#reviews">Reviews</button></li>
+                                    <li><button onclick="window.location.href='{{ path('add_section', {'idCourse' : course.idcourse})}}'">Add Section</button></li>
+                                    {% if course.nbrsection > 0 %}
+                                    <li><button onclick="window.location.href='{{ path('show_section', {'idCourse' : course.idcourse, 'sectionIndex' : 0})}}'">Show Sections</button></li>
+                                    {% endif %} 
                                 </ul>
                             </div>
                             <!-- Details Tab Menu End -->
@@ -145,11 +149,6 @@
                                                     <div class="swiper-pagination"></div>
                                                 </div>
                                             </div>
-
-                                            <div class="reviews-btn">
-                                                <button type="button" class="btn btn-primary btn-hover-dark" data-bs-toggle="modal" data-bs-target="#reviewsModal">Write A Review</button>
-                                            </div>
-
                                             <!-- Reviews Form Modal Start -->
                                             <div class="modal fade" id="reviewsModal">
                                                 <div class="modal-dialog modal-dialog-centered">
@@ -253,21 +252,6 @@
                             </div>
                         </div>
                         <!-- Sidebar Widget Information End -->
-
-                        <!-- Sidebar Widget Share Start -->
-                        <div class="sidebar-widget">
-                            <h4 class="widget-title">Share Course:</h4>
-
-                            <ul class="social">
-                                <li><a href="#"><i class="flaticon-facebook"></i></a></li>
-                                <li><a href="#"><i class="flaticon-linkedin"></i></a></li>
-                                <li><a href="#"><i class="flaticon-twitter"></i></a></li>
-                                <li><a href="#"><i class="flaticon-skype"></i></a></li>
-                                <li><a href="#"><i class="flaticon-instagram"></i></a></li>
-                            </ul>
-                        </div>
-                        <!-- Sidebar Widget Share End -->
-
                     </div>
                     <!-- Courses Details Sidebar End -->
                 </div>

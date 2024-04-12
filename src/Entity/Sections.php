@@ -4,8 +4,8 @@ namespace App\Entity;
 
 use App\Repository\SectionsRepository;
 use DateTime;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SectionsRepository::class)]
 class Sections
@@ -16,9 +16,12 @@ class Sections
     private ?int $idsection = null;
 
     #[ORM\Column(length:255)]
+    #[Assert\NotBlank(message: "Your section must have a title !")]
     private ?string $title = null;
 
     #[ORM\Column(length:65535)]
+    #[Assert\NotBlank(message: "Your section must have a description !")]
+    #[Assert\Length(min: 20, minMessage: "Description must contain at least 20 characters")]
     private ?string $description = null;
 
     #[ORM\Column(length:255)]
@@ -28,7 +31,7 @@ class Sections
     private ?DateTime $posteddate = null;
 
     #[ORM\ManyToOne(targetEntity: "Courses")]
-    #[ORM\JoinColumn(name: "course", referencedColumnName: "idCourse", onDelete: "CASCADE")]
+    #[ORM\JoinColumn(name: "course", referencedColumnName: "idcourse", onDelete: "CASCADE")]
     private ?Courses $course;
 
     public function getIdsection(): ?int

@@ -12,6 +12,7 @@ use App\Form\EditCourseFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -104,11 +105,19 @@ class CoursesController extends AbstractController
     ]);
     }
     #[Route('/deleteCourse{idCourse}', name: 'delete_course')]
-    public function deleteCourse(ManagerRegistry $doctrine,Request $request){
+    public function deleteCourse(ManagerRegistry $doctrine,Request $request,Filesystem $filesystem){
         $em = $doctrine->getManager();
         $course = $em->getRepository(Courses::class)->find($request->get('idCourse'));
+        $courseImage = $course->getImage();
         $em->remove($course);
         $em->flush();
+        if ($courseImage) {
+            $coursesDirectory = $this->getParameter('courses_directory');
+            $imagePath = $coursesDirectory . '/' . $courseImage;
+            if ($filesystem->exists($imagePath)) {
+                $filesystem->remove($imagePath);
+            }
+        }
         return $this->redirectToRoute('tutor_course_dashboard');
     }
     #[Route('/courses/{page}', name: 'all_courses')]

@@ -2,10 +2,10 @@
 {% block body %}
 <!-- Admin Courses Tab Start -->
 <div class="admin-courses-tab">
-    <h3 class="title">Edit Your Course !</h3>
+    <h3 class="title">Design Your Course !</h3>
     <div class="courses-tab-wrapper">
         <div class="tab-btn">
-            <a href="{{path('tutor_course_dashboard')}}" class="btn btn-primary btn-hover-dark">Go Back</a>
+            <a href="{{ path('show_section', {'idCourse' : idCourse, 'sectionIndex' : sectionIndex})}}" class="btn btn-primary btn-hover-dark">Go Back</a>
         </div>
     </div>
 </div>
@@ -14,26 +14,14 @@
               {{form_start(editForm,{'attr':{'methode':'POST','novalidate': 'novalidate'}})}}
         <div>
           <div class="single-form">
-              {{ form_widget(editForm.title, {'attr': {'placeholder': 'Add a title', 'class': 'formbold-form-input', 'id': 'courseTitle'}}) }}
+              {{ form_widget(editForm.title, {'attr': {'placeholder': 'Add a title', 'class': 'formbold-form-input', 'id': 'sectionTitle'}}) }}
               <span class="form-error">{{ form_errors(editForm.title, {'attr': {'class': 'form-error'}}) }}</span>
           </div>    
         </div>
         <div>
-          <div class="single-form">
-              {{ form_widget(editForm.price, {'attr': {'placeholder': 'Set a price to your course', 'class': 'formbold-form-input', 'id': 'coursePrice'}}) }}
-              <span class="form-error">{{ form_errors(editForm.price)}}</span>
-          </div>
-        </div>
-        <div>
           <div class="single-form">          
-              {{ form_widget(editForm.description, {'attr': {'placeholder': 'Add a little description', 'class': 'formbold-form-input', 'id': 'courseDescription','rows': '6'}}) }}
+              {{ form_widget(editForm.description, {'attr': {'placeholder': 'Add a little description', 'class': 'formbold-form-input', 'id': 'sectionDescription','rows': '6'}}) }}
               <span class="form-error">{{ form_errors(editForm.description)}}</span>
-          </div>
-        </div>
-        <div>  
-          <div class="single-form">
-              {{ form_widget(editForm.duration, {'attr': {'placeholder': 'Estimated duration (24h 60m)', 'class': 'formbold-form-input', 'id': 'courseDuration'}}) }}
-              <span class="form-error">{{ form_errors(editForm.duration,{'attr':{'class':'form-error'}})}}</span>
           </div>
         </div>
         <div class="formbold-input-file">
@@ -48,14 +36,14 @@
               </clipPath>
               </defs>
               </svg>
-              Choose Image    
-              {{ form_widget(editForm.image, {'attr': {'id': 'upload', 'style': 'display: none;'}}) }}
+              Choose video    
+              {{ form_widget(editForm.attachment, {'attr': {'id': 'upload', 'style': 'display: none;'}}) }}
           </label>
         </div>
-        <span class="form-error">{{ form_errors(editForm.image) }}</span>
+        <span class="form-error">{{ form_errors(editForm.attachment) }}</span>
         <br>
         <div class="tab-btn">
-            <button type="submit" class="btn btn-primary btn-hover-dark">Edit Course</button>
+            <button type="submit" class="btn btn-primary btn-hover-dark">Edit Section</button>
         </div>
         {{ form_end(editForm)}}
   </div>
