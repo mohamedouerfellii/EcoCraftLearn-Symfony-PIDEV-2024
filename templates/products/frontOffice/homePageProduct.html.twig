@@ -83,11 +83,12 @@
 
         <!-- All Courses Start -->
         <div class="section section-padding-02">
+         {% block bodyProductQuantity %}
             <div class="container">
 
                 <!-- All Courses Top Start -->
                 <div class="courses-top">
-
+          
                     <!-- Section Title Start -->
                     <div class="section-title shape-01">
                         <h2 class="main-title">All <span>Products</span> of EcoCraftLearning</h2>
@@ -105,6 +106,10 @@
 
                     <!-- Courses Search End -->
 
+                </div>
+
+                      <div class="courses-btn text-center" style="width: 2200px; height: 50px;"  >
+                    <a href="{{ path('my_cart') }}" class="btn btn-secondary btn-hover-primary">My Carts</a>
                 </div>
                 <!-- All Courses Top End -->
                 <!-- All Courses tab content Start -->
@@ -176,14 +181,15 @@
                
 
                 <!-- All Courses BUtton Start -->
-                <div class="courses-btn text-center">
-                    <a href="courses.html" class="btn btn-secondary btn-hover-primary">Other Products</a>
-                </div>
+         
 
                   <br>
                   <br> 
                 <!-- All Courses BUtton End -->
             </div>
+             {% endblock %}
         </div>   
-        <!-- All Courses End -->        
+        <!-- All Courses End -->       
+
+
 {% endblock %}

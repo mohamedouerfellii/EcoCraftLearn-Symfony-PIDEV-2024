@@ -50,9 +50,6 @@ class ProductsController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
             $user = $entityManager->getRepository(Users::class)->find(10);
-          
-
-
             $product = new Products();
             $product->setOwner($user);
             $form = $this->createForm(FormProductType::class, $product);

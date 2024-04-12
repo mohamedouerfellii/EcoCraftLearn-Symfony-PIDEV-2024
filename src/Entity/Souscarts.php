@@ -5,7 +5,7 @@ use App\Entity\Carts;
 use App\Entity\Products;
 use App\Repository\SouscartsRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: SouscartsRepository::class)]
 class Souscarts
 {
@@ -15,6 +15,7 @@ class Souscarts
     private ?int $idSouscarts = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Choose a quantity !")]
     private ?int $quantiteproduct = null;
 
     #[ORM\ManyToOne(targetEntity: "Carts", inversedBy: "sousCarts")]

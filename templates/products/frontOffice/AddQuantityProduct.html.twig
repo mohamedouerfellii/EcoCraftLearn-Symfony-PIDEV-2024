@@ -1,5 +1,30 @@
-{{ form_start(form) }}
-    {{ form_row(form.quantity) }}
-    {# Autres champs éventuels #}
-    <button type="submit">Submit</button>
-{{ form_end(form) }}
+{% extends 'products/frontOffice/homePageProduct.html.twig' %}
+    
+{% block bodyProductQuantity %}
+    <div class="modal-body reviews-form">
+        <h5 class="modal-title text-center mb-4"> Choose your Quantity</h5> 
+        {{ form_start(form, {'attr': {'class': 'single-form'}}) }} 
+        <div class="row">
+            <div class="col-md-6 offset-md-3"> 
+                {% set inputStyle = form_errors(form) ? 'color: red;' : '' %}
+                {{ form_row(form.quantiteproduct, {'attr': {'class': 'form-control text-center', 'placeholder': 'Enter quantity', 'style': inputStyle}}) }}
+                {% if form_errors(form) %}
+                    <ul class="form-error">
+                        {% for error in form_errors(form) %}
+                            <li class="form-error" style="color: red;">{{ error.message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mt-4"> 
+            <div class="col-md-6 offset-md-3"> 
+                <button type="submit" class="btn btn-primary btn-block">Confirm</button> 
+            </div>  
+            <br>
+        </div>
+        {{ form_end(form) }} 
+        <br>
+    </div>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+{% endblock %}

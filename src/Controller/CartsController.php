@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+
 use App\Entity\Carts;
 use App\Entity\Products;
 use App\Entity\Souscarts;
@@ -13,7 +14,8 @@ use App\Form\QuantityFormType;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use App\Repository\CartsRepository;
+use App\Repository\SouscartsRepository;
 class CartsController extends AbstractController
 {
     #[Route('/carts', name: 'app_carts')]
@@ -33,20 +35,20 @@ class CartsController extends AbstractController
             return $this->redirectToRoute('error');
         }
     
-        $user = $entityManager->getRepository(Users::class)->find(8);
+        $user = $entityManager->getRepository(Users::class)->find(10);
         if (!$user) {
             return $this->redirectToRoute('error');
         }
     
-        $form = $this->createForm(QuantityFormType::class);
-    
+        $form = $this->createForm(QuantityFormType::class, null, [
+            'product_quantity' => $product->getQuantite(),
+        ]);
  
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
           
-            $quantity = $form->get('quantity')->getData();
+            $quantity = $form->get('quantiteproduct')->getData();
     
-           
             $totalPrice = $product->getPrice() * $quantity;
 
             $cart = $entityManager->getRepository(Carts::class)->findOneBy([
@@ -68,14 +70,60 @@ class CartsController extends AbstractController
             
             $cart->setTotalprice($cart->getTotalprice() + $totalPrice);
             $entityManager->flush();
+
             return $this->redirectToRoute('showProducts');
-    
         }
+        
         return $this->render('products/frontOffice/AddQuantityProduct.html.twig', [
             'form' => $form->createView(),
         ]);
+    }   
+    
+
+    #[Route('/my-cart', name: 'my_cart')]
+    public function myCart(CartsRepository $cartsRepository, SouscartsRepository $souscartsRepository): Response
+    {
+        $user = $this->getDoctrine()->getRepository(Users::class)->find(10);
+        if (!$user) {
+            throw $this->createNotFoundException('User not found.');
+        }
+        $userCart = $cartsRepository->findOneBy(['owner' => $user, 'isconfirmed' => 0]);
+        if (!$userCart) {
+            throw $this->createNotFoundException('User cart not found.');
+        }
+        $userSouscarts = $souscartsRepository->findBy(['cart' => $userCart]);
+        return $this->render('products/frontOffice/CartsProductPage.html.twig', [
+            "userCart" => $userCart,
+            'souscarts' => $userSouscarts,
+        ]);
+
+
     }
+
+    #[Route('/deletesoucart/{idSouscarts}', name: "deletesoucart")]
+    public function deletesoucart(int $idSouscarts, EntityManagerInterface $entityManager): Response
+    {
+        $souscart = $entityManager->getRepository(Souscarts::class)->find($idSouscarts);
+        if (!$souscart) {
+            throw $this->createNotFoundException('Entity not found');
+        }
+        
+        $cart = $souscart->getCart();
+        $entityManager->remove($souscart);
+        
+        // Mise à jour du prix total du panier
+        $cart->updateTotalPrice();
+        
+        $entityManager->flush();
+        
+        return $this->redirectToRoute('my_cart');   
+    }
+    
+    
+    
     
 
     
+
+
 }

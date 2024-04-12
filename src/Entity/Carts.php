@@ -89,32 +89,24 @@ class Carts
 
     public function getSousCarts(): Collection
     {
-        return $this->sousCarts;
+        return $this->sousCarts ?: new ArrayCollection();
     }
 
     public function getIsconfirmed(): ?int
     {
         return $this->isconfirmed;
     }
-
-
-
-
-
-
     public function updateTotalPrice(): void
     {
         $totalPrice = 0;
-
-     
+    
         foreach ($this->getSousCarts() as $sousCart) {
-          
-            $totalPrice += $sousCart->getTotalPrice();
+            $totalPrice += $sousCart->getProduct()->getPrice() * $sousCart->getQuantiteproduct();
         }
-
-      
+    
         $this->totalprice = $totalPrice;
     }
+    
 
 
 
