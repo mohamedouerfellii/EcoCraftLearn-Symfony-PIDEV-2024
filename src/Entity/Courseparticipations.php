@@ -22,11 +22,11 @@ class Courseparticipations
     private ?int $sectiondone = 0;
 
     #[ORM\ManyToOne(targetEntity: "Courses")]
-    #[ORM\JoinColumn(name: "course", referencedColumnName: "idCourse", onDelete: "CASCADE")]
+    #[ORM\JoinColumn(name: "course", referencedColumnName: "idcourse", onDelete: "CASCADE")]
     private ?Courses $course;
 
     #[ORM\ManyToOne(targetEntity: "Users")]
-    #[ORM\JoinColumn(name: "participant", referencedColumnName: "idUser", onDelete: "CASCADE")]
+    #[ORM\JoinColumn(name: "participant", referencedColumnName: "iduser", onDelete: "CASCADE")]
     private ?Users $participant;
 
     public function getIdparticipation(): ?int

@@ -117,7 +117,7 @@
                                     <!-- Single Courses Start -->
                                     <div class="single-courses">
                                         <div class="courses-images">
-                                            <a href="courses-details.html"><img src="{{ asset('contents/uploads/courses/' ~ course.image) }}" alt="Courses" width="330" height="200"></a>
+                                            <a href="{{ path('course_details', {'idCourse' : course.idcourse})}}"><img src="{{ asset('contents/uploads/courses/' ~ course.image) }}" alt="Courses" width="330" height="200"></a>
                                         </div>
                                         <div class="courses-content">
                                             <div class="courses-author">
@@ -131,7 +131,7 @@
                                                 </div>
                                             </div>
 
-                                            <h4 class="title"><a href="#">{{course.title}}</a></h4>
+                                            <h4 class="title"><a href="{{ path('course_details', {'idCourse' : course.idcourse})}}">{{course.title}}</a></h4>
                                             <div class="courses-meta">
                                                 <span> <i class="icofont-clock-time"></i>{{course.duration}}</span>
                                                 <span> <i class="icofont-read-book"></i> {{course.nbrregistred}} Registered </span>
