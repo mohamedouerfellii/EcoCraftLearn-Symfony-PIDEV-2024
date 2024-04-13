@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Courses;
+use App\Entity\Quizquestions;
+use App\Entity\Quizzes;
 use App\Entity\Sections;
+use App\Form\AddQuestionFormType;
 use App\Form\AddSectionFormType;
 use App\Form\EditSectionFormType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -59,14 +62,21 @@ class SectionsController extends AbstractController
     #[Route('/sectionDetails/{idCourse}/{sectionIndex}', name: 'show_section')]
     public function courseDetails(ManagerRegistry $doctrine,Request $request)
     {
+        $em = $doctrine->getManager();
         $idCourse = $request->get('idCourse');
         $sectionIndex = $request->get('sectionIndex');
-        $course = $doctrine->getManager()->getRepository(Courses::class)->find($idCourse);
-        $sections = $doctrine->getManager()->getRepository(Sections::class)->sectionListByCourse($idCourse);
+        $course = $em->getRepository(Courses::class)->find($idCourse);
+        $sections = $em->getRepository(Sections::class)->sectionListByCourse($idCourse);
+        $idSection = $sections[$sectionIndex]->getIdsection();
+        $quiz = $em->getRepository(Quizzes::class)->getQuizBySection($idSection);
+        $question = new Quizquestions();
+        $form = $this->createForm(AddQuestionFormType::class, $question);
         return $this->render('sections/backOffice/afterEnroll.html.twig', [
             'course' => $course,
             'sections' => $sections,
-            'sectionIndex' => $sectionIndex
+            'sectionIndex' => $sectionIndex,
+            'quiz' => $quiz,
+            'QuestionForm' => $form->createView()
         ]);
     }
     #[Route('/deleteSection{idSection}', name: 'delete_section')]
@@ -137,10 +147,11 @@ class SectionsController extends AbstractController
     #[Route('/afterEnroll/{idCourse}/{sectionIndex}', name: 'after_enroll')]
     public function afterEnroll(ManagerRegistry $doctrine,Request $request)
     {
+        $em = $doctrine->getManager();
         $idCourse = $request->get('idCourse');
         $sectionIndex = $request->get('sectionIndex');
-        $course = $doctrine->getManager()->getRepository(Courses::class)->find($idCourse);
-        $sections = $doctrine->getManager()->getRepository(Sections::class)->sectionListByCourse($idCourse);
+        $course = $em->getRepository(Courses::class)->find($idCourse);
+        $sections = $em->getRepository(Sections::class)->sectionListByCourse($idCourse);
         return $this->render('sections/frontOffice/afterEnroll.html.twig', [
             'course' => $course,
             'sections' => $sections,

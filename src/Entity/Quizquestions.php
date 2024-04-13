@@ -32,7 +32,7 @@ class Quizquestions
     private ?string $correctChoice = null;
 
     #[ORM\ManyToOne(targetEntity: "Quizzes")]
-    #[ORM\JoinColumn(name: "quiz", referencedColumnName: "idQuiz", onDelete: "CASCADE")]
+    #[ORM\JoinColumn(name: "quiz", referencedColumnName: "idquiz", onDelete: "CASCADE")]
     private $quiz;
 
     public function getIdquestion(): ?int

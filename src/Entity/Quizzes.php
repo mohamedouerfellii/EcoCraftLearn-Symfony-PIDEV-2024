@@ -14,7 +14,7 @@ class Quizzes
     private ?int $idquiz = 0;
 
     #[ORM\ManyToOne(targetEntity: "Sections")]
-    #[ORM\JoinColumn(name: "section", referencedColumnName: "idSection", onDelete: "CASCADE")]
+    #[ORM\JoinColumn(name: "section", referencedColumnName: "idsection", onDelete: "CASCADE")]
     private ?Sections $section;
 
     public function getIdquiz(): ?int

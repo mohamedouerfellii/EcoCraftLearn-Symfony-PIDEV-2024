@@ -72,6 +72,7 @@
                         <ul class="nav">
                             <li><button class="active" data-bs-toggle="tab" data-bs-target="#tab1">Overview</button></li>
                             <li><button data-bs-toggle="tab" data-bs-target="#tab2">Description</button></li>
+                            <li><button data-bs-toggle="tab" data-bs-target="#tab3">Show Quiz</button></li>
                         </ul>
                     </div>
                     <div class="enroll-share">
@@ -120,6 +121,82 @@
                                 </div>
                             </div>
                             <!-- Description End -->
+                        </div>
+                        <div class="tab-pane fade" id="tab3">
+
+                            <!-- Certificates Start -->
+                            <div class="certificates">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="enroll-tab-title">
+                                            <h3 class="title">Warning</h3>
+                                            <div class="enroll-tab-content">
+                                            <p>Before submitting your quiz, please ensure that you have carefully selected the questions. Once submitted, the quiz cannot be modified. Take the time to review each question to ensure accuracy and relevancy. This will help maintain the integrity of the quiz and provide the best experience for quiz takers. Thank you for your attention to detail.</p>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <div class="form-wrapper">
+                                            {{form_start(QuestionForm,{'attr':{'methode':'POST','novalidate': 'novalidate'}})}}
+                                                <div class="single-form">
+                                                    {{ form_widget(QuestionForm.question, {'attr': {'placeholder': 'Add a question'}}) }}
+                                                    <span class="form-error">{{ form_errors(QuestionForm.question, {'attr': {'class': 'form-error'}}) }}</span>
+                                                </div>
+                                                <div class="single-form">
+                                                    {{ form_widget(QuestionForm.choice1, {'attr': {'placeholder': 'Choice 1'}}) }}
+                                                    <span class="form-error">{{ form_errors(QuestionForm.choice1, {'attr': {'class': 'form-error'}}) }}</span>
+                                                </div>
+                                                <div class="single-form">
+                                                    {{ form_widget(QuestionForm.choice2, {'attr': {'placeholder': 'Choice 2'}}) }}
+                                                    <span class="form-error">{{ form_errors(QuestionForm.choice2, {'attr': {'class': 'form-error'}}) }}</span>
+                                                </div>
+                                                <div class="single-form">
+                                                    {{ form_widget(QuestionForm.choice3, {'attr': {'placeholder': 'Choice 3'}}) }}
+                                                    <span class="form-error">{{ form_errors(QuestionForm.choice3, {'attr': {'class': 'form-error'}}) }}</span>
+                                                </div>
+                                                <div class="single-form">
+                                                    {{ form_widget(QuestionForm.choice4, {'attr': {'placeholder': 'Choice 4'}}) }}
+                                                    <span class="form-error">{{ form_errors(QuestionForm.choice4, {'attr': {'class': 'form-error'}}) }}</span>
+                                                </div>
+                                                <div class="single-form">
+                                                    {{ form_widget(QuestionForm.correctChoice) }}
+                                                    <span class="form-error">{{ form_errors(QuestionForm.correctChoice, {'attr': {'class': 'form-error'}}) }}</span>
+                                                </div>
+                                                <br><br>
+                                                <div class="single-form">
+                                                    <button class="btn btn-primary btn-hover-dark w-100" type="submit">Add Question</button>
+                                                </div>
+                                                <!-- Single Form End -->
+                                            {{ form_end(QuestionForm)}}
+                                            <br>
+                                            <br>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <!-- Quiz Box -->
+                                        <div class="quiz_box activeQuiz">
+                                            <div class="hearderQuiz">
+                                                <div class="title">Awesome Quiz Application</div>
+                                                <div class="time_line"></div>
+                                            </div>
+                                            <div class="sectionQuiz">
+                                                <div class="que_text">
+                                                    <span>jhgkvkjh vbkjh gjkhg hjk gjkhg hjkgkhjg </span>
+                                                    <!-- Here I've inserted question from JavaScript -->
+                                                </div>
+                                                <div class="option_list">
+                                                    <div class="option"><span>test test ets</span></div>
+                                                    <div class="option"><span>test test ets</span></div>
+                                                    <div class="option"><span>test test ets</span></div>
+                                                    <div class="option"><span>test test ets</span></div>
+                                                    <!-- Here I've inserted options from JavaScript -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Certificates End -->
                         </div>
                     </div>
                 </div>
