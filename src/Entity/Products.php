@@ -28,7 +28,8 @@ class Products
     #[ORM\Column]
     private ?float $price=null;
 
-    
+    #[ORM\Column]
+    private ?int $isconfirmed=0;
 
     #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $adddate;
@@ -132,6 +133,18 @@ class Products
     public function setOwner(?Users $owner): static
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getIsconfirmed(): ?float
+    {
+        return $this->isconfirmed;
+    }
+
+    public function setIsconfirmed(float $isconfirmed): static
+    {
+        $this->isconfirmed = $isconfirmed;
 
         return $this;
     }

@@ -86,14 +86,34 @@
          {% block bodyProductQuantity %}
             <div class="container">
 
+
+                {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-danger" style="color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                        {{ message }}
+                    </div>
+                    <script>
+                        setTimeout(function() {
+                            document.querySelector('.alert').style.display = 'none';
+                        }, 3000); 
+                    </script>
+                {% endfor %}
+            {% endfor %}
+
+
+
                 <!-- All Courses Top Start -->
                 <div class="courses-top">
-          
+                 {# Check if there's an error flash message #}
+               
                     <!-- Section Title Start -->
                     <div class="section-title shape-01">
                         <h2 class="main-title">All <span>Products</span> of EcoCraftLearning</h2>
                     </div>
                     <!-- Section Title End -->
+
+
+                 
 
                     <!-- Courses Search Start -->
                     <div class="courses-search">
@@ -108,9 +128,39 @@
 
                 </div>
 
-                      <div class="courses-btn text-center" style="width: 2200px; height: 50px;"  >
-                    <a href="{{ path('my_cart') }}" class="btn btn-secondary btn-hover-primary">My Carts</a>
-                </div>
+                    <style>
+        .badge {
+            background-color: #dc3545;
+            color: white;
+            border-radius: 10px;
+            padding: 5px 10px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform: translate(40%, -40%);
+        }
+    </style>
+
+<div class="courses-btn text-center" style="width: 2000px; height: 50px; position: relative;">
+    <a href="{{ path('my_cart') }}" id="myCartBtn" class="btn btn-secondary btn-hover-primary">My Carts <span class="badge badge-danger">Loading...</span></a>
+    <a href="{{ path('My_Order') }}" id="myOrderBtn" class="btn btn-secondary btn-hover-primary">My Orders <span class="badge badge-danger">Loading...</span></a>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('{{ path('cart_and_orders_count') }}')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('myCartBtn').querySelector('span.badge').textContent = data.souscartCount;
+                document.getElementById('myOrderBtn').querySelector('span.badge').textContent = data.orderCount;
+            })
+            .catch(error => console.error('Error fetching cart and orders count:', error));
+    });
+</script>
+
+
+
+                   
                 <!-- All Courses Top End -->
                 <!-- All Courses tab content Start -->
                

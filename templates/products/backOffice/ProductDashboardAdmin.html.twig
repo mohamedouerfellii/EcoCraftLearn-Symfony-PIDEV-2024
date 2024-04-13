@@ -1,0 +1,68 @@
+{% extends 'baseBack.html.twig' %}
+{% block body %}
+<!-- Page Content Wrapper Start -->
+           <!-- Admin Tab Menu Start -->
+                <div class="nav flex-column nav-pills admin-tab-menu">
+                    <a href="{{ path('showProductsDashboard') }}">Products</a>
+                    <a href="{{ path('ordersinprogress') }}">Orders</a>
+                </div>
+                <!-- Admin Tab Menu End -->
+                <div class="page-content-wrapper">
+                <!-- Page Content Wrapper Start -->
+                <div class="main-content-wrapper">
+                    <div class="container-fluid">
+
+
+
+                        <!-- Engagement Courses Start -->
+                        <div class="engagement-courses">
+
+                            <div class="courses-top">
+                                <ul>
+                                    <li>All Products</li>
+                                    <li>Prices</li>
+                                    <li>Quantity</li>
+                                </ul>
+                            </div>
+                            {% for p in Products %}
+                            <div class="courses-list">
+                                <ul>
+                                    <li>
+                                        <div class="courses">
+                                            <div class="thumb">
+                                                <img src="{{ asset(p.image) }}" alt="Courses">
+                                            </div>
+                                            <div class="content">
+                                                <h4 class="title"><a href="#">{{ p.name }}</a></h4>
+                                            </div>
+                                        </div>
+                                        <div class="taught">
+                                            <span>{{ p.price }} DT</span>
+                                        </div>
+                                        <div class="student">
+                                            <span>{{ p.quantite }}</span>
+                                        </div>
+                                        <div class="button">
+                                            <a class="btn" href="{{ path('AcceptedProduct', { 'idproduct': p.idproduct}) }}">Accepted</a>
+                                        </div>
+                                    </li>
+               
+                                </ul>
+                            </div>
+                            {% endfor %}
+
+
+                        </div>
+                        <!-- Engagement Courses End -->
+
+              
+                </div>
+                <!-- Page Content Wrapper End -->
+
+            </div>
+
+        <!-- Courses Admin End -->
+
+</div>
+<!-- Page Content Wrapper End -->
+{% endblock %}

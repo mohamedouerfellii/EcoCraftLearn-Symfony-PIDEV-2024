@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+
+
 <!-- Mirrored from template.hasthemes.com/edule/eduLe/courses-admin.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 03 Jun 2023 22:29:53 GMT -->
 <head>
     <meta charset="utf-8">
@@ -33,6 +35,7 @@
     <!--====== Use the minified version files listed below for better performance and remove the files listed above ======-->
     <link rel="stylesheet" href="{{asset('assets/css/vendor/plugins.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/style.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/course.css')}}">
     {% endblock %}
 </head>
 
@@ -149,16 +152,20 @@
             <!-- Sidebar Wrapper Start -->
             <div class="sidebar-wrapper">
                 <div class="menu-list">
-                    <a class="active" href="courses-admin.html"><img src="{{asset('assets/images/menu-icon/icon-1.png')}}" alt="Icon"></a>
+                    <a class="#" href="#"><img src="{{asset('assets/images/menu-icon/icon-1.png')}}" alt="Icon"></a>
                     <a href="messages.html"><img src="{{asset('assets/images/menu-icon/icon-2.png')}}" alt="Icon"></a>
                     <a href="overview.html"><img src="{{asset('assets/images/menu-icon/icon-3.png')}}" alt="Icon"></a>
-                    <a href="engagement.html"><img src="{{asset('assets/images/menu-icon/icon-4.png')}}" alt="Icon"></a>
+                    <a class="active"href="{{ path('showProductsDashboard')}}"><img src="{{asset('assets/images/menu-icon/icon-4.png')}}" alt="Icon"></a>
                     <a href="traffic-conversion.html"><img src="{{asset('assets/images/menu-icon/icon-5.png')}}" alt="Icon"></a>
                 </div>
             </div>
             <!-- Sidebar Wrapper End -->
-        {% block body %}
-        {% endblock %}
+            <div class="page-content-wrapper">
+            <div class="container-fluid custom-container">
+            {% block body %}
+            {% endblock %}
+            </div>
+        </div>
         </div>
         {% block footer %}
         <!-- Footer Start  -->

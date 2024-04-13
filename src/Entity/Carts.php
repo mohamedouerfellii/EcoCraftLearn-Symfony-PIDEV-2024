@@ -1,11 +1,15 @@
 <?php
 
 namespace App\Entity;
+use App\Entity\Carts;
+use App\Entity\Products;
+use App\Entity\Users;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\CartsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: CartsRepository::class)]
 class Carts
 {
@@ -14,7 +18,6 @@ class Carts
     #[ORM\Column(name: "idcarts", type: "integer")]
     private ?int $idcarts = null;
     
-
     #[ORM\Column(type: "float")]
     private ?float $totalprice = null;
 
@@ -66,10 +69,6 @@ class Carts
 
         return $this;
     }
-
-
-
-
 
     private $sousCarts;
 

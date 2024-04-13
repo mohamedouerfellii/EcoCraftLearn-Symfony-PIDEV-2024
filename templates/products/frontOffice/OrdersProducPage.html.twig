@@ -82,51 +82,35 @@
         <!-- Slider End -->
                 <!-- Engagement Courses End -->
                         <div class="engagement-courses table-responsive">
-                    {% block bodyCarts %}
+                    {% block bodyOrders %}
                   <div class="courses-top" >
                  <ul>
-              <li>My Carts </li>
-             <li>Total Price : </li>
-                  <li>{{ userCart.totalprice }} DT</li>
-
+              <li>My Orders </li>
         
-    <div style="width: 200px; height: 60px;">
-        <a href="{{ path('DeleteCart', { 'idcarts': userCart.idcarts}) }}"  class="btn btn-primary btn-hover-dark">Cancel</a>
-    </div>
-   <div style="width: 2px; height: 60px;">
-    <a href="{{ path('OrderProduct', {'ownerId': userCart.owner, 'idcarts': userCart.idcarts, 'totalPrice': userCart.totalprice}) }}" class="btn btn-primary btn-hover-dark">Order</a>
-  </div>
-
              </ul>
                  </div>
+                        {% for commande in Commandes %}
+                            <div class="courses-list" style="max-width: 1000px; margin: 0 auto;">
+                                <ul>
+                                    <li>
+                                        <div class="courses">
+                                            <div class="content">
+                                                <h4 class="title"><a href="#"> {{ commande.city }}</a></h4>
+                                            </div>
+                                        </div>
+                                        <div class="taught">
+                                            <span>Total : {{ commande.total }} DT</span> 
+                                        </div>
+                                        <div class="student">
+                                            <span>{{ commande.status }}</span> 
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        {% endfor %}
 
-                    {% for souscart in souscarts %}
-             <div class="courses-list" style="max-width: 1000px; margin: 0 auto;" >
-               <ul>
-            <li>
-                <div class="courses">
-                    <div class="thumb">
-                        <img src="{{asset(souscart.product.image) }}" alt="{{ souscart.product.name }}">
-                    </div>
-                    <div class="content">
-                        <h4 class="title"><a href="#">{{ souscart.product.name }}</a></h4>
-                    </div>
-                </div>
-                <div class="taught">
-                    <span> Price : {{ souscart.product.price }}</span> 
-                </div>
-                <div class="student">
-                    <span> Quantity : {{ souscart.quantiteproduct }}</span>
-                </div>
-                <div class="button">
-                    <a class="btn" href="{{ path('deletesoucart', { 'idSouscarts': souscart.idSouscarts }) }}">Cancel</a>
-                </div>
-            </li>
-        </ul>
-    </div>
-{% endfor %}
 
-{% endblock %}
+                  {% endblock %}
 
                         </div>
                         <!-- Engagement Courses End -->

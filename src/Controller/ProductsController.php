@@ -14,8 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\HttpFoundation\Request;
 
-
-
+use App\Repository\SouscartsRepository;
+use App\Repository\CommandesRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
 class ProductsController extends AbstractController
 {
     #[Route('/products', name: 'app_products')]
@@ -25,6 +26,8 @@ class ProductsController extends AbstractController
             'controller_name' => 'ProductsController',
         ]);
     }
+
+   
     #[Route('/ProductsDashboard', name: 'ProductsDashboard')]
     public function Dashboard(): Response
     {
@@ -36,20 +39,79 @@ class ProductsController extends AbstractController
     #[Route('/MyProduct', name: 'MyProduct')]
     public function showMyProduct(ProductsRepository $rep): Response
     {
-        return $this->render("products/frontOffice/MyProductPage.html.twig", ["Products" => $rep->findAll()]);
+        $user = $this->getDoctrine()->getRepository(Users::class)->find(10);
+    
+        $products = $rep->findConfirmedProductsByOwner($user);
+    
+        return $this->render("products/frontOffice/MyProductPage.html.twig", ["Products" => $products]);
     }
 
-	#[Route('/showProducts', name: 'showProducts')]
-	    public function show(ProductsRepository $rep): Response
-	    {
-	        return $this->render("products/frontOffice/homePageProduct.html.twig", ["Products" => $rep->findAll()]);
-	    }
+    #[Route('/showProducts', name: 'showProducts')]
+    public function show(ProductsRepository $rep, SouscartsRepository $souscartsRepository, CommandesRepository $commandesRepository): Response
+    {
+        $user = $this->getDoctrine()->getRepository(Users::class)->find(12);
+
+        if (!$user) {
+            throw $this->createNotFoundException('User not found.');
+        }
+
+        $souscartCount = $souscartsRepository->countByOwner($user);
+        $orderCount = $commandesRepository->countByOwner($user);
+
+        $products = $rep->findProductsExceptOwner($user);
+
+        return $this->render("products/frontOffice/homePageProduct.html.twig", [
+            "Products" => $products,
+            "souscartCount" => $souscartCount,
+            "orderCount" => $orderCount
+        ]);
+    }
+
+
+     #[Route('/cart-and-orders-count', name: 'cart_and_orders_count')]
+    public function cartAndOrdersCount(SouscartsRepository $souscartsRepository, CommandesRepository $commandesRepository): JsonResponse
+    {
+        $user = $this->getDoctrine()->getRepository(Users::class)->find(10);
+        if (!$user) {
+            throw $this->createNotFoundException('User not found.');
+        }
+        $souscartCount = $souscartsRepository->countByOwner($user);
+        $orderCount = $commandesRepository->countByOwner($user);
+
+        return new JsonResponse([
+            'souscartCount' => $souscartCount,
+            'orderCount' => $orderCount,
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         #[Route('/Add-Product', name: 'AddProduct')]
         public function AddProduct(ManagerRegistry $doctrine, Request $request, ProductsRepository $rep): Response
         {
 
             $entityManager = $this->getDoctrine()->getManager();
-            $user = $entityManager->getRepository(Users::class)->find(10);
+            $user = $entityManager->getRepository(Users::class)->find(12);
             $product = new Products();
             $product->setOwner($user);
             $form = $this->createForm(FormProductType::class, $product);
@@ -67,7 +129,7 @@ class ProductsController extends AbstractController
         
             return $this->render('products/frontOffice/AddNewProductForm.html.twig', [
                 'form' => $form->createView(),
-                'Products' => $products, // Passer la variable 'Products' au template
+                'Products' => $products, 
             ]);
         }
 
@@ -126,10 +188,33 @@ class ProductsController extends AbstractController
             }
             return $this->render('products/frontOffice/UpdateProductForm.html.twig', [
                 'form' => $form->createView(),
-                //'Product' => $product, // Passer la variable 'Products' au template
+                //'Product' => $product, 
             ]);
         }
+
+
+        #[Route('/showProductsDashboard', name: 'showProductsDashboard')]
+	    public function showAllProductDashbord(ProductsRepository $rep): Response
+	    {
+	        $products = $rep->findUnconfirmedProducts();
+            return $this->render("products/backOffice/ProductDashboardAdmin.html.twig", ["Products" => $products]);
+	    }
+
+
+        #[Route('/AcceptedProduct/{idproduct}', name: 'AcceptedProduct')]
+        public function confirmProduct(ProductsRepository $productsRepository, int $idproduct): Response
+        {
+            $productsRepository->confirmProduct($idproduct);
+
+            return $this->redirectToRoute('showProductsDashboard');
+        }
     
+
+
+   
+
+
+
 
 
 

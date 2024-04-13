@@ -18,24 +18,32 @@ use App\Repository\CartsRepository;
 use App\Repository\SouscartsRepository;
 class CartsController extends AbstractController
 {
-    #[Route('/carts', name: 'app_carts')]
-    public function index(): Response
-    {
-        return $this->render('carts/index.html.twig', [
-            'controller_name' => 'CartsController',
-        ]);
-    }
+  
 
     #[Route('/buy-now/{idproduct}', name: 'buy_now')]
     public function buyNow($idproduct, EntityManagerInterface $entityManager, Request $request): Response
     {
+
+
+        $user = $entityManager->getRepository(Users::class)->find(10);
+
         $product = $entityManager->getRepository(Products::class)->find($idproduct);
-    
+
+     $quantite = $product->getQuantite();
+
+if ($quantite === 0) {
+    $this->addFlash('error', 'Solde Out Of this Product');
+    return $this->redirectToRoute('showProducts');
+}
+
+
+
+
         if (!$product) {
             return $this->redirectToRoute('error');
         }
     
-        $user = $entityManager->getRepository(Users::class)->find(10);
+       
         if (!$user) {
             return $this->redirectToRoute('error');
         }
@@ -87,17 +95,17 @@ class CartsController extends AbstractController
         if (!$user) {
             throw $this->createNotFoundException('User not found.');
         }
+
         $userCart = $cartsRepository->findOneBy(['owner' => $user, 'isconfirmed' => 0]);
         if (!$userCart) {
-            throw $this->createNotFoundException('User cart not found.');
+            $this->addFlash('error', 'You Don t Have a Cart.');
+            return $this->redirectToRoute('showProducts');
         }
         $userSouscarts = $souscartsRepository->findBy(['cart' => $userCart]);
         return $this->render('products/frontOffice/CartsProductPage.html.twig', [
             "userCart" => $userCart,
             'souscarts' => $userSouscarts,
         ]);
-
-
     }
 
     #[Route('/deletesoucart/{idSouscarts}', name: "deletesoucart")]
@@ -111,7 +119,7 @@ class CartsController extends AbstractController
         $cart = $souscart->getCart();
         $entityManager->remove($souscart);
         
-        // Mise à jour du prix total du panier
+       
         $cart->updateTotalPrice();
         
         $entityManager->flush();
@@ -119,7 +127,22 @@ class CartsController extends AbstractController
         return $this->redirectToRoute('my_cart');   
     }
     
-    
+    #[Route('/DeleteCart/{idcarts}', name: "DeleteCart")]
+    public function deletecarts(int $idcarts): Response
+    {
+        $cart = $this->getDoctrine()->getRepository(Carts::class)->find($idcarts);
+
+        if (!$cart) {
+            throw $this->createNotFoundException('Entity not found');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($cart);
+        $em->flush();
+
+        return $this->redirectToRoute('showProducts');
+    }
+
     
     
 

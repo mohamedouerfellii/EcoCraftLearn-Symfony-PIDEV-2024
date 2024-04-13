@@ -2,100 +2,190 @@
 
 namespace App\Entity;
 
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use App\Repository\CommandesRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Commandes
- *
- * @ORM\Table(name="commandes", indexes={@ORM\Index(name="idUser", columns={"owner"}), @ORM\Index(name="idCart", columns={"cart"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: CommandesRepository::class)]
 class Commandes
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idCommande", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(name: "idcommande", type: "integer")]
     private $idcommande;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="commandeDate", type="date", nullable=false, options={"default"="current_timestamp()"})
-     */
-    private $commandedate = 'current_timestamp()';
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTimeInterface $commandedate;
+    public function __construct()
+    {
+        $this->commandedate = new \DateTime(); 
+    }
+    #[ORM\Column(length:255)]
+    #[Assert\NotBlank(message: "Your order must have a email !")]
+    private ?string $email = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255, nullable=false)
-     */
-    private $email;
+    #[ORM\Column(length:255)]
+    #[Assert\NotBlank(message: "Your order must have a city !")]
+    private ?string $city = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="city", type="string", length=255, nullable=false)
-     */
-    private $city;
+ 
+    #[ORM\Column]
+    private ?float $phone = null;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="phone", type="integer", nullable=false)
-     */
-    private $phone;
+    #[ORM\Column(length: 255, options: ["default" => "inProgress"])]
+    private ?string $status = "inProgress";
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="status", type="string", length=255, nullable=false)
-     */
-    private $status;
+    #[ORM\Column]
+    private ?float $latitude=0;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="latitude", type="float", precision=10, scale=0, nullable=false)
-     */
-    private $latitude;
+    #[ORM\Column]
+    private ?float $longitude=0;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="longitude", type="float", precision=10, scale=0, nullable=false)
-     */
-    private $longitude;
+    #[ORM\ManyToOne(targetEntity: "Users")]
+    #[ORM\JoinColumn(name: "owner", referencedColumnName: "iduser", onDelete: "CASCADE")]
+    private ?Users $owner=null;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="total", type="float", precision=10, scale=0, nullable=false)
-     */
-    private $total;
 
-    /**
-     * @var \Users
-     *
-     * @ORM\ManyToOne(targetEntity="Users")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="owner", referencedColumnName="idUser")
-     * })
-     */
-    private $owner;
+    #[ORM\ManyToOne(targetEntity: "Carts")]
+    #[ORM\JoinColumn(name: "cart", referencedColumnName: "idcarts", onDelete: "CASCADE")]
+    private ?Carts $cart=null;
 
-    /**
-     * @var \Carts
-     *
-     * @ORM\ManyToOne(targetEntity="Carts")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="cart", referencedColumnName="idCarts")
-     * })
-     */
-    private $cart;
+    #[ORM\Column]
+    private ?float $total=null;
+
+    public function getOwner(): ?Users
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?Users $owner): static
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getCart(): ?Carts
+    {
+        return $this->cart;
+    }
+
+    public function setCart(?Carts $cart): static
+    {
+        $this->cart = $cart;
+
+        return $this;
+    }
+
+
+
+
+
+    public function getIdcommande(): ?int
+    {
+        return $this->idcommande;
+    }
+
+    public function getCommandedate()
+    {
+        return $this->commandedate;
+    }
+
+    public function setCommandedate($commandedate): static
+    {
+        $this->commandedate = $commandedate;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getPhone(): ?float
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(float $phone): static
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getLatitude(): ?float
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(float $latitude): static
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    public function getLongitude(): ?float
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(float $longitude): static
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getTotal(): ?float
+    {
+        return $this->total;
+    }
+
+    public function setTotal(float $total): static
+    {
+        $this->total = $total;
+
+        return $this;
+    }
+
+
 
 
 }
