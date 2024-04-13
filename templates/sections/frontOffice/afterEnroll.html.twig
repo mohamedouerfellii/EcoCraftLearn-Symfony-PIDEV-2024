@@ -1,0 +1,175 @@
+{% extends 'baseBack.html.twig' %}
+{% block title %}EcoCraftLearning - {{ course.title }}{% endblock %}
+{% block notification %}
+{% endblock %}
+{% block linkHome %} href="{{path('my_learning', {'idUser' : 14 })}}" {% endblock %}
+{% block sideBar %}
+{% endblock %}
+{% block body %}
+<!-- Courses Enroll Start -->
+<div class="section">
+    <!-- Courses Enroll Wrapper Start -->
+    <div class="courses-enroll-wrapper">
+        <!-- Courses Video Player Start -->
+        <div class="courses-video-player">
+            <!-- Courses Video Container Start -->
+            <div class="vidcontainer">
+                <video id="myvid" src="{{ asset('contents/uploads/courses/' ~ sections[sectionIndex].attachment) }}"></video>
+                <div class="video-play-bar">
+                    <div class="topControl">
+                        <div class="progress">
+                            <span class="bufferBar"></span>
+                            <span class="timeBar"></span>
+                        </div>
+                        <div class="time">
+                            <span class="current"></span> /
+                            <span class="duration"></span>
+                        </div>
+                    </div>
+                    <div class="controllers">
+                        <div class="controllers-left">
+                            <button class="prevvid disabled" title="Previous video"><i class="icofont-ui-previous"></i></button>
+                            <button class="btnPlay" title="Play/Pause video"></button>
+                            <button class="nextvid" title="Next video"><i class="icofont-ui-next"></i></button>
+                            <button class="sound sound2" title="Mute/Unmute sound"></button>
+                            <div class="volume" title="Set volume">
+                                <span class="volumeBar"></span>
+                            </div>
+                        </div>
+
+                        <div class="controllers-right">
+                            <button class="btnspeed" title="Video speed"><i class="fa fa-gear"></i></button>
+                            <ul class="speedcnt">
+                                <li class="spdx50">1.5</li>
+                                <li class="spdx25">1.25</li>
+                                <li class="spdx1 selected">Normal</li>
+                                <li class="spdx050">0.5</li>
+                            </ul>
+                            <button class="btnFS" title="full screen"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bigplay" title="play the video">
+                    <i class="fa fa-play"></i>
+                </div>
+
+                <div class="loading">
+                    <div class="spinner-border spinner">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Courses Video Container End -->
+
+            <!-- Courses Enroll Content Start -->
+            <div class="courses-enroll-content">
+
+                <!-- Courses Enroll Title Start -->
+                <div class="courses-enroll-title">
+                    <h2 class="title">{{ sections[sectionIndex].title }}</h2>
+                </div>
+                <!-- Courses Enroll Title End -->
+                <!-- Courses Enroll Tab Start -->
+                <div class="courses-enroll-tab">
+                    <div class="enroll-tab-menu">
+                        <ul class="nav">
+                            <li><button class="active" data-bs-toggle="tab" data-bs-target="#tab1">Overview</button></li>
+                            <li><button data-bs-toggle="tab" data-bs-target="#tab2">Description</button></li>
+                        </ul>
+                    </div>
+                    <div class="enroll-share">
+                        <a href="{{ path('unroll_course', {'idCourse' : course.idcourse, 'idUser' : 14 })}}"><i class="icofont-ui-delete"></i> Unroll</a>
+                        <!-- quiz place -->
+                    </div>
+                </div>
+                <!-- Courses Enroll Tab End -->
+
+                <!-- Courses Enroll Tab Content Start -->
+                <div class="courses-enroll-tab-content">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab1">
+
+                            <!-- Overview Start -->
+                            <div class="overview">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="enroll-tab-title">
+                                            <h3 class="title">Course Details</h3>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <div class="enroll-tab-content">
+                                            <p>{{ course.description }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Overview End -->
+                        </div>
+                        <div class="tab-pane fade" id="tab2">
+                            <!-- Description Start -->
+                            <div class="description">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="enroll-tab-title">
+                                            <h3 class="title">Description</h3>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <div class="enroll-tab-content">
+                                            <p>{{ sections[sectionIndex].description }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Description End -->
+                        </div>
+                    </div>
+                </div>
+                <!-- Courses Enroll Tab Content End -->
+            </div>
+            <!-- Courses Enroll Content End -->
+        </div>
+        <!-- Courses Video Player End -->
+        <!-- Courses Video Playlist Start -->
+        <div class="courses-video-playlist">
+            <div class="playlist-title">
+                <h3 class="title">Course Content</h3>
+                <span>{{ course.nbrsection }} Lessons</span>
+            </div>
+            <!-- Video Playlist Start  -->
+            <div class="video-playlist">
+                <div class="accordion" id="videoPlaylist">
+                    <!-- Accordion Items Start  -->
+                    <div class="accordion-item">
+                        <button class="collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                            <p>{{ course.title }}</p>
+                            <span class="total-duration">{{ course.duration }}</span>
+                        </button>
+
+                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#videoPlaylist">
+                            <nav class="vids">
+                            {% for index, section in sections %}
+                                <a href="{{ path('show_section', {'idCourse' : course.idcourse, 'sectionIndex' : index})}}">
+                                    <p>{{ section.title }}</p>
+                                </a>
+                            {% endfor %}
+                            </nav>
+                        </div>
+                    </div>
+                    <!-- Accordion Items End  -->                  
+                </div>
+            </div>
+            <!-- Video Playlist End  -->
+
+        </div>
+        <!-- Courses Video Playlist End -->
+
+    </div>
+    <!-- Courses Enroll Wrapper End -->
+
+</div>
+<!-- Courses Enroll End -->
+{% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Courseparticipations;
+use App\Entity\Courses;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,6 +20,15 @@ class CourseparticipationsRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Courseparticipations::class);
+    }
+
+    public function findCpByUserCourse(?int $idCourse, ?int $idUser){
+        return $this->createQueryBuilder('cp')
+        ->where('cp.participant = :idUser')
+        ->andWhere('cp.course = :idCourse')
+        ->setParameters(['idUser' => $idUser, 'idCourse' => $idCourse ])
+        ->getQuery()
+        ->getSingleResult();
     }
 
 //    /**

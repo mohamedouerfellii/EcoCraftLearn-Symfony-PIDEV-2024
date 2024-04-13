@@ -20,16 +20,37 @@ class CoursesRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Courses::class);
     }
-
-    public function showCoursesHomePage(){
-        return $this->createQueryBuilder('c')
-            ->setMaxResults(6)
-            ->getQuery()
-            ->getResult();
+    public function coursePagination(?int $idUser){
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+            SELECT c 
+            FROM App\Entity\Courses c 
+            WHERE NOT EXISTS (
+                SELECT cp 
+                FROM App\Entity\Courseparticipations cp 
+                WHERE cp.participant = :idUser 
+                AND cp.course = c.idcourse
+            )
+        ')
+        ->setParameter('idUser', $idUser);
+        return $query;
     }
-    public function coursePagination(){
-        return $this->createQueryBuilder('c')
-        ->getQuery();
+    
+    public function showCoursesHomePage(?int $idUser) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+            SELECT c 
+            FROM App\Entity\Courses c 
+            WHERE NOT EXISTS (
+                SELECT cp 
+                FROM App\Entity\Courseparticipations cp 
+                WHERE cp.participant = :idUser 
+                AND cp.course = c.idcourse
+            )
+        ')
+        ->setParameter('idUser', $idUser)
+        ->setMaxResults(6);
+        return $query->getResult();
     }
 //    /**
 //     * @return Courses[] Returns an array of Courses objects

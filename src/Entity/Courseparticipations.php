@@ -69,7 +69,7 @@ class Courseparticipations
 
         return $this;
     }
-
+    
     public function getParticipant(): ?Users
     {
         return $this->participant;

@@ -134,4 +134,17 @@ class SectionsController extends AbstractController
         'sectionIndex' => $sectionIndex
     ]);
     }
+    #[Route('/afterEnroll/{idCourse}/{sectionIndex}', name: 'after_enroll')]
+    public function afterEnroll(ManagerRegistry $doctrine,Request $request)
+    {
+        $idCourse = $request->get('idCourse');
+        $sectionIndex = $request->get('sectionIndex');
+        $course = $doctrine->getManager()->getRepository(Courses::class)->find($idCourse);
+        $sections = $doctrine->getManager()->getRepository(Sections::class)->sectionListByCourse($idCourse);
+        return $this->render('sections/frontOffice/afterEnroll.html.twig', [
+            'course' => $course,
+            'sections' => $sections,
+            'sectionIndex' => $sectionIndex
+        ]);
+    }
 }

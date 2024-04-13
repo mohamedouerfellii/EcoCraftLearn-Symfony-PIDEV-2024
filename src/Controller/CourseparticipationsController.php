@@ -39,4 +39,17 @@ class CourseparticipationsController extends AbstractController
             'courses' => $courses
         ]);
     }
+    #[Route('/unrollCourse/{idCourse}/{idUser}', name: 'unroll_course')]
+    public function unrollCourse(ManagerRegistry $doctrine,Request $request)
+    {
+        $em = $doctrine->getManager();
+        $idUser = $request->get('idUser');
+        $idCourse = $request->get('idCourse');
+        $cp = $em->getRepository(Courseparticipations::class)->findCpByUserCourse($idCourse,$idUser);
+        $em->remove($cp);
+        $em->flush();
+        return $this->redirectToRoute('my_learning',[
+            'idUser' => 14
+        ]);
+    }
 }

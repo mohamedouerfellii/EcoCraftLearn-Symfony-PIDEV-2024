@@ -70,7 +70,7 @@
                     <!-- Single Courses Start -->
                     <div class="single-courses">
                         <div class="courses-images">
-                            <a href="{{ path('course_details', {'idCourse' : cp.course.idcourse}) }}"><img src="{{ asset('contents/uploads/courses/' ~ cp.course.image) }}" alt="Courses" width="330" height="200"></a>
+                            <a href="{{ path('after_enroll', {'idCourse' : cp.course.idcourse, 'sectionIndex' : 0}) }}"><img src="{{ asset('contents/uploads/courses/' ~ cp.course.image) }}" alt="Courses" width="330" height="200"></a>
                         </div>
                         <div class="courses-content">
                             <div class="courses-author">
@@ -84,7 +84,7 @@
                                 </div>
                             </div>
 
-                            <h4 class="title"><a href="{{ path('course_details', {'idCourse' : cp.course.idcourse}) }}">{{cp.course.title}}</a></h4>
+                            <h4 class="title"><a href="{{ path('after_enroll', {'idCourse' : cp.course.idcourse, 'sectionIndex' : 0}) }}">{{cp.course.title}}</a></h4>
                             <div class="courses-rating">
                                 {% if cp.sectiondone == 0 %}
                                 <p>{{ cp.sectiondone }}% Complete</p>

@@ -42,11 +42,14 @@
 <body>
 
     <div class="main-wrapper main-wrapper-02">
-
         <!-- Login Header Start -->
         <div class="section login-header">
             <!-- Login Header Wrapper Start -->
             <div class="login-header-wrapper navbar navbar-expand">
+               <!-- Header Logo Start -->
+                <div class="login-header-logo logo-2">
+                    <a {% block linkHome %} href="{{path('tutor_course_dashboard')}}" {% endblock %}><img  src="{{asset('assets/images/customLogo.png')}}" alt="Logo"></a></li>
+                </div>
                 <!-- Header Logo End -->
                 <!-- Header Search Start -->
                 <div class="login-header-search dropdown">
@@ -63,6 +66,7 @@
 
                 <!-- Header Action Start -->
                 <div class="login-header-action ml-auto">
+                {% block notification %}
                     <div class="dropdown">
                         <button class="action notification" data-bs-toggle="dropdown">
                             <i class="flaticon-notification"></i>
@@ -122,7 +126,7 @@
                             <a class="all-notification" href="#">See all notifications <i class="icofont-simple-right"></i></a>
                         </div>
                     </div>
-
+                    {% endblock %}
                     <a class="action author" href="#">
                         <img src="{{asset('assets/images/author/author-07.jpg')}}" alt="Author">
                     </a>
@@ -148,7 +152,7 @@
         <!-- Login Header End -->
                 <!-- Courses Admin Start -->
         <div class="section overflow-hidden position-relative" id="wrapper">
-
+                    {% block sideBar %}
             <!-- Sidebar Wrapper Start -->
             <div class="sidebar-wrapper">
                 <div class="menu-list">
@@ -160,6 +164,7 @@
                 </div>
             </div>
             <!-- Sidebar Wrapper End -->
+            {% endblock %}
         <div class="page-content-wrapper">
             <div class="container-fluid custom-container">
             {% block body %}

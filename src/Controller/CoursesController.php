@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Courseparticipations;
 use App\Entity\Courses;
 use App\Entity\Users;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +22,7 @@ class CoursesController extends AbstractController
     #[Route('/', name: 'home_page')]
     public function index(ManagerRegistry $doctrine): Response
     {
-        $courses = $doctrine->getManager()->getRepository(Courses::class)->showCoursesHomePage();
+        $courses = $doctrine->getManager()->getRepository(Courses::class)->showCoursesHomePage(14);
         return $this->render('courses/frontOffice/homePage.html.twig', [
             'courses' => $courses
         ]);
@@ -125,7 +126,7 @@ class CoursesController extends AbstractController
     {
         $page = $request->get('page',1);
         $pagination =  $paginator->paginate(
-            $doctrine->getManager()->getRepository(Courses::class)->coursePagination(),
+            $doctrine->getManager()->getRepository(Courses::class)->coursePagination(14),
             $page,
             6
         );
