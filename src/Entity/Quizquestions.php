@@ -4,10 +4,11 @@ namespace App\Entity;
 
 use App\Repository\QuizquestionsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: QuizquestionsRepository::class)]
-class Quizquestions
+class Quizquestions implements JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -54,6 +55,21 @@ class Quizquestions
     #[ORM\ManyToOne(targetEntity: "Quizzes")]
     #[ORM\JoinColumn(name: "quiz", referencedColumnName: "idquiz", onDelete: "CASCADE")]
     private $quiz;
+
+    public function jsonSerialize()
+    {
+        return array(
+            'question' => $this->question,
+            'answer'=> $this->correctChoice,
+            'options' => [
+                $this->choice1,
+                $this->choice2,
+                $this->choice3,
+                $this->choice4
+            ],
+            'idCourse' => $this->quiz->getSection()->getCourse()->getIdcourse()
+        );
+    }
 
     public function getIdquestion(): ?int
     {

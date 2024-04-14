@@ -77,6 +77,15 @@
                         <ul class="nav">
                             <li><button class="active" data-bs-toggle="tab" data-bs-target="#tab1">Overview</button></li>
                             <li><button data-bs-toggle="tab" data-bs-target="#tab2">Description</button></li>
+                            {% if  isQuizExist == true %}
+                            <li><button onclick="passQuiz()">Pass Quiz</button></li>
+                            <script>
+                                function passQuiz() {
+                                    var route = "{{ path('pass_quiz',{'idSection' : sections[sectionIndex].idsection,'sectionIndex' : sectionIndex}) }}";
+                                    window.location.href = route;
+                                }
+                            </script>
+                            {% endif %}
                         </ul>
                     </div>
                     <div class="enroll-share">

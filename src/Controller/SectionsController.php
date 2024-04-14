@@ -179,10 +179,14 @@ class SectionsController extends AbstractController
         $sectionIndex = $request->get('sectionIndex');
         $course = $em->getRepository(Courses::class)->find($idCourse);
         $sections = $em->getRepository(Sections::class)->sectionListByCourse($idCourse);
+        $quiz = $em->getRepository(Quizzes::class)->getQuizBySection($sections[$sectionIndex]->getIdsection());
+        $isQuizExist = false;
+        if($quiz != null ) $isQuizExist = true;
         return $this->render('sections/frontOffice/afterEnroll.html.twig', [
             'course' => $course,
             'sections' => $sections,
-            'sectionIndex' => $sectionIndex
+            'sectionIndex' => $sectionIndex,
+            'isQuizExist' =>  $isQuizExist
         ]);
     }
 }

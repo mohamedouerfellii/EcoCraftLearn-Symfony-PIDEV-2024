@@ -15,7 +15,8 @@ start_btn.onclick = ()=>{
 }
 // if exitQuiz button clicked
 exit_btn.onclick = ()=>{
-    info_box.classList.remove("activeInfo"); //hide info box
+    var route = "http://127.0.0.1:8000/afterEnroll/"+questions[0].idCourse+"/"+sectionIndex;
+    window.location.href = route;
 }
 // if continueQuiz button clicked
 continue_btn.onclick = ()=>{
@@ -59,7 +60,8 @@ restart_quiz.onclick = ()=>{
 
 // if quitQuiz button clicked
 quit_quiz.onclick = ()=>{
-    window.location.reload(); //reload the current window
+    var route = "http://127.0.0.1:8000/afterEnroll/"+questions[0].idCourse+"/"+sectionIndex;
+    window.location.href = route;
 }
 
 const next_btn = document.querySelector("footer .next_btn");
@@ -90,7 +92,7 @@ function showQuetions(index){
     const que_text = document.querySelector(".que_text");
 
     //creating a new span and div tag for question and option and passing the value using array index
-    let que_tag = '<span>'+ questions[index].numb + ". " + questions[index].question +'</span>';
+    let que_tag = '<span>'+ questions[index].question +'</span>';
     let option_tag = '<div class="option"><span>'+ questions[index].options[0] +'</span></div>'
     + '<div class="option"><span>'+ questions[index].options[1] +'</span></div>'
     + '<div class="option"><span>'+ questions[index].options[2] +'</span></div>'
@@ -116,7 +118,10 @@ function optionSelected(answer){
     let userAns = answer.textContent; //getting user selected option
     let correcAns = questions[que_count].answer; //getting correct answer from array
     const allOptions = option_list.children.length; //getting all option items
-    
+    if(correcAns == 'Choice 1') correcAns = questions[que_count].options[0];
+    if(correcAns == 'Choice 2') correcAns = questions[que_count].choi.options[1];
+    if(correcAns == 'Choice 3') correcAns = questions[que_count].options[2];
+    if(correcAns == 'Choice 4') correcAns = questions[que_count].options[3];
     if(userAns == correcAns){ //if user selected option is equal to array's correct answer
         userScore += 1; //upgrading score value with 1
         answer.classList.add("correct"); //adding green color to correct selected option

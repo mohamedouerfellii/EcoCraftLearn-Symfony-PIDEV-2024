@@ -177,6 +177,10 @@
                                         <div class="quiz_box activeQuiz">
                                             <div class="hearderQuiz">
                                                 <div class="title">{{ sections[sectionIndex].title }}</div>
+                                                <div class="timer">
+                                                <div class="time_left_txt">Delete</div>
+                                                    <div class="timer_sec"><a href="{{ path('delete_question', {'idCourse' : course.idcourse, 'sectionIndex' : sectionIndex , 'idQuestion': qq.idquestion})}}"><i class="icofont-ui-delete"></i></a></div>
+                                                </div>
                                                 <div class="time_line"></div>
                                             </div>
                                             <div class="sectionQuiz">
