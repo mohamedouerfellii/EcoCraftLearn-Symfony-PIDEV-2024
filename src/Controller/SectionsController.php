@@ -69,13 +69,40 @@ class SectionsController extends AbstractController
         $sections = $em->getRepository(Sections::class)->sectionListByCourse($idCourse);
         $idSection = $sections[$sectionIndex]->getIdsection();
         $quiz = $em->getRepository(Quizzes::class)->getQuizBySection($idSection);
+        $quizquestions = null;
+        if($quiz != null) {
+            $quizquestions = $em->getRepository(Quizquestions::class)->getQuestionsByQuiz($quiz->getIdquiz());
+        }
         $question = new Quizquestions();
+        $backFromAdd = 0;
         $form = $this->createForm(AddQuestionFormType::class, $question);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            if($quiz == null){
+                $quiz = new Quizzes();
+                $lastId = $em->getRepository(Quizzes::class)->getLastId();
+                if($lastId == null) $quiz->setIdquiz(1);
+                else $quiz->setIdquiz($lastId + 1);
+                $quiz->setSection($sections[$sectionIndex]);
+                $em->persist($quiz);
+            } 
+            $question->setQuiz($quiz);
+            $em->persist($question);
+            $em->flush();
+            $backFromAdd = 1;
+            return $this->redirectToRoute('show_section',[
+                'idCourse' => $idCourse,
+                'sectionIndex' => $sectionIndex,
+                'backFromAdd' => $backFromAdd
+            ]); 
+        }
+        if($form->isSubmitted()) $backFromAdd = 1;
         return $this->render('sections/backOffice/afterEnroll.html.twig', [
             'course' => $course,
             'sections' => $sections,
             'sectionIndex' => $sectionIndex,
-            'quiz' => $quiz,
+            'quizquestions' => $quizquestions,
+            'backFromAdd' => $backFromAdd,
             'QuestionForm' => $form->createView()
         ]);
     }

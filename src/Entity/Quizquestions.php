@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\QuizquestionsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: QuizquestionsRepository::class)]
 class Quizquestions
@@ -14,22 +15,40 @@ class Quizquestions
     private ?int $idquestion = null;
 
     #[ORM\Column(length:65535)]
+    #[Assert\NotBlank(message: "Your quiz must have a question !")]
+    #[Assert\Length(min: 10, minMessage: "Question must contain at least 10 characters")]
     private ?string $question = null;
 
     #[ORM\Column(length:65535)]
-    private ?string $choice1 = null;
+    #[Assert\NotBlank(message: "Choice 1 cannot be blank")]
+    #[Assert\NotEqualTo(propertyPath: "choice_2", message: "Each choice must be different")]
+    #[Assert\NotEqualTo(propertyPath: "choice_3", message: "Each choice must be different")]
+    #[Assert\NotEqualTo(propertyPath: "choice_4", message: "Each choice must be different")]
+    private ?string $choice_1 = null;
 
     #[ORM\Column(length:65535)]
-    private ?string $choice2 = null;
+    #[Assert\NotBlank(message: "Choice 2 cannot be blank")]
+    #[Assert\NotEqualTo(propertyPath: "choice_1", message: "Each choice must be different")]
+    #[Assert\NotEqualTo(propertyPath: "choice_3", message: "Each choice must be different")]
+    #[Assert\NotEqualTo(propertyPath: "choice_4", message: "Each choice must be different")]
+    private ?string $choice_2 = null;
 
     #[ORM\Column(length:65535)]
-    private ?string $choice3 = null;
+    #[Assert\NotBlank(message: "Choice 3 cannot be blank")]
+    #[Assert\NotEqualTo(propertyPath: "choice_2", message: "Each choice must be different")]
+    #[Assert\NotEqualTo(propertyPath: "choice_1", message: "Each choice must be different")]
+    #[Assert\NotEqualTo(propertyPath: "choice_4", message: "Each choice must be different")]
+    private ?string $choice_3 = null;
 
     #[ORM\Column(length:65535)]
-    private ?string $choice4 = null;
+    #[Assert\NotBlank(message: "Choice 4 cannot be blank")]
+    #[Assert\NotEqualTo(propertyPath: "choice_2", message: "Each choice must be different")]
+    #[Assert\NotEqualTo(propertyPath: "choice_3", message: "Each choice must be different")]
+    #[Assert\NotEqualTo(propertyPath: "choice_1", message: "Each choice must be different")]
+    private ?string $choice_4 = null;
 
     #[ORM\Column(length:255)]
-    private ?string $correctChoice = null;
+    private ?string $correct_choice = null;
 
     #[ORM\ManyToOne(targetEntity: "Quizzes")]
     #[ORM\JoinColumn(name: "quiz", referencedColumnName: "idquiz", onDelete: "CASCADE")]
@@ -54,60 +73,60 @@ class Quizquestions
 
     public function getChoice1(): ?string
     {
-        return $this->choice1;
+        return $this->choice_1;
     }
 
-    public function setChoice1(string $choice1): static
+    public function setChoice1(string $choice_1): static
     {
-        $this->choice1 = $choice1;
+        $this->choice_1 = $choice_1;
 
         return $this;
     }
 
     public function getChoice2(): ?string
     {
-        return $this->choice2;
+        return $this->choice_2;
     }
 
-    public function setChoice2(string $choice2): static
+    public function setChoice2(string $choice_2): static
     {
-        $this->choice2 = $choice2;
+        $this->choice_2 = $choice_2;
 
         return $this;
     }
 
     public function getChoice3(): ?string
     {
-        return $this->choice3;
+        return $this->choice_3;
     }
 
-    public function setChoice3(string $choice3): static
+    public function setChoice3(string $choice_3): static
     {
-        $this->choice3 = $choice3;
+        $this->choice_3 = $choice_3;
 
         return $this;
     }
 
     public function getChoice4(): ?string
     {
-        return $this->choice4;
+        return $this->choice_4;
     }
 
-    public function setChoice4(string $choice4): static
+    public function setChoice4(string $choice_4): static
     {
-        $this->choice4 = $choice4;
+        $this->choice_4 = $choice_4;
 
         return $this;
     }
 
     public function getCorrectChoice(): ?string
     {
-        return $this->correctChoice;
+        return $this->correct_choice;
     }
 
-    public function setCorrectChoice(string $correctChoice): static
+    public function setCorrectChoice(string $correct_choice): static
     {
-        $this->correctChoice = $correctChoice;
+        $this->correct_choice = $correct_choice;
 
         return $this;
     }

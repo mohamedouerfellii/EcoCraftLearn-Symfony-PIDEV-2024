@@ -28,6 +28,14 @@ class QuizzesRepository extends ServiceEntityRepository
         ->getQuery()
         ->getOneOrNullResult();
     }
+
+    public function getLastId(){
+        return $this->createQueryBuilder('q')
+            ->orderBy('q.idquiz', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }    
 //    /**
 //     * @return Quizzes[] Returns an array of Quizzes objects
 //     */

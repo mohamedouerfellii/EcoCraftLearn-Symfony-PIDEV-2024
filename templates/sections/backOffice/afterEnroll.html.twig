@@ -70,9 +70,9 @@
                 <div class="courses-enroll-tab">
                     <div class="enroll-tab-menu">
                         <ul class="nav">
-                            <li><button class="active" data-bs-toggle="tab" data-bs-target="#tab1">Overview</button></li>
+                            <li><button {% if backFromAdd == 0 %} class="active" {% endif %} data-bs-toggle="tab" data-bs-target="#tab1">Overview</button></li>
                             <li><button data-bs-toggle="tab" data-bs-target="#tab2">Description</button></li>
-                            <li><button data-bs-toggle="tab" data-bs-target="#tab3">Show Quiz</button></li>
+                            <li><button {% if backFromAdd == 1 %} class="active" {% endif %} data-bs-toggle="tab" data-bs-target="#tab3">Show Quiz</button></li>
                         </ul>
                     </div>
                     <div class="enroll-share">
@@ -85,7 +85,7 @@
                 <!-- Courses Enroll Tab Content Start -->
                 <div class="courses-enroll-tab-content">
                     <div class="tab-content">
-                        <div class="tab-pane fade show active" id="tab1">
+                        <div class="tab-pane fade {% if backFromAdd == 0 %} show active {% endif %}" id="tab1">
 
                             <!-- Overview Start -->
                             <div class="overview">
@@ -122,7 +122,7 @@
                             </div>
                             <!-- Description End -->
                         </div>
-                        <div class="tab-pane fade" id="tab3">
+                        <div class="tab-pane fade {% if backFromAdd == 1 %} show active {% endif %}" id="tab3">
 
                             <!-- Certificates Start -->
                             <div class="certificates">
@@ -162,38 +162,55 @@
                                                     {{ form_widget(QuestionForm.correctChoice) }}
                                                     <span class="form-error">{{ form_errors(QuestionForm.correctChoice, {'attr': {'class': 'form-error'}}) }}</span>
                                                 </div>
-                                                <br><br>
                                                 <div class="single-form">
                                                     <button class="btn btn-primary btn-hover-dark w-100" type="submit">Add Question</button>
                                                 </div>
                                                 <!-- Single Form End -->
-                                            {{ form_end(QuestionForm)}}
+                                            {{ form_end(QuestionForm) }}
                                             <br>
                                             <br>
                                         </div>
                                     </div>
+                                    {% for qq in quizquestions %}
                                     <div class="col-lg-12">
                                         <!-- Quiz Box -->
                                         <div class="quiz_box activeQuiz">
                                             <div class="hearderQuiz">
-                                                <div class="title">Awesome Quiz Application</div>
+                                                <div class="title">{{ sections[sectionIndex].title }}</div>
                                                 <div class="time_line"></div>
                                             </div>
                                             <div class="sectionQuiz">
                                                 <div class="que_text">
-                                                    <span>jhgkvkjh vbkjh gjkhg hjk gjkhg hjkgkhjg </span>
+                                                    <span>{{ qq.question }}</span>
                                                     <!-- Here I've inserted question from JavaScript -->
                                                 </div>
                                                 <div class="option_list">
-                                                    <div class="option"><span>test test ets</span></div>
-                                                    <div class="option"><span>test test ets</span></div>
-                                                    <div class="option"><span>test test ets</span></div>
-                                                    <div class="option"><span>test test ets</span></div>
+                                                    <div class="option {% if qq.correctChoice == 'Choice 1' %} correct {% endif %}">
+                                                    <span>{{ qq.choice1 }}</span>
+                                                    {% if qq.correctChoice == 'Choice 1' %}
+                                                    <div class="icon tick"><i class="fas fa-check"></i></div>
+                                                    {% endif %}</div>
+                                                    <div class="option {% if qq.correctChoice == 'Choice 2' %} correct {% endif %}">
+                                                    <span>{{ qq.choice2 }}</span>
+                                                    {% if qq.correctChoice == 'Choice 2' %}
+                                                    <div class="icon tick"><i class="fas fa-check"></i></div>
+                                                    {% endif %}</div>
+                                                    <div class="option {% if qq.correctChoice == 'Choice 3' %} correct {% endif %}">
+                                                    <span>{{ qq.choice3 }}</span>
+                                                    {% if qq.correctChoice == 'Choice 3' %}
+                                                    <div class="icon tick"><i class="fas fa-check"></i></div>
+                                                    {% endif %}</div>
+                                                    <div class="option {% if qq.correctChoice == 'Choice 4' %} correct {% endif %}">
+                                                    <span>{{ qq.choice4 }}</span>
+                                                    {% if qq.correctChoice == 'Choice 4' %}
+                                                    <div class="icon tick"><i class="fas fa-check"></i></div>
+                                                    {% endif %}</div>
                                                     <!-- Here I've inserted options from JavaScript -->
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                     {% endfor %}
                                 </div>
                             </div>
                             <!-- Certificates End -->

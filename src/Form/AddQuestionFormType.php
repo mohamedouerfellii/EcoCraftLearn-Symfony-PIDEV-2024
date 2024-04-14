@@ -21,10 +21,10 @@ class AddQuestionFormType extends AbstractType
             ->add('choice4',TextType::class)
             ->add('correctChoice',ChoiceType::class,[
                 'choices' => [
-                    'Choice 1' => 'choice1',
-                    'Choice 2' => 'choice2',
-                    'Choice 3' => 'choice3',
-                    'Choice 4' => 'choice4',
+                    'Choice 1' => 'Choice 1',
+                    'Choice 2' => 'Choice 2',
+                    'Choice 3' => 'Choice 3',
+                    'Choice 4' => 'Choice 4',
                 ], 
                 'multiple' => false, 
             ])
