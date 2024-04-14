@@ -14,11 +14,11 @@ class AddQuestionFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('question',TextType::class)
-            ->add('choice1',TextType::class)
-            ->add('choice2',TextType::class)
-            ->add('choice3',TextType::class)
-            ->add('choice4',TextType::class)
+            ->add('question', TextType::class)
+            ->add('choice1', TextType::class)
+            ->add('choice2', TextType::class)
+            ->add('choice3', TextType::class)
+            ->add('choice4', TextType::class)
             ->add('correctChoice',ChoiceType::class,[
                 'choices' => [
                     'Choice 1' => 'Choice 1',
