@@ -156,7 +156,7 @@
             })
             .catch(error => console.error('Error fetching cart and orders count:', error));
     });
-</script>
+     </script>
 
 
 
@@ -178,7 +178,9 @@
                           <!-- Single Courses Start -->
                               <div class="single-courses">
                          <div class="courses-images">
-                         <a href="#">
+
+                         <a href="{{ path('addevaluationproduct', { 'idproduct': p.idproduct }) }}">
+
                         <img src="{{ asset('contents/uploads/products/' ~ p.image) }}" alt="Courses"  ></a>
                        </div>
                       <div class="courses-content">

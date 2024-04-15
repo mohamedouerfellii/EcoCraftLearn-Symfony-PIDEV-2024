@@ -1,0 +1,81 @@
+{% extends 'baseBack.html.twig' %}
+{% block body %}
+<!-- Page Content Wrapper Start -->
+           <!-- Admin Tab Menu Start -->
+                <div class="nav flex-column nav-pills admin-tab-menu">
+                 <a href="{{ path('showProductsDashboard') }}">Products</a>
+                    <a href="{{ path('ordersinprogress') }}">Orders</a>
+                     <a href="{{ path('showEvaluationsDashboard') }}">Evaluations</a>
+                </div>
+                <!-- Admin Tab Menu End -->
+                <div class="page-content-wrapper">
+                <!-- Page Content Wrapper Start -->
+                <div class="main-content-wrapper">
+                    <div class="container-fluid">
+
+
+                      {% for e in Evaluation %}
+
+
+                        <!-- Courses Rating Wrapper Start -->
+                        <div class="courses-rating-wrapper">
+
+                            <!-- Single Courses Rating Start -->
+                            <div class="single-courses-rating">
+
+                                <!-- Courses Start -->
+                                <div class="courses">
+                                    <div class="courses-thumb">
+                                        <a href="#"><img src="{{ asset('contents/uploads/products/' ~ e.product.image) }}" alt="Courses" style="width:100px;height:100px;"></a>
+                                    </div>
+                                    <div class="courses-content">
+                                        <h4 class="title"><a href="#">{{ e.product.name }}</a></h4>
+                                        <div class="average-rating">
+                           <span class="label">Product Rating:</span>
+                            <span class="count">
+                                {{ e.rate }}
+                                <span class="rating-star">
+                                    <span class="rating-bar" style="width: {{ e.rate * 20 }}%;"></span>
+                                </span>
+                            </span>
+
+                                            </span>
+                                        </div>
+                                    </div>
+                    
+                                </div>
+                                <!-- Courses End -->
+
+                                <!-- Rating Start -->
+                                <div class="rating">
+                                    <div class="rating-author">
+                                        <img src="assets/images/author/author-12.jpg" alt="Author">
+                                    </div>
+                                    <div class="rating-content">
+                                        <h4 class="name">{{ e.evaluator.firstname }}  {{ e.evaluator.lastname }}</h4>
+                                        <span class="date">{{ e.evaluationdate | date}}</span>
+
+                                        <div class="average-rating">
+                                            <span class="rating-star">
+													<span class="rating-bar" style="width: {{ e.rate * 20 }}%;"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                  
+                                </div>
+                                <!-- Rating End -->
+
+                            </div>
+                            <!-- Single Courses Rating End -->
+
+              
+                </div>
+                <!-- Page Content Wrapper End -->
+{% endfor %}
+            </div>
+
+        <!-- Courses Admin End -->
+
+</div>
+<!-- Page Content Wrapper End -->
+{% endblock %}
