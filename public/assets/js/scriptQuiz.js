@@ -85,7 +85,7 @@ function optionSelected(answer){
     let correcAns = questions[que_count].answer; 
     const allOptions = option_list.children.length; 
     if(correcAns == 'Choice 1') correcAns = questions[que_count].options[0];
-    if(correcAns == 'Choice 2') correcAns = questions[que_count].choi.options[1];
+    if(correcAns == 'Choice 2') correcAns = questions[que_count].options[1];
     if(correcAns == 'Choice 3') correcAns = questions[que_count].options[2];
     if(correcAns == 'Choice 4') correcAns = questions[que_count].options[3];
     if(userAns == correcAns){ 
