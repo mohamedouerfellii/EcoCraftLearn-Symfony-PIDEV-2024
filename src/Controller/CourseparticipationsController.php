@@ -46,7 +46,10 @@ class CourseparticipationsController extends AbstractController
         $idUser = $request->get('idUser');
         $idCourse = $request->get('idCourse');
         $cp = $em->getRepository(Courseparticipations::class)->findCpByUserCourse($idCourse,$idUser);
+        $course = $cp->getCourse();
+        $course->setNbrregistred($course->getNbrregistred() - 1);
         $em->remove($cp);
+        $em->persist($course);
         $em->flush();
         return $this->redirectToRoute('my_learning',[
             'idUser' => 14

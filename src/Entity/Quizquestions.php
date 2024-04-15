@@ -67,7 +67,8 @@ class Quizquestions implements JsonSerializable
                 $this->choice3,
                 $this->choice4
             ],
-            'idCourse' => $this->quiz->getSection()->getCourse()->getIdcourse()
+            'idCourse' => $this->quiz->getSection()->getCourse()->getIdcourse(),
+            'idQuiz' => $this->quiz->getIdquiz()
         );
     }
 

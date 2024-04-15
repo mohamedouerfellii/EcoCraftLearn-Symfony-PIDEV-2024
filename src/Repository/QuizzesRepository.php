@@ -36,6 +36,7 @@ class QuizzesRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }    
+
 //    /**
 //     * @return Quizzes[] Returns an array of Quizzes objects
 //     */

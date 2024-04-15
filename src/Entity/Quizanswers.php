@@ -22,11 +22,11 @@ class Quizanswers
     private ?DateTime $answerdate = null;
 
     #[ORM\ManyToOne(targetEntity: "Quizzes")]
-    #[ORM\JoinColumn(name: "quizz", referencedColumnName: "idQuiz", onDelete: "CASCADE")]
+    #[ORM\JoinColumn(name: "quizz", referencedColumnName: "idquiz", onDelete: "CASCADE")]
     private ?Quizzes $quizz;
 
     #[ORM\ManyToOne(targetEntity: "Users")]
-    #[ORM\JoinColumn(name: "student", referencedColumnName: "idUser", onDelete: "CASCADE")]
+    #[ORM\JoinColumn(name: "student", referencedColumnName: "iduser", onDelete: "CASCADE")]
     private ?Users $student;
 
     public function getIdanswer(): ?int

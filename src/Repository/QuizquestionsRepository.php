@@ -21,13 +21,24 @@ class QuizquestionsRepository extends ServiceEntityRepository
         parent::__construct($registry, Quizquestions::class);
     }
 
-    public function getQuestionsByQuiz(?int $idQuiz){
+    public function getQuestionsByQuiz(int $idQuiz){
         return $this->createQueryBuilder('qq')
             ->where('qq.quiz = :idQuiz')
             ->setParameter('idQuiz', $idQuiz)
             ->getQuery()
             ->getResult();
     }
+
+    public function questionsNbrByQuiz(int $idQuiz) :int
+    {
+        return $this->createQueryBuilder('qq')
+        ->select('COUNT(qq.idquestion)')
+        ->where('qq.quiz = :idQuiz')
+        ->setParameter('idQuiz', $idQuiz)
+        ->getQuery()
+        ->getSingleScalarResult();
+    }
+
 //    /**
 //     * @return Quizquestions[] Returns an array of Quizquestions objects
 //     */

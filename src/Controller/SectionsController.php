@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Courses;
+use App\Entity\Quizanswers;
 use App\Entity\Quizquestions;
 use App\Entity\Quizzes;
 use App\Entity\Sections;
@@ -179,14 +180,23 @@ class SectionsController extends AbstractController
         $sectionIndex = $request->get('sectionIndex');
         $course = $em->getRepository(Courses::class)->find($idCourse);
         $sections = $em->getRepository(Sections::class)->sectionListByCourse($idCourse);
-        $quiz = $em->getRepository(Quizzes::class)->getQuizBySection($sections[$sectionIndex]->getIdsection());
+        $idSection = $sections[$sectionIndex]->getIdsection();
+        $quiz = $em->getRepository(Quizzes::class)->getQuizBySection($idSection);
+        $quizAnswer = null;
         $isQuizExist = false;
-        if($quiz != null ) $isQuizExist = true;
+        $isAnswerExist = false;
+        if($quiz != null ) {
+            $isQuizExist = true;
+            $quizAnswer = $em->getRepository(Quizanswers::class)->getAnswerByStudentSection(14,$quiz->getIdquiz());
+            if($quizAnswer != null) $isAnswerExist = true;
+        }
         return $this->render('sections/frontOffice/afterEnroll.html.twig', [
             'course' => $course,
             'sections' => $sections,
             'sectionIndex' => $sectionIndex,
-            'isQuizExist' =>  $isQuizExist
+            'isQuizExist' =>  $isQuizExist,
+            'isAnswerExist' => $isAnswerExist,
+            'quizAnswer' => $quizAnswer
         ]);
     }
 }

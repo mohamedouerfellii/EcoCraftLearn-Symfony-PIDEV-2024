@@ -21,6 +21,14 @@ class QuizanswersRepository extends ServiceEntityRepository
         parent::__construct($registry, Quizanswers::class);
     }
 
+    public function getAnswerByStudentSection(int $idUser, int $idQuiz){
+        return $this->createQueryBuilder('qa')
+            ->where('qa.quizz = :idQuiz')
+            ->andWhere('qa.student = :idUser')
+            ->setParameters(['idQuiz' => $idQuiz,'idUser' => $idUser])
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 //    /**
 //     * @return Quizanswers[] Returns an array of Quizanswers objects
 //     */

@@ -77,7 +77,7 @@
                         <ul class="nav">
                             <li><button class="active" data-bs-toggle="tab" data-bs-target="#tab1">Overview</button></li>
                             <li><button data-bs-toggle="tab" data-bs-target="#tab2">Description</button></li>
-                            {% if  isQuizExist == true %}
+                            {% if  isQuizExist == true and isAnswerExist == false %}
                             <li><button onclick="passQuiz()">Pass Quiz</button></li>
                             <script>
                                 function passQuiz() {
@@ -86,13 +86,18 @@
                                 }
                             </script>
                             {% endif %}
-                        </ul>
+                        </ul>                           
                     </div>
                     <div class="enroll-share">
                         <a href="{{ path('unroll_course', {'idCourse' : course.idcourse, 'idUser' : 14 })}}"><i class="icofont-ui-delete"></i> Unroll</a>
                         <!-- quiz place -->
                     </div>
                 </div>
+                {% if  isAnswerExist == true %}
+                <div class="courses-enroll-tab">
+                        <h4 align="center"> You got <span style="color: green;">{{ quizAnswer.result }}%</span></h4>
+                </div>
+                {% endif %}
                 <!-- Courses Enroll Tab End -->
 
                 <!-- Courses Enroll Tab Content Start -->
