@@ -85,17 +85,18 @@
                     {% block bodyCarts %}
                   <div class="courses-top" >
                  <ul>
-              <li>My Carts </li>
-             <li>Total Price : </li>
-                  <li>{{ userCart.totalprice }} DT</li>
+                 <li>My Carts </li>
+                 <li>Total Price : </li>
+                <li>{{ userCart.totalprice }} DT</li>
 
         
     <div style="width: 200px; height: 60px;">
         <a href="{{ path('DeleteCart', { 'idcarts': userCart.idcarts}) }}"  class="btn btn-primary btn-hover-dark">Cancel</a>
     </div>
-   <div style="width: 2px; height: 60px;">
-    <a href="{{ path('OrderProduct', {'ownerId': userCart.owner, 'idcarts': userCart.idcarts, 'totalPrice': userCart.totalprice}) }}" class="btn btn-primary btn-hover-dark">Order</a>
-  </div>
+<div style="width: 2px; height: 60px;">
+    <a href="{{ path('OrderProduct', {'ownerId': userCart.owner.iduser, 'idcarts': userCart.idcarts, 'totalPrice': userCart.totalprice}) }}" class="btn btn-primary btn-hover-dark">Order</a>
+</div>
+
 
              </ul>
                  </div>

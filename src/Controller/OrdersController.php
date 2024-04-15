@@ -78,8 +78,6 @@ class OrdersController extends AbstractController
             return $this->redirectToRoute('showProducts');
         }
 
-
-
         return $this->render("products/frontOffice/OrdersProducPage.html.twig", ["Commandes" => $commandes]);
     
     }

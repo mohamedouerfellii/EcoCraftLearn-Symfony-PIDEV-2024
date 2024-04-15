@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use App\Repository\CommandesRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: CommandesRepository::class)]
 class Commandes
 {
@@ -33,6 +33,7 @@ class Commandes
 
  
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Your order must have a phone !")]
     private ?float $phone = null;
 
     #[ORM\Column(length: 255, options: ["default" => "inProgress"])]

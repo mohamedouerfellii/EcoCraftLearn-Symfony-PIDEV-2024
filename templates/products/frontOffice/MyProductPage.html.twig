@@ -153,7 +153,7 @@
 
           
             <div class="container">
-     
+       {% block bodyProduct %}
                 <!-- Courses Category Wrapper Start  -->
                 <div class="courses-category-wrapper">
                     <div class="courses-search search-2">
@@ -171,7 +171,7 @@
                 <!-- Courses Category Wrapper End  -->
                 <!-- Courses Wrapper Start  -->
                 <div class="courses-wrapper-02">
-              {% block bodyProduct %}
+            
                     <div class="row">
                         {% for p in Products %}
                         <div class="col-lg-4 col-md-6">
@@ -179,7 +179,7 @@
                           
                             <div class="single-courses">
                                 <div class="courses-images">
-                                    <a href="{{ path('showProductsDetail', { 'idproduct': p.idproduct }) }}"><img src="{{ asset(p.image) }}" alt="Courses"></a>
+                                    <a href="{{ path('showProductsDetail', { 'idproduct': p.idproduct }) }}"><img src="{{ asset('contents/uploads/products/' ~ p.image) }}" alt="Courses"></a>
                                 </div>
                                 <div class="courses-content">
                                     <div class="courses-author">

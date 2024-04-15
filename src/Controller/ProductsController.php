@@ -13,7 +13,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Repository\SouscartsRepository;
 use App\Repository\CommandesRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -84,56 +86,48 @@ class ProductsController extends AbstractController
         ]);
     }
 
+    #[Route('/Add-Product', name: 'AddProduct')]
+    public function addProduct(ManagerRegistry $doctrine,Request $request,SluggerInterface $slugger)
+    {
 
 
+        $product = new Products();
+        $form = $this->createForm(FormProductType::class, $product);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $doctrine->getManager();
+            $product->setOwner($em->getRepository(Users::class)->find(8));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        #[Route('/Add-Product', name: 'AddProduct')]
-        public function AddProduct(ManagerRegistry $doctrine, Request $request, ProductsRepository $rep): Response
-        {
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $user = $entityManager->getRepository(Users::class)->find(12);
-            $product = new Products();
-            $product->setOwner($user);
-            $form = $this->createForm(FormProductType::class, $product);
-            $form->handleRequest($request);
-        
-            if ($form->isSubmitted()) {
-                $em = $doctrine->getManager();
-                $em->persist($product);
-                $em->flush();
-                
-                return $this->redirectToRoute('MyProduct');
+            $productImage = $form->get('image')->getData();
+            if ($productImage) {
+                $originalFilename = pathinfo($productImage->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $productImage->guessExtension();
+                try {
+                    $productImage->move(
+                        $this->getParameter('products_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    $e->getMessage();
+                }
+                $product->setImage($newFilename);
             }
-        
-            $products = $rep->findAll();
-        
-            return $this->render('products/frontOffice/AddNewProductForm.html.twig', [
-                'form' => $form->createView(),
-                'Products' => $products, 
-            ]);
+            $em->persist($product);
+            $em->flush();
+            return $this->redirectToRoute('MyProduct');
         }
 
+        $products = $doctrine->getManager()->getRepository(Products::class)->findAll();
+        return $this->render('products/frontOffice/AddNewProductForm.html.twig', [
+            'form' => $form->createView(),
+            'products' => $products, 
+        ]);
 
+     
+
+
+    }
         #[Route('/showProductsDetail/{idproduct}', name: 'showProductsDetail')]
         public function showProductsDetail($idproduct): Response
         {
@@ -167,30 +161,40 @@ class ProductsController extends AbstractController
         }
     
     
-    
+
         #[Route('/updateproduct/{idproduct}', name: "updateproduct")]
-        public function updateproduct(Request $request, int $idproduct): Response
+        public function updateproduct(ManagerRegistry $doctrine,Request $request,SluggerInterface $slugger)
         {
-            $entityManager = $this->getDoctrine()->getManager();
-            $task = $entityManager->getRepository(Products::class)->find($idproduct);
-    
-            if (!$task) {
-                throw $this->createNotFoundException('Task not found');
-            }
-    
-            $form = $this->createForm(FormProductType::class, $task);
+            $em = $doctrine->getManager();
+            $product = $em->getRepository(Products::class)->find($request->get('idproduct'));
+            $form = $this->createForm(FormProductType::class,$product);
             $form->handleRequest($request);
-    
-            if ($form->isSubmitted()) {
-             
-                $entityManager->flush();
-                return $this->redirectToRoute('MyProduct');
-            }
-            return $this->render('products/frontOffice/UpdateProductForm.html.twig', [
-                'form' => $form->createView(),
-                //'Product' => $product, 
-            ]);
+            if ($form->isSubmitted() && $form->isValid()){
+                $productImage = $form->get('image')->getData();
+                if ($productImage) {
+                    $originalFilename = pathinfo($productImage->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $productImage->guessExtension();
+                    try {
+                        $productImage->move(
+                            $this->getParameter('products_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        $e->getMessage();
+                    }
+                    $product->setImage($newFilename);
+                }
+                $em->persist($product);
+                $em->flush();
+                return $this->redirectToRoute('showProductsDetail', ['idproduct' => $product->getIdproduct()]);
+                }
+                return $this->render('products/frontOffice/UpdateProductForm.html.twig', [
+                    'form' => $form->createView(),  
+                ]);
         }
+
+
 
 
         #[Route('/showProductsDashboard', name: 'showProductsDashboard')]

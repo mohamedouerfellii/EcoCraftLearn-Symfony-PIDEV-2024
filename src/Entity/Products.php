@@ -12,20 +12,23 @@ class Products
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: "integer", name: "idproduct")]
-
     private ?int $idproduct=null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name=null;
+    #[ORM\Column(length:255)]
+    #[Assert\NotBlank(message: "Your course must have a name !")]
+    private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $description=null;
+    #[ORM\Column(length:65535)]
+    #[Assert\NotBlank(message: "Your course must have a description !")]
+    #[Assert\Length(min: 20, minMessage: "Description must contain at least 20 characters")]
+    private ?string $description = null;
 
     #[ORM\Column(length: 255)]
     private ?string $image=null;
 
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Your course must have a price !")]
     private ?float $price=null;
 
     #[ORM\Column]
@@ -35,6 +38,7 @@ class Products
     private ?\DateTimeInterface $adddate;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Your course must have a quantity !")]
     private ?int $quantite=null;
 
     public function __construct()
