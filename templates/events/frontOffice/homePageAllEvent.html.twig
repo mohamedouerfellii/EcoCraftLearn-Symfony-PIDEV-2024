@@ -1,0 +1,220 @@
+{% extends 'baseFront.html.twig' %}
+{% block body %}
+
+  
+
+
+        <!-- Overlay Start -->
+        <div class="overlay"></div>
+        <!-- Overlay End -->
+
+        <!-- Slider Start -->
+        <div class="section slider-section">
+
+            <!-- Slider Shape Start -->
+            <div class="slider-shape">
+                <img class="shape-1 animation-round" src="{{asset('assets/images/shape/shape-8.png')}}" alt="Shape">
+            </div>
+            <!-- Slider Shape End -->
+
+            <div class="container">
+
+                <!-- Slider Content Start -->
+                <div class="slider-content">
+                    <h4 class="sub-title">Start your favourite course</h4>
+                    <h2 class="main-title">Now learning from anywhere, and build your <span>bright career.</span></h2>
+                    <p>It has survived not only five centuries but also the leap into electronic typesetting.</p>
+                    
+                </div>
+                <!-- Slider Content End -->
+
+            </div>
+
+            <!-- Slider Courses Box Start -->
+            <div class="slider-courses-box">
+
+                <img class="shape-1 animation-left" src="{{asset('assets/images/shape/shape-5.png')}}" alt="Shape">
+
+                <div class="box-content">
+                    <div class="box-wrapper">
+                        <i class="flaticon-open-book"></i>
+                        <span class="count">1,235</span>
+                        <p>courses</p>
+                    </div>
+                </div>
+
+                <img class="shape-2" src="{{asset('assets/images/shape/shape-6.png')}}" alt="Shape">
+
+            </div>
+            <!-- Slider Courses Box End -->
+
+            <!-- Slider Rating Box Start -->
+            <div class="slider-rating-box">
+
+                <div class="box-rating">
+                    <div class="box-wrapper">
+                        <span class="count">4.8 <i class="flaticon-star"></i></span>
+                        <p>Rating (86K)</p>
+                    </div>
+                </div>
+
+                <img class="shape animation-up" src="{{asset('assets/images/shape/shape-7.png')}}" alt="Shape">
+
+            </div>
+            <!-- Slider Rating Box End -->
+
+            <!-- Slider Images Start -->
+            <div class="slider-images">
+                <div class="images">
+                    <img src="{{asset('assets/images/slider/slider-1.png')}}" alt="Slider">
+                </div>
+            </div>
+            <!-- Slider Images End -->
+
+            <!-- Slider Video Start -->
+            <div class="slider-video">
+                <img class="shape-1" src="{{asset('assets/images/shape/shape-9.png')}}" alt="Shape">
+
+                <div class="video-play">
+                    <img src="{{asset('assets/images/shape/shape-10.png')}}" alt="Shape">
+                    <a href="https://www.youtube.com/watch?v=BRvyWfuxGuU" class="play video-popup"><i class="flaticon-play"></i></a>
+                </div>
+            </div>
+            <!-- Slider Video End -->
+
+        </div>
+        <!-- Slider End -->
+
+        <div class="section section-padding mt-n1">
+            <div class="container">
+             <!-- All Courses Top Start -->
+                <div class="courses-top">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-danger" style="color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
+                <script>
+                    // Cacher les alertes après 3 secondes
+                    setTimeout(function() {
+                        document.querySelectorAll('.alert').forEach(function(alert) {
+                            alert.style.display = 'none';
+                        });
+                    }, 3000); 
+                </script>
+                    <!-- Section Title Start -->
+                    <div class="section-title shape-01">
+                        <h2 class="main-title">All <span>Events</span> of EcoCraftLearning</h2>
+                    </div>
+                    <!-- Section Title End -->
+
+                    <!-- Courses Search Start -->
+                    <div class="courses-search">
+                        <form action="#">
+                            <input type="text" placeholder="Search your course">
+                            <button><i class="flaticon-magnifying-glass"></i></button>
+                        </form>
+                    </div>
+                    <!-- Courses Search End -->
+
+                </div>
+                <!-- All Courses Top End -->
+
+                <!-- All Courses Tabs Menu Start -->
+                <div class="courses-tabs-menu courses-active">
+                    <div class="swiper-container">
+                        <ul class="swiper-wrapper nav">
+                           
+
+                                <div class="info-btn">
+                                    <a href="{{ path('showMyParticipations') }}" class="btn btn-primary btn-hover-dark">My Participation</a>
+                                </div>
+
+                        
+
+                        </ul>
+                    </div>
+
+                    <!-- Add Pagination -->
+                    <div class="swiper-button-next"><i class="icofont-rounded-right"></i></div>
+                    <div class="swiper-button-prev"><i class="icofont-rounded-left"></i></div>
+                </div>
+                <!-- All Courses Tabs Menu End -->
+
+                <!-- Blog Wrapper Start -->
+                <div class="blog-wrapper">
+              
+                    <div class="row">
+                      {% for event in event %}
+                        <div class="col-lg-4 col-md-6">
+
+     
+                            <!-- Single Blog Start -->
+                            
+                            <div class="single-blog">
+                            
+                                <div class="blog-image">
+                                    <a href="blog-details-left-sidebar.html"><img src="{{ asset('contents/uploads/events/' ~ event.attachment) }}" alt="Blog" width="300" height="200"  ></a>
+                                </div>
+                                <div class="blog-content">
+                                    <div class="blog-author">
+                                        <div class="author">
+                                            <div class="author-thumb">
+                                                <a href="#"><img src="assets/images/author/author-01.jpg" alt="Author"></a>
+                                            </div>
+                                            <div class="author-name">
+                                                <a class="name" href="#">{{event.owner.firstname}} {{event.owner.lastname}}</a>
+                                            </div>
+                                        </div>
+                                  
+                                    </div>
+
+                                    <h4 class="title"><a href="blog-details-left-sidebar.html">{{ event.title }}</a></h4>
+
+                                    <div class="blog-meta">
+                                        <span> <i class="icofont-calendar"></i> {{ event.startdate|date("m/d/y")  }} </span>
+                                        <span> <i class=""></i>{{ event.placenbr }} </span>
+                                    </div>
+
+                                    <a href="{{ path('eventsDetailsfront', {'idevent' : event.idevent})}}" class="btn btn-secondary btn-hover-primary">Read More</a>
+                                    
+                                </div>
+ 
+                            </div>
+                  
+   
+                            <!-- Single Blog End -->
+
+                            
+                        </div>
+                            {% endfor %}
+                       
+                  </div> 
+              </div>              
+
+                       
+
+                        </div>
+                    </div>
+                      
+                </div>
+              
+                <!-- Blog Wrapper End -->
+
+            </div>
+            </div>
+        <!-- Blog End -->
+
+                  <br>
+                  <br> 
+                <!-- All Courses BUtton End -->
+            </div>
+          
+        </div>   
+        <!-- All Courses End -->       
+
+
+{% endblock %}  
