@@ -11,7 +11,7 @@ class Collectspts
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $idcollectspts = null;
+    private ?int $idCollectspts = null;
 
     #[ORM\Column(length:255)]
     private ?string $name = null;

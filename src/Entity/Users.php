@@ -4,12 +4,14 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UsersRepository;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 
-class Users implements PasswordAuthenticatedUserInterface
+class Users implements PasswordAuthenticatedUserInterface,UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -51,6 +53,9 @@ class Users implements PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length:255)]
     private ?string $answer = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
 
     public function getIduser(): ?int
     {
@@ -201,5 +206,32 @@ class Users implements PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getUserIdentifier(){
+        return (string)$this->email;
+    }
+    public function getRoles(){
+        $r = strtoupper($this->role);
+        return ["ROLE_".$r];    
+    }
+    public function getSalt(){
+        return null;
+    }
+    public function eraseCredentials(){
+        return null;
+    }
+    public function getUsername(){
+        return $this->email;
+    }
 
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
 }

@@ -11,10 +11,10 @@ class Quizzes
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $idquiz = 0;
+    private ?int $idQuiz = 0;
 
     #[ORM\ManyToOne(targetEntity: "Sections")]
-    #[ORM\JoinColumn(name: "section", referencedColumnName: "idsection", onDelete: "CASCADE")]
+    #[ORM\JoinColumn(name: "section", referencedColumnName: "idSection", onDelete: "CASCADE")]
     private ?Sections $section;
 
     public function getIdquiz(): ?int
