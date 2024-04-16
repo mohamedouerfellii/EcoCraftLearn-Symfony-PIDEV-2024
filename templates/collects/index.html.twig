@@ -1,0 +1,53 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Collects {% endblock %}
+
+{% block body %}
+
+<section class="parallax-window" data-parallax="scroll" style="" data-natural-width="1400" data-natural-height="470">
+    <div class="parallax-content-1 opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.4)">
+        <div class="animated fadeInDown">
+            <h1>Voici les Collectss</h1>
+            <p>chaque fausse Collects ne peux pas etre disponnibles bientot</p>
+        </div>
+    </div>
+</section>
+
+<!-- Fin de la section -->
+<div class="card-body">
+    <h5 class="card-title">Collectss</h5>
+
+  <!-- Tableau des resrvations -->
+{% for response in Collects %}
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">Id complet: {{ response.id }}</h5>
+        
+        <h7 class="card-subtitle mb-2 text-muted">collectspts: {{ response.collectsptss.name }}</h7>
+        
+        <p class="card-subtitle mb-2 text-muted">Type de matériel: {{ response.materialType }}</p>
+        <p class="card-subtitle mb-2 text-muted">quantité de ce materiel : {{ response.quantity }}</p>
+
+        
+        
+        <p class="card-text">Date de collect: {{ response.collectDate|date('d-m-Y') }}</p>
+        
+        
+        
+        
+        
+        
+        <div class="btn-group" role="group" aria-label="Actions">
+            <a class="btn cur-p btn-danger" href="{{ path('delete_adh', {'id': response.id}) }}">Supprimer</a>
+            <a class="btn cur-p btn-success" href="{{ path('update_adh', {'id': response.id}) }}">Mettre à jour</a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+    <div class="pagination">
+        {{ knp_pagination_render(Collects) }}
+    </div>
+</div>
+{% endblock %}

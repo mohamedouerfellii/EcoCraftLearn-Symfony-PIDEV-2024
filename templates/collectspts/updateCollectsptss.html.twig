@@ -1,0 +1,46 @@
+{% extends 'admin.html.twig' %}
+
+{% block si %}
+    
+    
+    <div class="content-page">
+        <div class="content">
+           
+        </div>
+    </div>
+{% endblock %}
+
+{% block body %}
+    
+    
+    <div class="content-page">
+        <div class="content">
+            <div class="container-fluid">
+                
+                
+                <!-- Contenu du formulaire -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">update Collectspts</h5>
+                                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                                    <!-- Contenu de votre formulaire ici -->
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fin contenu du formulaire -->
+               
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block dash%}
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">update Collectspts </li>
+          </ol>
+          <h6 class="font-weight-bolder mb-0">update</h6>
+          {%endblock%}
+
