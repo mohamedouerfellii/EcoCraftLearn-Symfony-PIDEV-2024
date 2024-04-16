@@ -1,0 +1,44 @@
+{% extends 'baseBack.html.twig' %}
+{% block body %}
+  <!-- Engagement Courses End -->
+    <div class="tab-btn">
+            <a href="{{path('showEventsDashboardtutor')}}" class="btn btn-primary btn-hover-dark">Go Back</a>
+        </div>
+                        <div class="engagement-courses table-responsive">
+      
+                            <div class="courses-top">
+                                <ul>
+                                    <li>All Participant</li>
+                                    <li>firstname</li>
+                                    <li>lastname</li>
+                                </ul>
+                            </div>
+
+                            <div class="courses-list">
+                                {% for p in participants %}
+                                <ul>
+
+                                    <li>
+                                        <div class="courses">
+                                            <div class="thumb">
+                                                <img src="{{ asset(p.participant.image) }}" alt="Courses">
+                                            </div>
+                                            <div class="content">
+                                                <h4 class="title"><a href="#">{{ p.participant.firstname }}</a></h4>
+                                            </div>
+                                          <div class="content">
+                                                <h4 class="title"><a href="#">{{ p.participant.firstname }}</a></h4>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                    {% endfor %}
+                            </div>
+                        </div>
+
+                            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                        <!-- Engagement Courses End -->
+                        
+                        
+                        
+                        {% endblock %}
