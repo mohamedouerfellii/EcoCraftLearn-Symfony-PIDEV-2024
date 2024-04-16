@@ -81,44 +81,36 @@
     {{ form_errors(form) }}
                                      {{ form_start(form, {'attr': {'method': 'POST', 'novalidate': 'novalidate'}}) }}
             <div class="single-form">
-                {{ form_widget( form.firstname , {'attr': {'placeholder': 'Firstname', 'class': 'formbold-form-input', 'id': 'firstname'}}) }}
+                {{ form_widget(form.firstname, {'attr': {'placeholder': 'Firstname', 'class': 'formbold-form-input', 'id': 'firstname'}}) }}
                 <span class="form-error">{{ form_errors(form.firstname) }}</span>
             </div>
             <div class="single-form">
                 {{ form_widget(form.lastname, {'attr': {'placeholder': 'Lastname', 'class': 'formbold-form-input', 'id': 'lastname'}}) }}
                 <span class="form-error">{{ form_errors(form.lastname) }}</span>
             </div>
-            <div class="single-form">
-                {{ form_widget(form.email, {'attr': {'placeholder': 'Email', 'class': 'formbold-form-input', 'id': 'email'}}) }}
-                 <span class="form-error">{{ form_errors(form.email) }}</span>
-            </div>
-     <div class="single-form">
-    {{ form_widget(form.password.first, {'attr': {'placeholder': 'Password', 'class': 'formbold-form-input', 'id': 'Password'}}) }}
-    <span class="form-error">{{ form_errors(form.password.first) }}</span>
-</div>
-<div class="single-form">
-    {{ form_widget(form.password.second, {'attr': {'placeholder': 'Confirm Password', 'class': 'formbold-form-input', 'id': 'ConfirmPassword'}}) }}
-</div>
+        
             <div class="single-form">
                 {{ form_widget(form.numtel, {'attr': {'placeholder': 'Phone Number', 'class': 'formbold-form-input', 'id': 'numtel'}}) }}
                 <span class="form-error">{{ form_errors(form.numtel) }}</span>
             </div>
             
+            
             <div class="single-form">
+                {{ form_widget(form.gender, {'attr': {'placeholder': 'Gender', 'class': 'formbold-form-input', 'id': 'gender'}}) }}
+               
+            </div>
+<div class="single-form">
                 {{ form_widget(form.role, {'attr': {'placeholder': 'Role', 'class': 'formbold-form-input', 'id': 'role'}}) }}
                 
             </div>
             <br>
             <br>
             <span class="form-error">{{ form_errors(form.role) }}</span>
-            <div class="single-form">
-                {{ form_widget(form.gender, {'attr': {'placeholder': 'Gender', 'class': 'formbold-form-input', 'id': 'gender'}}) }}
-               
-            </div>
                <br>
                <br>
                 <span class="form-error">{{ form_errors(form.gender) }}</span>
                <br>
+               
                
               <div class="formbold-input-file">
            
@@ -143,8 +135,8 @@
             
             
             <div class="single-form">
-                <button class="btn btn-primary btn-hover-dark w-100" type="submit">Create an account</button>
-                <a class="btn btn-secondary btn-outline w-100" href="#">Sign up with Google</a>
+                <button class="btn btn-primary btn-hover-dark w-100" type="submit">Update account</button>
+
             </div>
         {{ form_end(form) }}
                                   

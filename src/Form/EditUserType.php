@@ -16,9 +16,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class RegistrationFormType extends AbstractType
+class EditUserType extends AbstractType
 {
-   public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
         ->add('firstname', TextType::class, [
@@ -57,47 +57,7 @@ class RegistrationFormType extends AbstractType
                 'id' => 'lastname',
             ],
         ])
-            ->add('email', EmailType::class, [
-                'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'Please enter your email address',
-                    ]),
-                    new Assert\Email([
-                        'message' => 'The email "{{ value }}" is not a valid email address.',
-                    ]),
-                ],
-                'attr' => [
-                    'placeholder' => 'Email',
-                    'class' => 'formbold-form-input',
-                    'id' => 'email',
-                ],
-            ])
-            ->add('password', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
-                'first_options' => [
-                    'attr' => [
-                        'label' => false,
-                        'placeholder' => 'Password'
-                    ]
-                ],
-                'second_options' => [
-                    'attr' => [
-                        'label' => false,
-                        'placeholder' => 'Confirm Password'
-                    ]
-                ],
-                'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'Please enter a Password',
-                    ]),
-                    new Assert\Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                    ]),
-                ],
-            ])
-            
+           
             ->add('numtel', TextType::class, [
                 'constraints' => [
                     new Assert\NotBlank([
@@ -165,10 +125,12 @@ class RegistrationFormType extends AbstractType
             ])
         ;
     }
+
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Users::class,
         ]);
     }
+   
 }

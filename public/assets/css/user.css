@@ -2,9 +2,7 @@
     color: red; 
    
 }
-body{
-    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
-}
+
 .emp-profile{
     padding: 3%;
     margin-top: 3%;
@@ -39,7 +37,7 @@ body{
     color: #333;
 }
 .profile-head h6{
-    color: #0062cc;
+    color: #0e0e0e;
 }
 .profile-edit-btn{
     border: none;
@@ -69,7 +67,7 @@ body{
 }
 .profile-head .nav-tabs .nav-link.active{
     border: none;
-    border-bottom:2px solid #0062cc;
+    border-bottom:2px solid #ffffff;
 }
 .profile-work{
     padding: 14%;
@@ -77,7 +75,7 @@ body{
 }
 .profile-work p{
     font-size: 12px;
-    color: #818182;
+    color: #f9f9ff;
     font-weight: 600;
     margin-top: 10%;
 }
@@ -95,5 +93,10 @@ body{
 }
 .profile-tab p{
     font-weight: 600;
-    color: #0062cc;
+    color: #ffffff;
+}
+.container-prof {
+    max-width: 2000px;
+    max-height: max-content;
+    background-color: #fff;
 }

@@ -16,9 +16,17 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
 
 class CoursesController extends AbstractController
 {
+    private $tokenStorage;
+    public function __construct(
+        private Security $security,TokenStorageInterface $tokenStorage
+    ){
+        $this->tokenStorage = $tokenStorage;
+    }
     #[Route('/', name: 'home_page')]
     public function index(ManagerRegistry $doctrine): Response
     {
@@ -34,7 +42,8 @@ class CoursesController extends AbstractController
         $courses = $doctrine->getManager()->getRepository(Courses::class)->findBytutor($idTutor);
         return $this->render('courses/backOffice/coursesDashboardTutor.html.twig', [
             'controller_name' => 'CoursesController',
-            'courses' => $courses
+            'courses' => $courses,
+            'user' => $this->security->getUser()
         ]);
     }
     #[Route('/addNewCourse', name: 'add_new_course')]
