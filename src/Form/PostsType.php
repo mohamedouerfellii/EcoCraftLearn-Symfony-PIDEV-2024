@@ -29,10 +29,15 @@ class PostsType extends AbstractType
        
             
               
-        
+    
     ])
     ->add('Add', SubmitType::class, [
         
+        'attr' => [
+            'class' => 'btn btn-primary btn-hover-dark',
+            
+            
+        ]
     ]);
     }
 

@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Comments;
 use App\Entity\Posts;
 use App\Entity\Users;
+use App\Form\CommentType;
 use App\Form\PostsType;
+use App\Form\UpdateFormType;
 use App\Repository\PostsRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
@@ -22,13 +25,26 @@ class PostsController extends AbstractController
     #[Route('/', name: 'forum_page')]
     public function index(ManagerRegistry $doctrine): Response
     {
-        $posts = $doctrine->getManager()->getRepository(Posts::class)->findAll();
-        $form = $this->createForm(PostsType::class); // Create the form here
-        
-        return $this->render('posts/frontOffice/forumPage.html.twig', [
-            'posts' => $posts,
-            'form' => $form->createView() // Pass the form variable to the template
+            
+
+        $posts = $doctrine->getManager()->getRepository(Posts::class)->findAllPostsAndComments();
+        $postForm = $this->createForm(PostsType::class); // Create the form here
+        $commentForms = [];
+    foreach ($posts as $post) {
+        $comment = new Comments();
+        $commentForm = $this->createForm(CommentType::class, $comment, [
+            'action' => $this->generateUrl('add_comment', ['id_post' => $post->getIdpost()]),
+            'method' => 'POST',
         ]);
+        $commentForms[$post->getIdpost()] = $commentForm->createView();
+    }
+
+    // Pass all necessary data to the template
+    return $this->render('posts/frontOffice/forumPage.html.twig', [
+        'posts' => $posts,
+        'form' => $postForm->createView(), // This is the form for creating a new post
+        'commentForms' => $commentForms, // This is an array of forms for adding comments to each post
+    ]);
     }
     
     #[Route('/back', name: 'back_office')]
@@ -127,7 +143,7 @@ public function updatestudent($id, PostsRepository $repo, ManagerRegistry $m, Re
    
     $em = $m->getManager();
     $post = $em->getRepository(Posts::class)->find($req->get('id'));
-    $updateform = $this->createForm(PostsType::class, $post);
+    $updateform = $this->createForm(UpdateFormType::class, $post);
     $updateform->handleRequest($req);
 
     if ($updateform->isSubmitted() && $updateform->isValid()) {

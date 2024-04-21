@@ -14,9 +14,13 @@
   <div class="formbold-form-wrapper">
    <h3 class="title">Edit Your Post !</h3>
     {{ form_start(updateform, {'attr': {'method': 'POST', 'novalidate': 'novalidate'}}) }}
+    
         <div>
           <div class="single-form">
-              {{ form_widget(updateform.content, {'attr': {'placeholder': 'Add post content', 'class': 'formbold-form-input', 'id': 'postContent'}}) }}
+              {{ form_widget(updateform.content) }}
+              <div  id="image-preview" style="display: none;">
+    <img id="preview" src="#" alt="Preview" width="100" height="100">
+   </div>
               <span class="form-error">{{ form_errors(updateform.content, {'attr': {'class': 'form-error'}}) }}</span>
           </div>    
         </div>
@@ -35,18 +39,42 @@
               </clipPath>
               </defs>
               </svg>
+              
               Choose Attachment    
-              {{ form_widget(updateform.attachment, {'attr': {'id': 'upload', 'style': 'display: none;'}}) }}
+              {{ form_widget(updateform.attachment, {'attr': {'id': 'upload', 'style': 'display: none;' ,'onchange': 'previewImage(event)'}}) }}
           </label>
+          
         </div>
         <span class="form-error">{{ form_errors(updateform.attachment) }}</span>
         <br>
+        
          <div class="tab-btn">
             {{ form_end(updateform) }}
         </div>
         
-  </div>
-    {{ form_end(updateform) }}
+  
+   
+                
+
+      <script>
+                    function previewImage(event) {
+        var input = event.target;
+        var preview = document.getElementById('preview');
+        var previewContainer = document.getElementById('image-preview');
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                previewContainer.style.display = 'block';
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = '';
+            previewContainer.style.display = 'none';
+        }
+    }
+                </script>
 </div>
 <!-- Admin Courses Tab End -->
 {% endblock %}

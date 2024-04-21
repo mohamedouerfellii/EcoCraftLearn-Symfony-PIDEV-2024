@@ -28,7 +28,11 @@ class UpdateFormType extends AbstractType
             'required' => false,
         ])
         ->add('Submit', SubmitType::class, [
-        
+            'attr' => [
+                'class' => 'btn btn-primary btn-hover-dark',
+                
+                
+            ]
         ]);
         
     }

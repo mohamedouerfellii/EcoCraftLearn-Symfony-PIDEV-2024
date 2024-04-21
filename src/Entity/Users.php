@@ -115,4 +115,112 @@ public function __construct(
     {
         return $this->firstname;
     }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getNumtel(): ?int
+    {
+        return $this->numtel;
+    }
+
+    public function setNumtel(int $numtel): static
+    {
+        $this->numtel = $numtel;
+
+        return $this;
+    }
+
+    public function getRole(): ?string
+    {
+        return $this->role;
+    }
+
+    public function setRole(string $role): static
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(string $gender): static
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function isIsactive(): ?bool
+    {
+        return $this->isactive;
+    }
+
+    public function setIsactive(bool $isactive): static
+    {
+        $this->isactive = $isactive;
+
+        return $this;
+    }
+
+    public function getNbrptscollects(): ?int
+    {
+        return $this->nbrptscollects;
+    }
+
+    public function setNbrptscollects(int $nbrptscollects): static
+    {
+        $this->nbrptscollects = $nbrptscollects;
+
+        return $this;
+    }
+
+    public function getQuestion(): ?string
+    {
+        return $this->question;
+    }
+
+    public function setQuestion(string $question): static
+    {
+        $this->question = $question;
+
+        return $this;
+    }
+
+    public function getAnswer(): ?string
+    {
+        return $this->answer;
+    }
+
+    public function setAnswer(string $answer): static
+    {
+        $this->answer = $answer;
+
+        return $this;
+    }
 }

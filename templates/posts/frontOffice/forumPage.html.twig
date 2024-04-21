@@ -35,7 +35,8 @@
     <!--====== Use the minified version files listed below for better performance and remove the files listed above ======-->
     <link rel="stylesheet" href="{{asset('assets/css/vendor/plugins.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/style.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/css/forum.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/forum.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/comments.min.css')}}">
     {% endblock %}
 </head>
 <body>
@@ -116,9 +117,14 @@
                         {# Render CSRF token field #}
                          {{ form_start(form, {'attr': { 'methode':'POST','action': path('addpost'),'novalidate': 'novalidate'}}) }}
         
-                        {{ form_row(form._token) }}
-                            {{form_row(form.content) }}
+                       
+                            {{ form_label(form.content) }}
+
+                            {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
                             
+                            {% if form_errors(form.content) %}
+                                     <span class="form-error">{{ form_errors(form.content) }}</span>
+                            {% endif %}
                         
                         
                         <div class="formbold-input-file">
@@ -215,25 +221,70 @@
                             <div>
                                 <p>{{ post.content }}</p>
                                 <div align="center">
-                                {% if post.attachment %}  
-                                <p><img src="{{ asset('contents/uploads/posts/' ~ post.attachment) }}"width="300px;" height="250px;"></p>
-                                {% endif %}
+                                    {% if post.attachment %}  
+                                    <p><img src="{{ asset('contents/uploads/posts/' ~ post.attachment) }}"width="300px;" height="250px;"/></p>
+                                    {% endif %}
                                 </div>
                             </div>
-<br/>
+                            <br/>
                             <div class="flex-container">
                                 <div class="flex-container-divider" >
                                     <div class="flex-container-divider-bar"></div>
                                     <div class="flex-container-divider-bar"></div>
                                 </div>
                                 <a class="post-reaction" href="{{ path('update', {id:post.idpost}) }}" ><img class="post-reaction-img" src="{{ asset('images/heart-line.png') }}"/></a>
-                                <a class="post-reaction" href="{{ path('update', {id:post.idpost}) }}" ><img class="post-reaction-img" src="{{ asset('images/chat-1-line.png') }}"/></a>
+                               
+                                    <a class="post-reaction">
+                                         <img class="post-reaction-img" src="{{ asset('images/chat-1-line.png') }}"/>
+                                    </a>      
                                 <a class="post-reaction" href="{{ path('update', {id:post.idpost}) }}" ><img class="post-reaction-img" src="{{ asset('images/share-forward-line.png') }}"/></a>
+                             
                             </div>  
+                            
+                            <div id="comments-{{ post.idpost }}" class="comments-container">
+                             {{ form_start(commentForms[post.idpost]) }}
+            {{ form_widget(commentForms[post.idpost]) }}
+            
+            {{ form_end(commentForms[post.idpost]) }}
+        {% for comment in post.comments %}
+            <div class="comment">
+                <strong>{{ comment.owner.firstname }}:</strong>
+                <p>{{ comment.content }}</p>
+            </div>
+        {% else %}
+            <p align="center">No comments yet.</p>
+        {% endfor %}
+    </div>
+    
+    <!-- Comment Form -->
+    <div class="comment-form">
+       
+    </div>
+                           
                         </div>
+                        
+                        
                     </div>
+                   
                 {% endfor %}
+              
             </div>  
+           
+          <script>
+          document.addEventListener('DOMContentLoaded', function () {
+    var icons = document.querySelectorAll('.post-reaction-img');
+    icons.forEach(function(icon) {
+        icon.addEventListener('click', function() {
+            var commentForm = this.closest('.post-container').querySelector('.comments-container form');
+            if (commentForm.style.display === 'block') {
+                commentForm.style.display = 'none';
+            } else {
+                commentForm.style.display = 'block';
+            }
+        });
+    });
+});
+          </script>
            <!-- Header Section End -->
         {% endblock %} 
        
@@ -377,6 +428,7 @@
             <script src="{{asset('assets/js/plugins.min.js')}}"></script>
             <!-- Main JS -->
             <script src="{{asset('assets/js/main.js')}}"></script>
+            
         {% endblock %}
 </body>
 <!-- Mirrored from template.hasthemes.com/edule/eduLe/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 03 Jun 2023 22:29:41 GMT -->
