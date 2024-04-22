@@ -74,6 +74,62 @@ class CoursesRepository extends ServiceEntityRepository
         }
         return $queryBuilder->getQuery()->getResult();    
     }
+
+    public function searchCoursesBack($idTutor,$search){
+        return $this->createQueryBuilder('c')
+        ->where('c.tutor = :idTutor')
+        ->andWhere('c.title LIKE :search')
+        ->setParameters(['idTutor' => $idTutor, 'search' => '%' . $search . '%' ])
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function filterCoursesFront(int $idUser, string $filter) {
+        $em = $this->getEntityManager();
+        $orderBy = '';
+        switch ($filter) {
+            case 'Newest':
+                $orderBy = 'c.posteddate DESC';
+                break;
+            case 'Oldest':
+                $orderBy = 'c.posteddate ASC';
+                break;
+            case 'Most Registered':
+                $orderBy = 'c.nbrregistred DESC';
+                break;
+            case 'Most Rated':
+                $orderBy = 'c.rate DESC';
+                break;
+            case 'Price':
+                $orderBy = 'c.price DESC';
+                break;
+        }
+        return $em->createQuery('
+            SELECT c 
+            FROM App\Entity\Courses c 
+            WHERE NOT EXISTS (
+                SELECT cp 
+                FROM App\Entity\Courseparticipations cp 
+                WHERE cp.participant = :idUser 
+                AND cp.course = c.idcourse
+            ) ORDER BY '.$orderBy
+        )->setParameter('idUser', $idUser)->getResult();
+    }
+
+    public function searchCoursesFront(int $idUser, string $search) {
+        $em = $this->getEntityManager();
+        return $em->createQuery('
+            SELECT c 
+            FROM App\Entity\Courses c 
+            WHERE NOT EXISTS (
+                SELECT cp 
+                FROM App\Entity\Courseparticipations cp 
+                WHERE cp.participant = :idUser 
+                AND cp.course = c.idcourse
+            ) AND c.title LIKE :search'
+        )->setParameters(['idUser'=> $idUser, 'search' => '%' . $search . '%'])->getResult();
+    }
+    
 //    /**
 //     * @return Courses[] Returns an array of Courses objects
 //     */

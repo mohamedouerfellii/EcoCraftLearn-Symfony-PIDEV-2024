@@ -60,9 +60,9 @@
                     <button class="search-toggle" data-bs-toggle="dropdown"><i class="flaticon-loupe"></i></button>
 
                     <div class="search-input dropdown-menu">
-                        <form action="#">
+                        {% block search %}
                             <input type="text" placeholder="Search here">
-                        </form>
+                        {% endblock %}
                     </div>
 
                 </div>

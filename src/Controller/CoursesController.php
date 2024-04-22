@@ -16,6 +16,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class CoursesController extends AbstractController
@@ -158,6 +160,36 @@ class CoursesController extends AbstractController
         $filter = $request->get('filter');
         $idTutor = 8;
         $courses = $coursesRep->filterCoursesBack($idTutor, $filter);
+        $dataToJson = json_encode($courses);
+        return new Response($dataToJson);
+    }
+    // search course back
+    #[Route('/searchCourseBack', name: 'search_course_back')]
+    public function searchCourseBack(CoursesRepository $coursesRep,Request $request): Response
+    {
+        $search = $request->get('search');
+        $idTutor = 8;
+        $courses = $coursesRep->searchCoursesBack($idTutor, $search);
+        $dataToJson = json_encode($courses);
+        return new Response($dataToJson);
+    }
+    // filter course front
+    #[Route('/filterCourseFront', name: 'filter_course_front')]
+    public function filterCourseFront(CoursesRepository $coursesRep,Request $request): Response
+    {
+        $filter = $request->get('filter');
+        $idUser = 14;
+        $courses = $coursesRep->filterCoursesFront($idUser, $filter);
+        $dataToJson = json_encode($courses);
+        return new Response($dataToJson);
+    }
+    // search course front
+    #[Route('/searchCourseFront', name: 'search_course_front')]
+    public function searchCourseFront(CoursesRepository $coursesRep,Request $request): Response
+    {
+        $filter = $request->get('search');
+        $idUser = 14;
+        $courses = $coursesRep->searchCoursesFront($idUser, $filter);
         $dataToJson = json_encode($courses);
         return new Response($dataToJson);
     }

@@ -2,9 +2,22 @@
 {% block privateJS %}
     <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script defer src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script defer src="{{asset('assets/js/courseBackFilter.js')}}"></script>
+    <script defer src="{{asset('assets/js/courses.js')}}"></script>
+{% endblock %}
+{% block search %}
+    <input type="text" id="searchCourse" onkeyup="searchCourse(this.value)" data-url="{{ path('search_course_back') }}" placeholder="Search here">
 {% endblock %}
 {% block body %}
+<!-- Message Start -->
+<div class="message">
+    <div class="message-icon">
+        <img src="assets/images/menu-icon/icon-6.png" alt="">
+    </div>
+    <div class="message-content">
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic.</p>
+    </div>
+</div>
+<!-- Message End -->
 <!-- Admin Courses Tab Start -->
 <div class="admin-courses-tab">
     <h3 class="title">Courses</h3>
