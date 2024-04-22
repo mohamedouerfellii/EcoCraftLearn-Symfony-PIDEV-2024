@@ -12,9 +12,6 @@
                 <!-- Page Content Wrapper Start -->
                 <div class="main-content-wrapper">
                     <div class="container-fluid">
-
-
-
                         <!-- Engagement Courses Start -->
                         <div class="engagement-courses">
 
@@ -23,6 +20,7 @@
                                     <li>All Orders</li>
                                     <li>Prices</li>
                                     <li>Status</li>
+                                    <li>Payment</li>
                                 </ul>
                             </div>
                             {% for o in Orders %}
@@ -39,6 +37,9 @@
                                         </div>
                                         <div class="student">
                                             <span>{{ o.status }}</span>
+                                        </div>
+                                        <div class="student">
+                                            <span>{{ o.etatPayment }}</span>
                                         </div>
                                         <div class="button">
                                             <a class="btn" href="{{ path('DeleviredOrder', { 'idcommande': o.idcommande}) }}">Delevred</a>

@@ -17,11 +17,23 @@ use App\Repository\SouscartsRepository;
 use App\Repository\CommandesRepository;
 use App\Repository\ProductsRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+
+
+
+
+
+use Stripe\Stripe;
+use Stripe\Charge;
+use Stripe\Customer;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+
 class OrdersController extends AbstractController
 {
     #[Route('/order-product/{ownerId}/{idcarts}/{totalPrice}', name: 'OrderProduct')]
     public function confirmOrder(Request $request, int $ownerId, int $idcarts, float $totalPrice, ProductsRepository $productsRepository): Response
     {
+   
+
         $user = $this->getDoctrine()->getRepository(Users::class)->find($ownerId);
         if (!$user) {
             return $this->redirectToRoute('error');
@@ -38,10 +50,7 @@ class OrdersController extends AbstractController
         $commande->setOwner($user); 
         $commande->setTotal($totalPrice);
         
-    
         
-
-    
         $form = $this->createForm(OrderFormType::class, $commande);
     
         $form->handleRequest($request);
@@ -56,6 +65,7 @@ class OrdersController extends AbstractController
     
         return $this->render('products/frontOffice/AddOrderProduct.html.twig', [
             'form' => $form->createView(),
+           
         ]);
 
 
@@ -70,6 +80,8 @@ class OrdersController extends AbstractController
     #[Route('/my-order', name: 'My_Order')]
     public function myOrder(CommandesRepository $rep):Response
     {
+
+
         $user = $this->getDoctrine()->getRepository(Users::class)->find(10);
         $commandes = $rep->findByOwner($user);
         
@@ -78,7 +90,11 @@ class OrdersController extends AbstractController
             return $this->redirectToRoute('showProducts');
         }
 
-        return $this->render("products/frontOffice/OrdersProducPage.html.twig", ["Commandes" => $commandes]);
+
+        return $this->render('products/frontOffice/OrdersProducPage.html.twig', [
+            'Commandes' => $commandes,
+        ]);
+       
     
     }
 
@@ -105,4 +121,57 @@ class OrdersController extends AbstractController
    
 
 
+    #[Route('/Pagepayment/{idCommande}/{total}', name: 'Pagepayment')]
+    public function PaymentPage(int $idCommande, int $total, CommandesRepository $commandesRepository): Response
+    {
+          
+        $paymentStatus = $commandesRepository->getPaymentStatus($idCommande);
+
+        if ($paymentStatus === 'paid') {
+            $this->addFlash('error', 'Your order is paid');
+            return $this->redirectToRoute('My_Order');
+        }
+
+      $stripePublicKey = 'pk_test_51P7QLhC1RShSNDAEkOW3R9LPx5xLobNDyMV6CT0Zy7LVEjdVBRuPp4GPcailbQrcZRdZgOnEwYMz8M333cbHh7lF00DtYnyLnQ';
+        return $this->render('products/frontOffice/frompayment.html.twig', [
+            'stripe_public_key' => $stripePublicKey,
+            'idCommande' => $idCommande,
+            'total' => $total,
+        ]);
+    }
+
+
+    private $stripeSecretKey = 'sk_test_51P7QLhC1RShSNDAEBwbiJQs9NhMRsKmaPAKkg6eaAEj7IRr5vgby41OTWM14OFOwhQg4eNpSrRbfiXPmxMdHm9yc00iS0MdqKR';
+    #[Route('/process-payment', name: 'process_payment')]
+    public function processPayment(Request $request, CommandesRepository $commandesRepository, EntityManagerInterface $entityManager): Response
+    {
+        Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
+        $token = $request->request->get('stripeToken');
+        $amount = $request->request->get('total'); 
+        $idCommande = $request->request->get('idCommande');
+
+
+        $commande = $commandesRepository->find($idCommande);
+        $commande->setEtatPayment('paid');
+        $entityManager->flush();
+        try {
+            $charge = \Stripe\Charge::create([
+                'amount' => $amount,
+                'currency' => 'eur',
+                'source' => $token,
+                'description' => 'Paiement sur mon site',
+                'receipt_email' => 'john.doe@example.com',
+            ]);
+            return $this->redirectToRoute('My_Order');
+        } catch (CardException $e) {
+            
+            $error = $e->getError()->message;
+            return $this->redirectToRoute('showProducts', ['error' => $error]);
+        } catch (\Exception $e) {
+          
+            return $this->redirectToRoute('showProducts');
+        }
+    }
+
+    
 }

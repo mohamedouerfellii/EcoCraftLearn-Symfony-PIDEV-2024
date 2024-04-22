@@ -1,7 +1,5 @@
 {% extends 'baseFront.html.twig' %}
 {% block body %}
-
-
         <!-- Page Banner Start -->
         <div class="section page-banner">
 
@@ -61,42 +59,39 @@
                 <div class="contact-wrapper">
                     <div class="row align-items-center">
                         <div class="col-lg-6">
-    <!-- Contact Map Wrapper Start -->
+               <!-- Contact Map Wrapper Start -->
                 <div class="contact-map-wrapper">
                     <iframe id="gmap_canvas" src="https://maps.google.com/maps?q=Mission%20District%2C%20San%20Francisco%2C%20CA%2C%20USA&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed"></iframe>
                 </div>
                 <!-- Contact Map Wrapper End -->
                         </div>
                         <div class="col-lg-6">
-
                             <!-- Contact Form Start -->
                             <div class="contact-form">
                                 <h3 class="title">Confirm Your <span>Order</span></h3>
 
                                 <div class="form-wrapper">
                                       {{form_start(form,{'attr':{'methode':'POST','novalidate': 'novalidate'}})}}
-                                         <!-- Single Form Start -->
+                                <!-- Single Form Start -->
                                     <div class="single-form">
                                         {{ form_widget(form.email, {'attr': {'placeholder': 'Enter your email', 'class': 'formbold-form-input', 'id': 'orderEmail'}}) }}
-                                        <span class="form-error">{{ form_errors(form.email, {'attr': {'class': 'form-error'}}) }}</span>
+                                        <span class="form-error" style="color: red;" >{{ form_errors(form.email, {'attr': {'class': 'form-error'}}) }}</span>
                                     </div>
                                     <!-- Single Form End -->
 
                                     <!-- Single Form Start -->
                                     <div class="single-form">
                                         {{ form_widget(form.city, {'attr': {'placeholder': 'Enter your city', 'class': 'formbold-form-input', 'id': 'orderCity'}}) }}
-                                        <span class="form-error">{{ form_errors(form.city, {'attr': {'class': 'form-error'}}) }}</span>
+                                        <span class="form-error" style="color: red;" >{{ form_errors(form.city, {'attr': {'class': 'form-error'}}) }}</span>
                                     </div>
                                     <!-- Single Form End -->
 
                                     <!-- Single Form Start -->
                                     <div class="single-form">
                                         {{ form_widget(form.phone, {'attr': {'placeholder': 'Enter your phone number', 'class': 'formbold-form-input', 'id': 'orderPhone'}}) }}
-                                        <span class="form-error">{{ form_errors(form.phone, {'attr': {'class': 'form-error'}}) }}</span>
+                                        <span class="form-error" style="color: red;" >{{ form_errors(form.phone, {'attr': {'class': 'form-error'}}) }}</span>
                                     </div>
                                     <!-- Single Form End -->
-
-                                  
                                         <p class="form-message"></p>
                                         <!-- Single Form Start -->
                                         <div class="single-form">

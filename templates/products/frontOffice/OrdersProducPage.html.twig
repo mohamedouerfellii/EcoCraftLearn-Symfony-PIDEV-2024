@@ -82,6 +82,20 @@
         <!-- Slider End -->
                 <!-- Engagement Courses End -->
                         <div class="engagement-courses table-responsive">
+
+                        
+                {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-danger" style="color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                        {{ message }}
+                    </div>
+                    <script>
+                        setTimeout(function() {
+                            document.querySelector('.alert').style.display = 'none';
+                        }, 3000); 
+                    </script>
+                {% endfor %}
+            {% endfor %}
                     {% block bodyOrders %}
                   <div class="courses-top" >
                  <ul>
@@ -99,11 +113,20 @@
                                             </div>
                                         </div>
                                         <div class="taught">
-                                            <span>Total : {{ commande.total }} DT</span> 
+                                            <span>Total : {{commande.total }}DT</span> 
                                         </div>
                                         <div class="student">
                                             <span>{{ commande.status }}</span> 
                                         </div>
+
+                                        <div class="student">
+                                            <span>{{ commande.etatPayment }}</span> 
+                                        </div>
+        
+                                <div style="width: 200px; height: 60px;">
+                                    <a href="{{ path('Pagepayment', {'idCommande': commande.idCommande, 'total': commande.total}) }}" class="btn btn-primary btn-hover-dark">Payer</a>
+                                </div>
+
                                     </li>
                                 </ul>
                             </div>

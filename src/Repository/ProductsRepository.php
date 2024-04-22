@@ -85,17 +85,13 @@ public function findUnconfirmedProducts(): array
 
 
             if ($product && $quantity > 0) {
-                $currentQuantity = $product->getQuantite(); // Récupérer la quantité actuelle du produit
+                $currentQuantity = $product->getQuantite();
                 $newQuantity = max(0, $currentQuantity - $quantity);
                 $product->setQuantite($newQuantity);
                 $entityManager->persist($product);
             }
 
         }
-    
-
- 
-     
         $entityManager->flush();
     }
 

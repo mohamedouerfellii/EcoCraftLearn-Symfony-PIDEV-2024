@@ -1,7 +1,18 @@
 {% extends 'baseFront.html.twig' %}
  {% block body %}
 
-
+{% for label, messages in app.flashes %}
+{% for message in messages %}
+    <div class="alert alert-danger" style="color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        {{ message }}
+    </div>
+    <script>
+        setTimeout(function() {
+            document.querySelector('.alert').style.display = 'none';
+        }, 3000); 
+    </script>
+{% endfor %}
+{% endfor %}
 
     <div class="main-wrapper">
         <!-- Overlay Start -->
@@ -20,9 +31,9 @@
                 <div class="page-banner-content">
                     <ul class="breadcrumb">
                         <li><a href="#">Home</a></li>
-                        <li class="active">Courses Details</li>
+                        <li class="active">Products Details</li>
                     </ul>
-                    <h2 class="title">Courses <span> Details</span></h2>
+                    <h2 class="title">Products <span> Details</span></h2>
                 </div>
                 <!-- Page Banner End -->
             </div>
@@ -76,12 +87,12 @@
                                         <a class="name" href="#">{{ product.owner.firstname }} {{ product.owner.lastname }} </a>
                                     </div>
                                 </div>
-                                <div class="admin-rating">
-                                    <span class="rating-count">4.9</span>
+                                     <div class="admin-rating">
+                               <span class="rating-count">{{ moyRate|round(1) }}</span>
                                     <span class="rating-star">
-											<span class="rating-bar" style="width: 80%;"></span>
+                                        <span class="rating-bar" style="width: {{ moyRate * 20 }}%;"></span>
                                     </span>
-                                    <span class="rating-text">(5,764 Rating)</span>
+                                    <span class="rating-text">({{ countrate }} Rating)</span>
                                 </div>
                             </div>
 

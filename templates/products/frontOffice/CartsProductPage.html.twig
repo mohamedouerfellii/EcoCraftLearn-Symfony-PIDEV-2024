@@ -82,6 +82,21 @@
         <!-- Slider End -->
                 <!-- Engagement Courses End -->
                         <div class="engagement-courses table-responsive">
+
+                        
+{% for label, messages in app.flashes %}
+{% for message in messages %}
+    <div class="alert alert-danger" style="color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        {{ message }}
+    </div>
+    <script>
+        setTimeout(function() {
+            document.querySelector('.alert').style.display = 'none';
+        }, 3000); 
+    </script>
+{% endfor %}
+{% endfor %}
+
                     {% block bodyCarts %}
                   <div class="courses-top" >
                  <ul>
@@ -107,7 +122,7 @@
             <li>
                 <div class="courses">
                     <div class="thumb">
-                        <img src="{{asset(souscart.product.image) }}" alt="{{ souscart.product.name }}">
+                        <img src="{{ asset('contents/uploads/products/' ~ souscart.product.image) }}" alt="{{ souscart.product.name }}">
                     </div>
                     <div class="content">
                         <h4 class="title"><a href="#">{{ souscart.product.name }}</a></h4>
@@ -125,12 +140,11 @@
             </li>
         </ul>
     </div>
-{% endfor %}
+    {% endfor %}
+    {% endblock %}
 
-{% endblock %}
-
-                        </div>
-                        <!-- Engagement Courses End -->
+    </div>
+    <!-- Engagement Courses End -->
    
     <br><br><br><br><br><br><br><br><br><br>
 

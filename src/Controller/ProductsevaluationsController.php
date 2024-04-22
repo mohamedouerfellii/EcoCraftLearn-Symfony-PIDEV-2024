@@ -25,28 +25,61 @@ class ProductsevaluationsController extends AbstractController
 
 
     #[Route('/addevaluationproduct/{idproduct}', name: 'addevaluationproduct')]
-    public function addevaluationproduct($idproduct, ManagerRegistry $doctrine, Request $request,ProductsevaluationsRepository $repository,): Response
+    public function addevaluationproduct($idproduct, ManagerRegistry $doctrine, Request $request, ProductsevaluationsRepository $repository): Response
     {  
-        $product = $this->getDoctrine()->getRepository(Products::class)->find($idproduct);
+        $em = $doctrine->getManager();
+        $product = $em->getRepository(Products::class)->find($request->get('idproduct'));
+    
         $user = $this->getDoctrine()->getRepository(Users::class)->find(10);
+    
+       
+
+    
+
+ 
+        $countrate = $repository->countRatingsByProductId($idproduct);
+        $sumrate = $repository->sumRatingByProductId($idproduct);
+        $moyRate = $countrate > 0 ? $sumrate / $countrate : 0;
+
+
+        $product = $this->getDoctrine()->getRepository(Products::class)->find($idproduct);
+    
         $evaluation = new Productsevaluations();
         $evaluation->setProduct($product); 
         $evaluation->setEvaluator($user); 
         $form = $this->createForm(ProductsevaluationsFormType::class, $evaluation);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($evaluation);
-            $entityManager->flush();   
-        }
+                if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager = $this->getDoctrine()->getManager();
+
+          
+                $evaluator = $repository->checkIfUserIsEvaluatorForProduct($user, $product);
+
+       
+                if ($evaluator) {
+                    $this->addFlash('error', 'User is already an evaluator');
+                    return $this->redirectToRoute('addevaluationproduct', ['idproduct' => $product->getIdproduct()]);
+                }
+
+            
+                $entityManager->persist($evaluation);
+                $entityManager->flush();
+            }
+
+        
         $evaluations = $repository->findByProduct($product);
+        
         return $this->render('products/frontOffice/DetailProductHomePage.html.twig', [
             'form' => $form->createView(),
             'product' => $product,
             'evaluations' => $evaluations,
-        ]);
+            'countrate' => $countrate,
+            'moyRate' => $moyRate,
+        ]);   
     }
+    
 
+    
 
     #[Route('/showEvaluationsDashboard', name: 'showEvaluationsDashboard')]
     public function showAllEvaluationsDashboard(ProductsevaluationsRepository $rep,ManagerRegistry $doctrine,): Response

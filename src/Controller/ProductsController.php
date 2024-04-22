@@ -8,10 +8,10 @@ use App\Form\FormProductType;
 use App\Repository\ProductsRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use App\Repository\ProductsevaluationsRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use App\Entity\Productsevaluations;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -19,6 +19,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Repository\SouscartsRepository;
 use App\Repository\CommandesRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
+
 class ProductsController extends AbstractController
 {
     #[Route('/products', name: 'app_products')]
@@ -41,7 +42,7 @@ class ProductsController extends AbstractController
     #[Route('/MyProduct', name: 'MyProduct')]
     public function showMyProduct(ProductsRepository $rep): Response
     {
-        $user = $this->getDoctrine()->getRepository(Users::class)->find(10);
+        $user = $this->getDoctrine()->getRepository(Users::class)->find(8);
     
         $products = $rep->findConfirmedProductsByOwner($user);
     
@@ -59,7 +60,6 @@ class ProductsController extends AbstractController
 
         $souscartCount = $souscartsRepository->countByOwner($user);
         $orderCount = $commandesRepository->countByOwner($user);
-
         $products = $rep->findProductsExceptOwner($user);
 
         return $this->render("products/frontOffice/homePageProduct.html.twig", [
@@ -121,27 +121,32 @@ class ProductsController extends AbstractController
         $products = $doctrine->getManager()->getRepository(Products::class)->findAll();
         return $this->render('products/frontOffice/AddNewProductForm.html.twig', [
             'form' => $form->createView(),
-            'products' => $products, 
+            'products' => $products,
+
         ]);
 
-     
-
-
     }
-        #[Route('/showProductsDetail/{idproduct}', name: 'showProductsDetail')]
-        public function showProductsDetail($idproduct): Response
-        {
-            $product = $this->getDoctrine()->getRepository(Products::class)->findOneBy(['idproduct' => $idproduct]);
-    
-            if (!$product) {
-                throw $this->createNotFoundException('product not found');
-            }
-            return $this->render('products/frontOffice/DetailProductPage.html.twig', [
-                'product' => $product,
-            ]);
+    #[Route('/showProductsDetail/{idproduct}', name: 'showProductsDetail')]
+    public function showProductsDetail($idproduct, ProductsevaluationsRepository $productsevaluationsRepository): Response
+    {
+       
+        $product = $this->getDoctrine()->getRepository(Products::class)->findOneBy(['idproduct' => $idproduct]);
+        if (!$product) {
+            throw $this->createNotFoundException('Product not found');
         }
 
-
+        $countrate = $productsevaluationsRepository->countRatingsByProductId($idproduct);
+        $sumrate = $productsevaluationsRepository->sumRatingByProductId($idproduct);
+        $moyRate = $countrate > 0 ? $sumrate / $countrate : 0;
+    
+     
+        return $this->render('products/frontOffice/DetailProductPage.html.twig', [
+            'product' => $product,
+            'countrate' => $countrate,
+            'moyRate' => $moyRate,
+        ]);
+    }
+    
 
 
         #[Route('/deleteProduct/{idproduct}', name: "deleteProduct")]
@@ -204,6 +209,7 @@ class ProductsController extends AbstractController
             return $this->render("products/backOffice/ProductDashboardAdmin.html.twig", ["Products" => $products]);
 	    }
 
+        
 
         #[Route('/AcceptedProduct/{idproduct}', name: 'AcceptedProduct')]
         public function confirmProduct(ProductsRepository $productsRepository, int $idproduct): Response

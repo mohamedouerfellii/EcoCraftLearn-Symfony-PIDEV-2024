@@ -15,27 +15,28 @@
         <div>
           <div class="single-form">
               {{ form_widget(form.name, {'attr': {'placeholder': 'Add a name', 'class': 'formbold-form-input'}}) }}
-              <span class="form-error">{{ form_errors(form.name, {'attr': {'class': 'form-error'}}) }}</span>
+             <span class="form-error" style="color: red;">{{ form_errors(form.name, {'attr': {'class': 'form-error' }}) }}</span>
+
           </div>    
         </div>
 
              <div>
           <div class="single-form">          
-              {{ form_widget(form.description, {'attr': {'placeholder': 'Add a little description', 'class': 'formbold-form-input','rows': '6'}}) }}
-              <span class="form-error">{{ form_errors(form.description)}}</span>
+              {{ form_widget(form.description, {'attr': {'placeholder': 'Set a  description', 'class': 'formbold-form-input','rows': '6'}}) }}
+              <span class="form-error" style="color: red;">{{ form_errors(form.description)}}</span>
           </div>
         </div>
         <div>
           <div class="single-form">
               {{ form_widget(form.price, {'attr': {'placeholder': 'Set a price to your product', 'class': 'formbold-form-input' }}) }}
-              <span class="form-error">{{ form_errors(form.price)}}</span>
+              <span class="form-error" style="color: red;">{{ form_errors(form.price)}}</span>
           </div>
         </div>
        
         <div>
           <div class="single-form">
               {{ form_widget(form.quantite, {'attr': {'placeholder': 'Set a quantity to your product', 'class': 'formbold-form-input' }}) }}
-              <span class="form-error">{{ form_errors(form.quantite)}}</span>
+              <span class="form-error" style="color: red;" >{{ form_errors(form.quantite)}}</span>
           </div>
         </div>
     
@@ -55,7 +56,7 @@
               {{ form_widget(form.image, {'attr': {'id': 'upload', 'style': 'display: none;'}}) }}
           </label>
         </div>
-        <span class="form-error">{{ form_errors(form.image) }}</span>
+        <span class="form-error" style="color: red;" >{{ form_errors(form.image) }}</span>
         <br>
         <div class="tab-btn">
             <button type="submit" class="btn btn-primary btn-hover-dark">Add Product</button>

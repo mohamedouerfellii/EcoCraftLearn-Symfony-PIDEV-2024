@@ -30,4 +30,15 @@ class CommandesRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    public function getPaymentStatus(int $idCommande): string
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c.etatPayment')
+            ->andWhere('c.idcommande = :idcommande')
+            ->setParameter('idcommande', $idCommande)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    
 }

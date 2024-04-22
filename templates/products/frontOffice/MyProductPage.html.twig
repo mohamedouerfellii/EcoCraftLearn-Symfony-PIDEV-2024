@@ -153,6 +153,19 @@
 
           
             <div class="container">
+
+                            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-danger" style="color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                        {{ message }}
+                    </div>
+                    <script>
+                        setTimeout(function() {
+                            document.querySelector('.alert').style.display = 'none';
+                        }, 3000); 
+                    </script>
+                {% endfor %}
+            {% endfor %}
        {% block bodyProduct %}
                 <!-- Courses Category Wrapper Start  -->
                 <div class="courses-category-wrapper">
@@ -179,7 +192,7 @@
                           
                             <div class="single-courses">
                                 <div class="courses-images">
-                                    <a href="{{ path('showProductsDetail', { 'idproduct': p.idproduct }) }}"><img src="{{ asset('contents/uploads/products/' ~ p.image) }}" alt="Courses"></a>
+                                    <a href="{{ path('showProductsDetail', { 'idproduct': p.idproduct }) }}"><img src="{{ asset('contents/uploads/products/' ~ p.image) }}" alt="Courses" style="width:330px;height:300px;"></a>
                                 </div>
                                 <div class="courses-content">
                                     <div class="courses-author">

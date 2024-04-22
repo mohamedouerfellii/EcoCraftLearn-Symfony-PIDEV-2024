@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-md-6 offset-md-3"> 
                 {% set inputStyle = form_errors(form) ? 'color: red;' : '' %}
-                {{ form_row(form.quantiteproduct, {'attr': {'class': 'form-control text-center', 'placeholder': 'Enter quantity', 'style': inputStyle}}) }}
+                {{ form_row(form.quantiteproduct, {'attr': {'class': 'form-control text-center', 'placeholder': 'Choose quantity', 'style': inputStyle}}) }}
                 {% if form_errors(form) %}
                     <ul class="form-error">
                         {% for error in form_errors(form) %}

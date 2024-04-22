@@ -95,6 +95,8 @@ class Carts
     {
         return $this->isconfirmed;
     }
+
+
     public function updateTotalPrice(): void
     {
         $totalPrice = 0;
@@ -102,7 +104,6 @@ class Carts
         foreach ($this->getSousCarts() as $sousCart) {
             $totalPrice += $sousCart->getProduct()->getPrice() * $sousCart->getQuantiteproduct();
         }
-    
         $this->totalprice = $totalPrice;
     }
     

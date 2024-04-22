@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Sbyaute\StarRatingBundle\Form\StarRatingType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ProductsevaluationsFormType extends AbstractType
 {
@@ -18,7 +19,7 @@ class ProductsevaluationsFormType extends AbstractType
             'label' => 'Rating',
             'stars' => 5, 
             ])
-            ->add('commentaire')
+            ->add('commentaire', TextareaType::class)
         ;
     }
     public function configureOptions(OptionsResolver $resolver): void

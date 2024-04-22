@@ -3,6 +3,8 @@
 
 
 
+
+
        <div class="main-wrapper">
         <!-- Mobile Menu Start -->
         <div class="mobile-menu">
@@ -152,8 +154,24 @@
 
         <!-- Courses Start -->
         <div class="section section-padding mt-n10">
+    {% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-danger" style="color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+            {{ message }}
+        </div>
+        <script>
+            setTimeout(function() {
+                document.querySelector('.alert').style.display = 'none';
+            }, 3000); 
+        </script>
+    {% endfor %}
+{% endfor %}
 
            {% block bodyDetail %}
+
+
+
+
 
             <div class="container">
                 <div class="row gx-10">
@@ -178,12 +196,12 @@
                                         <a class="name" href="#">{{ product.owner.firstname }} {{ product.owner.lastname }} </a>
                                     </div>
                                 </div>
-                                <div class="admin-rating">
-                                    <span class="rating-count">4.9</span>
+                                       <div class="admin-rating">
+                               <span class="rating-count">{{ moyRate|round(1) }}</span>
                                     <span class="rating-star">
-											<span class="rating-bar" style="width: 80%;"></span>
+                                        <span class="rating-bar" style="width: {{ moyRate * 20 }}%;"></span>
                                     </span>
-                                    <span class="rating-text">(5,764 Rating)</span>
+                                    <span class="rating-text">({{ countrate }} Rating)</span>
                                 </div>
                             </div>
 

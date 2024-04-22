@@ -117,15 +117,16 @@ if ($quantite === 0) {
         }
         
         $cart = $souscart->getCart();
+
+
         $entityManager->remove($souscart);
-        
-       
-        $cart->updateTotalPrice();
-        
+       // $cart->updateTotalPrice();
         $entityManager->flush();
+      
         
         return $this->redirectToRoute('my_cart');   
     }
+    
     
     #[Route('/DeleteCart/{idcarts}', name: "DeleteCart")]
     public function deletecarts(int $idcarts): Response

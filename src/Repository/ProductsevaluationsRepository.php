@@ -31,8 +31,6 @@ class ProductsevaluationsRepository extends ServiceEntityRepository
     }
 
 
-
-
     public function findByProductCalculateAverageRateAndTotalCount(Product $product): ?array
     {
         $idproduct = $product->getIdproduct();
@@ -43,9 +41,7 @@ class ProductsevaluationsRepository extends ServiceEntityRepository
             FROM App\Entity\Productsevaluations pe
             WHERE pe.product = :idproduct'
         )->setParameter('idproduct', $idproduct);
-
         $result = $query->getOneOrNullResult();
-
         if (!$result) {
             return null;
         }
@@ -54,6 +50,44 @@ class ProductsevaluationsRepository extends ServiceEntityRepository
             'totalCount' => $result['totalCount']
         ];
     }
+
+
+    public function sumRatingByProductId($idproduct)
+    {
+        return $this->createQueryBuilder('pe')
+            ->select('SUM(pe.rate)')
+            ->andWhere('pe.product = :product')
+            ->setParameter('product', $idproduct)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function countRatingsByProductId($idproduct)
+    {
+        return $this->createQueryBuilder('pe')
+            ->select('COUNT(pe.product)')
+            ->andWhere('pe.product = :product')
+            ->setParameter('product', $idproduct)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function checkIfUserIsEvaluatorForProduct($user, $product)
+    {
+        $qb = $this->createQueryBuilder('pe');
+        $qb->select('COUNT(pe.idevaluation)')
+            ->where('pe.evaluator = :user')
+            ->andWhere('pe.product = :product')
+            ->setParameter('user', $user)
+            ->setParameter('product', $product);
+            
+        $count = $qb->getQuery()->getSingleScalarResult();
+    
+        return $count > 0;
+    }
+    
+
+    
 
 
 }

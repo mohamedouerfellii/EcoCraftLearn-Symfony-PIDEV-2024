@@ -57,6 +57,10 @@ class Commandes
     #[ORM\Column]
     private ?float $total=null;
 
+    #[ORM\Column(length: 255, options: ["default" => "unpaid"])]
+    private ?string $etatPayment = "unpaid";
+    
+
     public function getOwner(): ?Users
     {
         return $this->owner;
@@ -186,7 +190,17 @@ class Commandes
         return $this;
     }
 
+    public function getEtatPayment(): ?string
+    {
+        return $this->etatPayment;
+    }
 
+    public function setEtatPayment(string $etatPayment): static
+    {
+        $this->etatPayment = $etatPayment;
 
-
+        return $this;
+    }
+    
+    
 }
