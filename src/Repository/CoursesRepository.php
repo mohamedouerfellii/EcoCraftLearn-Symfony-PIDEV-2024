@@ -20,6 +20,7 @@ class CoursesRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Courses::class);
     }
+
     public function coursePagination(?int $idUser){
         $em = $this->getEntityManager();
         $query = $em->createQuery('
@@ -51,6 +52,27 @@ class CoursesRepository extends ServiceEntityRepository
         ->setParameter('idUser', $idUser)
         ->setMaxResults(6);
         return $query->getResult();
+    }
+
+    public function filterCoursesBack($idTutor,$filter){
+        $queryBuilder = $this->createQueryBuilder('c')
+        ->where('c.tutor = :idTutor')
+        ->setParameter('idTutor', $idTutor);
+        switch ($filter) {
+            case 'Newest':
+                $queryBuilder->orderBy('c.posteddate', 'DESC');
+                break;
+            case 'Oldest':
+                $queryBuilder->orderBy('c.posteddate', 'ASC');
+                break;
+            case 'Most Registered':
+                $queryBuilder->orderBy('c.nbrregistred', 'DESC');
+                break;
+            case 'Most Rated':
+                $queryBuilder->orderBy('c.rate', 'DESC');
+                break;
+        }
+        return $queryBuilder->getQuery()->getResult();    
     }
 //    /**
 //     * @return Courses[] Returns an array of Courses objects

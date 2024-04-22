@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\AddCourseFormType;
 use App\Form\EditCourseFormType;
+use App\Repository\CoursesRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
@@ -149,5 +150,15 @@ class CoursesController extends AbstractController
         return $this->render('courses/backOffice/courseDetails.html.twig', [
             'course' => $course
         ]);
+    }
+    // filter course back
+    #[Route('/filterCourseBack', name: 'filter_course_back')]
+    public function filterCourseBack(CoursesRepository $coursesRep,Request $request): Response
+    {
+        $filter = $request->get('filter');
+        $idTutor = 8;
+        $courses = $coursesRep->filterCoursesBack($idTutor, $filter);
+        $dataToJson = json_encode($courses);
+        return new Response($dataToJson);
     }
 }

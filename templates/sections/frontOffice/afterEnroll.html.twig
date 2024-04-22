@@ -166,7 +166,7 @@
                         <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#videoPlaylist">
                             <nav class="vids">
                             {% for index, section in sections %}
-                                <a href="{{ path('show_section', {'idCourse' : course.idcourse, 'sectionIndex' : index})}}">
+                                <a href="{{ path('after_enroll', {'idCourse' : course.idcourse, 'sectionIndex' : index})}}">
                                     <p>{{ section.title }}</p>
                                 </a>
                             {% endfor %}
