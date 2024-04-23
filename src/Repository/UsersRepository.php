@@ -21,6 +21,16 @@ class UsersRepository extends ServiceEntityRepository
         parent::__construct($registry, Users::class);
     }
 
+    public function doesPasswordMatch(int $idUser, string $password)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.iduser = :idUser')
+            ->andWhere('u.password = :password')
+            ->setParameters(['idUser' => $idUser, 'password' => $password])
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 //    /**
 //     * @return Users[] Returns an array of Users objects
 //     */

@@ -76,7 +76,41 @@
                                         </div>
                                         <!-- Tab Description End -->
 
-                                    </div>                              
+                                    </div>    
+                                    <!-- Reviews Form Modal Start -->
+                                    <div class="modal fade" id="reviewsModal">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Please enter your password</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <!-- Reviews Form Start -->
+                                                <div class="modal-body reviews-form">
+                                                    <form action="{{ path('delete_course', {'idCourse' : course.idcourse})}}" method="post">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <!-- Single Form Start -->
+                                                                <div class="single-form">
+                                                                    <input type="password" name="password" placeholder="Password here">
+                                                                </div>
+                                                                <!-- Single Form End -->
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <!-- Single Form Start -->
+                                                                <div class="single-form">
+                                                                    <button class="btn btn-primary btn-hover-dark">Confirm</button>
+                                                                </div>
+                                                                <!-- Single Form End -->
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <!-- Reviews Form End -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Reviews Form Modal End -->                          
                                     <div class="tab-pane fade" id="reviews">
 
                                         <!-- Tab Reviews Start -->
@@ -149,70 +183,6 @@
                                                     <div class="swiper-pagination"></div>
                                                 </div>
                                             </div>
-                                            <!-- Reviews Form Modal Start -->
-                                            <div class="modal fade" id="reviewsModal">
-                                                <div class="modal-dialog modal-dialog-centered">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Add a Review</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-
-                                                        <!-- Reviews Form Start -->
-                                                        <div class="modal-body reviews-form">
-                                                            <form action="#">
-                                                                <div class="row">
-                                                                    <div class="col-md-6">
-                                                                        <!-- Single Form Start -->
-                                                                        <div class="single-form">
-                                                                            <input type="text" placeholder="Enter your name">
-                                                                        </div>
-                                                                        <!-- Single Form End -->
-                                                                    </div>
-                                                                    <div class="col-md-6">
-                                                                        <!-- Single Form Start -->
-                                                                        <div class="single-form">
-                                                                            <input type="text" placeholder="Enter your Email">
-                                                                        </div>
-                                                                        <!-- Single Form End -->
-                                                                    </div>
-                                                                    <div class="col-md-12">
-                                                                        <!-- Single Form Start -->
-                                                                        <div class="reviews-rating">
-                                                                            <label>Rating</label>
-                                                                            <ul id="rating" class="rating">
-                                                                                <li class="star" title='Poor' data-value='1'><i class="icofont-star"></i></li>
-                                                                                <li class="star" title='Poor' data-value='2'><i class="icofont-star"></i></li>
-                                                                                <li class="star" title='Poor' data-value='3'><i class="icofont-star"></i></li>
-                                                                                <li class="star" title='Poor' data-value='4'><i class="icofont-star"></i></li>
-                                                                                <li class="star" title='Poor' data-value='5'><i class="icofont-star"></i></li>
-                                                                            </ul>
-                                                                        </div>
-                                                                        <!-- Single Form End -->
-                                                                    </div>
-                                                                    <div class="col-md-12">
-                                                                        <!-- Single Form Start -->
-                                                                        <div class="single-form">
-                                                                            <textarea placeholder="Write your comments here"></textarea>
-                                                                        </div>
-                                                                        <!-- Single Form End -->
-                                                                    </div>
-                                                                    <div class="col-md-12">
-                                                                        <!-- Single Form Start -->
-                                                                        <div class="single-form">
-                                                                            <button class="btn btn-primary btn-hover-dark">Submit Review</button>
-                                                                        </div>
-                                                                        <!-- Single Form End -->
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                        <!-- Reviews Form End -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Reviews Form Modal End -->
-
                                         </div>
                                         <!-- Tab Reviews End -->
 
@@ -248,7 +218,7 @@
                             </div>
                             <div class="info-btn">
                                 <a class="btn btn-warning" href="{{ path('edit_course', {'idCourse' : course.idcourse})}}">Edit</i></a>
-                                <a class="btn btn-danger" href="{{ path('delete_course', {'idCourse' : course.idcourse})}}">Delete</a>
+                                <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reviewsModal">Delete</a>
                             </div>
                         </div>
                         <!-- Sidebar Widget Information End -->

@@ -13,11 +13,14 @@ use App\Form\EditCourseFormType;
 use App\Repository\CoursesRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
+use InfoBip;
 use Knp\Component\Pager\PaginatorInterface;
+use LocationInfoService;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Notifier\TexterInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class CoursesController extends AbstractController
@@ -108,11 +111,34 @@ class CoursesController extends AbstractController
         'editForm' => $form->createView()
     ]);
     }
-    #[Route('/deleteCourse{idCourse}', name: 'delete_course')]
-    public function deleteCourse(ManagerRegistry $doctrine,Request $request,Filesystem $filesystem){
+    #[Route('/deleteCourse/{idCourse}', name: 'delete_course')]
+    public function deleteCourse(ManagerRegistry $doctrine,Request $request,Filesystem $filesystem, TexterInterface $texter, SessionInterface $session){
         $em = $doctrine->getManager();
-        $course = $em->getRepository(Courses::class)->find($request->get('idCourse'));
+        $idCourse = $request->get('idCourse');
+        $course = $em->getRepository(Courses::class)->find($idCourse);
         $courseImage = $course->getImage();
+        $password = $request->request->get('password');
+        $idUser = $course->getTutor()->getIduser();
+        $nbrTry = $nbrTry = $session->get('nbrTry', 0);
+        $isPwdCorrect = $em->getRepository(Users::class)->doesPasswordMatch($idUser,$password);
+        if($isPwdCorrect == null){
+            $nbrTry = $nbrTry + 1;
+            $session->set('nbrTry', $nbrTry);
+            if($nbrTry >= 5){
+                $locationInfo = LocationInfoService::getLocationInfo();
+                $message = "Unauthorized Access Attempt,\nWe have detected an attempt to access your account :\nLocation : "
+                .$locationInfo['regionName'].", ".$locationInfo['city'].
+                ", ".$locationInfo['country'].
+                ".\nPlease verify your account and change your password if necessary.";
+                $infobip = new InfoBip($texter);
+                $infobip->sendAlertSMS('21696726127',$message);
+                return $this->redirectToRoute('tutor_course_dashboard');
+            }
+            return $this->redirectToRoute('tutor_course_details',[
+                'idCourse' => $idCourse
+            ]);
+        }
+        $session->set('nbrTry', 0);
         $em->remove($course);
         $em->flush();
         if ($courseImage) {
