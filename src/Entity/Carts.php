@@ -20,7 +20,7 @@ class Carts
     private ?bool $isconfirmed = false;
 
     #[ORM\ManyToOne(targetEntity: "Users")]
-    #[ORM\JoinColumn(name: "owner", referencedColumnName: "idUser", onDelete: "CASCADE")]
+    #[ORM\JoinColumn(name: "owner", referencedColumnName: "iduser", onDelete: "CASCADE")]
     private ?Users $owner;
 
     public function getIdcarts(): ?int

@@ -44,7 +44,11 @@
 </head>
 
 <body>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            notifytutor(8,false);
+        });
+    </script>
     <div class="main-wrapper main-wrapper-02">
         <!-- Login Header Start -->
         <div class="section login-header">
@@ -74,60 +78,13 @@
                     <div class="dropdown">
                         <button class="action notification" data-bs-toggle="dropdown">
                             <i class="flaticon-notification"></i>
-                            <span class="active"></span>
+                            <span id="notifAlert"></span>
                         </button>
                         <div class="dropdown-menu dropdown-notification">
-                            <ul class="notification-items-list">
-                                <li class="notification-item">
-                                    <span class="notify-icon bg-success text-white"><i class="icofont-ui-user"></i></span>
-                                    <div class="dropdown-body">
-                                        <a href="#">
-                                            <p><strong>Martin</strong> has added a <strong>customer</strong> Successfully
-                                            </p>
-                                        </a>
-                                    </div>
-                                    <span class="notify-time">3:20 am</span>
-                                </li>
-                                <li class="notification-item">
-                                    <span class="notify-icon bg-success text-white"><i class="icofont-shopping-cart"></i></span>
-                                    <div class="dropdown-body">
-                                        <a href="#">
-                                            <p><strong>Jennifer</strong> purchased Light Dashboard 2.0.</p>
-                                        </a>
-                                    </div>
-                                    <span class="notify-time">3:20 am</span>
-                                </li>
-                                <li class="notification-item">
-                                    <span class="notify-icon bg-danger text-white"><i class="icofont-book-mark"></i></span>
-                                    <div class="dropdown-body">
-                                        <a href="#">
-                                            <p><strong>Robin</strong> marked a <strong>ticket</strong> as unsolved.
-                                            </p>
-                                        </a>
-                                    </div>
-                                    <span class="notify-time">3:20 am</span>
-                                </li>
-                                <li class="notification-item">
-                                    <span class="notify-icon bg-success text-white"><i class="icofont-heart-alt"></i></span>
-                                    <div class="dropdown-body">
-                                        <a href="#">
-                                            <p><strong>David</strong> purchased Light Dashboard 1.0.</p>
-                                        </a>
-                                    </div>
-                                    <span class="notify-time">3:20 am</span>
-                                </li>
-                                <li class="notification-item">
-                                    <span class="notify-icon bg-success text-white"><i class="icofont-image"></i></span>
-                                    <div class="dropdown-body">
-                                        <a href="#">
-                                            <p><strong> James.</strong> has added a<strong>customer</strong> Successfully
-                                            </p>
-                                        </a>
-                                    </div>
-                                    <span class="notify-time">3:20 am</span>
-                                </li>
+                            <ul id="notifList" class="notification-items-list">
+                                
                             </ul>
-                            <a class="all-notification" href="#">See all notifications <i class="icofont-simple-right"></i></a>
+                            <a class="all-notification" href="{{ path('read_notification_course',{'idTutor': 8})}}">See all notifications</a>
                         </div>
                     </div>
                     {% endblock %}
@@ -176,6 +133,15 @@
             </div>
         </div>
         </div>
+        <!-- mercure notification -->
+        <script>
+                let notifDesc = document.getElementById("notifDesc");
+                const eventSource = new EventSource("{{ mercure('https://ecocraftlearning/enroll/8')|escape('js') }}");
+                eventSource.onmessage = event => {
+                    notifData = JSON.parse(event.data);
+                    notifytutor(notifData['idTutor'],true);
+                }
+        </script>
         {% block footer %}
         <!-- Footer Start  -->
         <div class="section footer-section">
@@ -226,6 +192,7 @@
     <script src="{{asset('assets/js/plugins.min.js')}}"></script>
     <!-- Main JS -->
     <script src="{{asset('assets/js/main.js')}}"></script>
+    <script src="{{asset('assets/js/notificationCourse.js')}}"></script>
     {% endblock %}
 </body>
 

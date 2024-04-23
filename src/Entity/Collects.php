@@ -25,11 +25,11 @@ class Collects
     private ?DateTime $collectsdate = null;
 
     #[ORM\ManyToOne(targetEntity: "Users")]
-    #[ORM\JoinColumn(name: "collector", referencedColumnName: "idUser", onDelete: "CASCADE")]
+    #[ORM\JoinColumn(name: "collector", referencedColumnName: "iduser", onDelete: "CASCADE")]
     private ?Users $collector;
 
     #[ORM\ManyToOne(targetEntity: "Collectspts")]
-    #[ORM\JoinColumn(name: "collectsPts", referencedColumnName: "idCollectsPts", onDelete: "CASCADE")]
+    #[ORM\JoinColumn(name: "collectsPts", referencedColumnName: "idcollectspts", onDelete: "CASCADE")]
     private ?Collectspts $collectspts;
 
     public function getIdcollect(): ?int
