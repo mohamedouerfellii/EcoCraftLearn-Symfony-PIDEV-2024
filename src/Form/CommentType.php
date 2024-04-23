@@ -15,7 +15,8 @@ class CommentType extends AbstractType
     {
         $builder
             ->add('content', TextareaType::class, [
-                'label' => false, 'attr' => [
+                'label' => false,
+                 'attr' => [
                     'placeholder' => 'Write your comment here...',
                     'class' => 'form-control'  // Ensure it uses Bootstrap's form-control class or similar
                 ]

@@ -35,7 +35,7 @@
     <!--====== Use the minified version files listed below for better performance and remove the files listed above ======-->
     <link rel="stylesheet" href="{{asset('assets/css/vendor/plugins.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/style.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/css/forum.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/forum.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/comments.min.css')}}">
     {% endblock %}
 </head>
@@ -232,25 +232,40 @@
                                     <div class="flex-container-divider-bar"></div>
                                     <div class="flex-container-divider-bar"></div>
                                 </div>
-                                <a class="post-reaction" href="{{ path('update', {id:post.idpost}) }}" ><img class="post-reaction-img" src="{{ asset('images/heart-line.png') }}"/></a>
-                               
+  <a class="post-reaction like-button" href="" data-post-id="{{ post.idpost }}">
+                <img class="post-reaction-img" src="{{ asset('images/heart-line.png') }}" alt="Like"/>
+            </a>                             
                                     <a class="post-reaction">
-                                         <img class="post-reaction-img" src="{{ asset('images/chat-1-line.png') }}"/>
+                                         <img class="post-comment-img" src="{{ asset('images/chat-1-line.png') }}"/>
                                     </a>      
                                 <a class="post-reaction" href="{{ path('update', {id:post.idpost}) }}" ><img class="post-reaction-img" src="{{ asset('images/share-forward-line.png') }}"/></a>
                              
                             </div>  
                             
                             <div id="comments-{{ post.idpost }}" class="comments-container">
-                             {{ form_start(commentForms[post.idpost]) }}
+                             {{ form_start(commentForms[post.idpost],{'attr': { 'novalidate': 'novalidate'}}) }}
             {{ form_widget(commentForms[post.idpost]) }}
-            
+           
             {{ form_end(commentForms[post.idpost]) }}
         {% for comment in post.comments %}
+        
             <div class="comment">
                 <strong>{{ comment.owner.firstname }}:</strong>
                 <p>{{ comment.content }}</p>
+               <div class="comment-header">
+     
+                                <div class="post-header-right">
+                                    <a class="post-action" href="{{ path('update_comment', {id:comment.idcomment}) }}" >
+                                        <img src="{{ asset('images/pencil-fill.png') }}"width="20px;" height="20px;"/>
+                                    </a>   
+                                    <a class="post-action" href="{{ path('update_comment', {id:comment.idcomment}) }}" >
+                                        <img src="{{ asset('images/close-circle-fill.png') }}"width="20px;" height="20px;"/>
+                                    </a>
+                                </div>
+                            </div>
+
             </div>
+            
         {% else %}
             <p align="center">No comments yet.</p>
         {% endfor %}
@@ -269,10 +284,35 @@
                 {% endfor %}
               
             </div>  
-           
+           <script>
+    // Attach event listeners to like buttons
+    document.querySelectorAll('.like-button').forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            toggleLike(button);
+        });
+    });
+
+    // Function to toggle like status
+    function toggleLike(button) {
+        var likeIcon = button.querySelector('img');
+        var postId = button.dataset.postId;
+
+        // Toggle the like icon
+        if (likeIcon.src.includes('heart-line.png')) {
+            likeIcon.src = '{{ asset('images/heart-green.png') }}';
+            // Simulate sending a request to like the post
+            console.log('Liked post with ID: ' + postId);
+        } else {
+            likeIcon.src = '{{ asset('images/heart-line.png') }}';
+            // Simulate sending a request to unlike the post
+            console.log('Unliked post with ID: ' + postId);
+        }
+    }
+</script>
           <script>
           document.addEventListener('DOMContentLoaded', function () {
-    var icons = document.querySelectorAll('.post-reaction-img');
+    var icons = document.querySelectorAll('.post-comment-img');
     icons.forEach(function(icon) {
         icon.addEventListener('click', function() {
             var commentForm = this.closest('.post-container').querySelector('.comments-container form');

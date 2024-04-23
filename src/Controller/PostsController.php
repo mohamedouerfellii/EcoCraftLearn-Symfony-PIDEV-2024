@@ -95,11 +95,22 @@ class PostsController extends AbstractController
             return $this->redirectToRoute('forum_page');
            
         }
+        $posts = $doctrine->getManager()->getRepository(Posts::class)->findAll();
+        $commentForms = [];
+    foreach ($posts as $post) {
+        $comment = new Comments();
+        $commentForm = $this->createForm(CommentType::class, $comment, [
+            'action' => $this->generateUrl('add_comment', ['id_post' => $post->getIdpost()]),
+            'method' => 'POST',
+        ]);
+        $commentForms[$post->getIdpost()] = $commentForm->createView();
+    }
         
-        $posts = $doctrine->getManager()->getRepository(Posts::class)->findAll(); // Fetch posts again
+         // Fetch posts again
         return $this->render('posts/frontOffice/forumPage.html.twig', [
             'posts' => $posts,
-            'form' => $form->createView() // Pass the form variable to the template
+            'form' => $form->createView(),
+            'commentForms'=>$commentForms // Pass the form variable to the template
         ]);
        
     }   

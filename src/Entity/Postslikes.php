@@ -13,23 +13,22 @@ class Postslikes
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $idlike=null;
+    private ?int $idLike = null;
 
     #[ORM\Column]
     private ?int $action = 0;
 
     #[ORM\ManyToOne(targetEntity: Users::class)]
     #[ORM\JoinColumn(name: "idUser", referencedColumnName: "idUser", onDelete: "CASCADE")]
-    
-    private ?Users $idUser=null;
+    private ?Users $user = null;
 
-    #[ORM\ManyToOne(targetEntity: Users::class)]
+    #[ORM\ManyToOne(targetEntity: Posts::class)]
     #[ORM\JoinColumn(name: "idPost", referencedColumnName: "idPost", onDelete: "CASCADE")]
-    private ?Posts $post=null;
+    private ?Posts $post = null;
 
-    public function getIdlike(): ?int
+    public function getIdLike(): ?int
     {
-        return $this->idlike;
+        return $this->idLike;
     }
 
     public function getAction(): ?int
@@ -37,34 +36,31 @@ class Postslikes
         return $this->action;
     }
 
-    public function setAction(int $action): static
+    public function setAction(int $action): self
     {
         $this->action = $action;
-
         return $this;
     }
 
-    public function getIdUser(): ?Users
+    public function getUser(): ?Users
     {
-        return $this->idUser;
+        return $this->user;
     }
 
-    public function setIdUser(?Users $idUser): static
+    public function setUser(?Users $user): self
     {
-        $this->idUser = $idUser;
-
+        $this->user = $user;
         return $this;
     }
 
-    public function getPost(): ?Users
+    public function getPost(): ?Posts
     {
         return $this->post;
     }
 
-    public function setPost(?Users $post): static
+    public function setPost(?Posts $post): self
     {
         $this->post = $post;
-
         return $this;
     }
 
