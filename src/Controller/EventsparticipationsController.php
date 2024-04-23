@@ -26,7 +26,7 @@ class EventsparticipationsController extends AbstractController
         $em = $doctrine->getManager();
         
        
-        $user = $em->getRepository(Users::class)->find(10);
+        $user = $em->getRepository(Users::class)->find(8);
         if (!$user) {
             throw $this->createNotFoundException('User not found');
         }
@@ -41,14 +41,15 @@ class EventsparticipationsController extends AbstractController
  
         $existingParticipation = $em->getRepository(EventsParticipations::class)->findOneBy(['participant' => $user, 'event' => $event]);
         if ($existingParticipation) {
-            $this->addFlash('error', 'User already participated in this event');
+            return $this->redirectToRoute('showEvents');
+             $this->addFlash('error', 'User already participated in this event');
         }
     
         
         $affectedRows = $eventRepository->updatePlaces($idevent);
         if ($affectedRows === 0) {
-        
-            $this->addFlash('error', 'Event not found or no more places available');
+            return $this->redirectToRoute('showEvents');
+             $this->addFlash('error', 'Event not found or no more places available');
         }
     
     
