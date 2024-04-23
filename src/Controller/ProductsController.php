@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+use Endroid\QrCode\QrCode;
 
 use App\Entity\Products;
 use App\Entity\Users;
@@ -218,14 +219,18 @@ class ProductsController extends AbstractController
 
             return $this->redirectToRoute('showProductsDashboard');
         }
-    
+
+        #[Route('/rechercher-produit', name: 'rechercher_produit', methods: ['GET'])]
+     public function searchproduct(ProductsRepository $productsRep,Request $request): Response
+    {
+        $filter = $request->get('search');
+        $owner = 14;
+        $product = $productsRep->searchproductFront($filter);
+        $dataToJson = json_encode($product);
+        return new Response($dataToJson);
+    }
 
 
-   
-
-   
-
-        
 
 
 

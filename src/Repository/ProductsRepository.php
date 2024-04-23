@@ -95,8 +95,14 @@ public function findUnconfirmedProducts(): array
         $entityManager->flush();
     }
 
-    
-  
+   public function searchproductFront(string $name): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.name LIKE :name')
+            ->setParameter('name', '%' . $name . '%')
+            ->getQuery()
+            ->getResult();
+    }
 
 
     

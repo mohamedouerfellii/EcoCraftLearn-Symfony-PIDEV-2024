@@ -1,5 +1,6 @@
 {% extends 'baseFront.html.twig' %}
 {% block body %}
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <!-- Overlay Start -->
         <div class="overlay"></div>
         <!-- Overlay End -->
@@ -120,13 +121,72 @@
 
                  
 
-                    <!-- Courses Search Start -->
-           <div class="courses-search">
-                <form id="course-search-form">
-                    <input type="text" id="search-input" placeholder="Search your course">
-                    <button type="submit"><i class="flaticon-magnifying-glass"></i></button>
-                </form>
-            </div>
+
+       
+<div class="courses-search">
+    <form id="course-search-form">
+     <input type="text" id="search-input" onkeyup="searchProduct(this.value)" data-url="{{ path('rechercher_produit') }}" placeholder="Search here">
+        <button type="submit"><i class="flaticon-magnifying-glass"></i></button>
+    </form>
+</div>
+
+
+
+<script>
+    $(document).ready(function() {
+        $('#course-search-form').submit(function(event) {
+            event.preventDefault(); 
+
+            var query = $('#search-input').val(); 
+
+            
+            rechercherProduit(query);
+        });
+    });
+
+   
+    function rechercherProduit(query) {
+        $.ajax({
+            url: '/rechercher-produit',
+            type: 'GET',
+            data: { query: query },
+            success: function(response) {
+                if (response.success) {
+                    afficherResultats(response.products);
+                } else {
+                    console.error("Erreur lors de la recherche de produits :", response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Erreur lors de la requête AJAX :", error);
+            }
+        });
+    }
+
+   
+    function afficherResultats(products) {
+        var resultsDiv = $('#search-results');
+        resultsDiv.empty();
+        if (products.length > 0) {
+            products.forEach(function(product) {
+           
+                var productDiv = $('<div>');
+
+        
+                productDiv.append('<p><strong>Nom :</strong> ' + product.name + '</p>');
+                productDiv.append('<p><strong>Description :</strong> ' + product.description + '</p>');
+                productDiv.append('<p><strong>Prix :</strong> ' + product.price + '</p>');
+                productDiv.append('<p><strong>Quantité :</strong> ' + product.quantite + '</p>');
+                productDiv.append('<p><strong>Date :</strong> ' + product.adddate + '</p>');
+
+         
+                resultsDiv.append(productDiv);
+            });
+        } else {
+            resultsDiv.text("Aucun résultat trouvé.");
+        }
+    }
+</script>
 
 
 
