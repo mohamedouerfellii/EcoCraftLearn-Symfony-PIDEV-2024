@@ -220,15 +220,43 @@ class ProductsController extends AbstractController
             return $this->redirectToRoute('showProductsDashboard');
         }
 
-        #[Route('/rechercher-produit', name: 'rechercher_produit', methods: ['GET'])]
-     public function searchproduct(ProductsRepository $productsRep,Request $request): Response
-    {
-        $filter = $request->get('search');
-        $owner = 14;
-        $product = $productsRep->searchproductFront($filter);
-        $dataToJson = json_encode($product);
-        return new Response($dataToJson);
-    }
+        #[Route('/searchProducts', name: 'search_Product_Front')]
+        public function searchProduct(ProductsRepository $productsRep, Request $request): Response
+        {
+
+            $owner = 12;
+            $search = $request->query->get('search');
+            $products = $productsRep->searchProductByNameAndOwner ($search,$owner);
+    
+            $dataToJson = $this->serializeProducts($products);
+            
+            return new Response($dataToJson, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+        }
+
+        
+
+        #[Route('/filterProduct', name: 'filter_Product')]
+        public function filterProduct(ProductsRepository $productsRep, Request $request): Response
+        {
+            $owner = 12; // Remplacez par la valeur appropriée
+            $filter = $request->query->get('filter'); // Récupérer le paramètre filter de la requête
+            $products = $productsRep->filterProductbyDate($owner, $filter); // Utiliser le paramètre filter dans la méthode de filtrage
+        
+            $dataToJson = $this->serializeProducts($products);
+        
+            return new Response($dataToJson, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+        }
+        
+        
+        
+        
+        
+
+        private function serializeProducts(array $products): string
+        {
+            $serializer = $this->get('serializer');
+            return $serializer->serialize($products, 'json');
+        }
 
 
 

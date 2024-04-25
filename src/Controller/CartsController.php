@@ -20,7 +20,7 @@ class CartsController extends AbstractController
 {
   
 
-    #[Route('/buy-now/{idproduct}', name: 'buy_now')]
+    #[Route('/buy_now/{idproduct}', name: 'buy_now')]
     public function buyNow($idproduct, EntityManagerInterface $entityManager, Request $request): Response
     {
 

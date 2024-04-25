@@ -94,18 +94,38 @@ public function findUnconfirmedProducts(): array
         }
         $entityManager->flush();
     }
-
-   public function searchproductFront(string $name): array
+    public function searchProductByNameAndOwner(string $search, int $owner)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.name LIKE :name')
-            ->setParameter('name', '%' . $name . '%')
+            ->where('p.name LIKE :search')
+            ->andWhere('p.owner != :owner')
+            ->setParameter('search', '%' . $search . '%')
+            ->setParameter('owner', $owner)
             ->getQuery()
             ->getResult();
     }
+    
+    public function filterProductbyDate(int $owner,string $filter){
+        $queryBuilder = $this->createQueryBuilder('p')
+        ->where('p.owner != :owner')
+        ->setParameter('owner', $owner);
+        switch ($filter) {
+            case 'Newest':
+                $queryBuilder->orderBy('p.adddate', 'DESC');
+                break;
+            case 'Oldest':
+                $queryBuilder->orderBy('p.adddate', 'ASC');
+                break;
 
+        }
+        return $queryBuilder->getQuery()->getResult();    
+    }
+    
 
     
+    
+
+   
     
     
     
