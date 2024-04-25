@@ -12,8 +12,8 @@
     <script defer src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   </head>
   <body>
-    <div class="container" id="container" data-id-room="{{ course.idcourse + course.tutor.iduser}}">
-          <section class="tools-board">
+    <div class="container" id="container" data-id-room="{{ course.idcourse + course.tutor.iduser}}" data-id-course="{{ course.idcourse }}">
+      <section class="tools-board">
         <div class="row">
           <label class="title">Shapes</label>
           <ul class="options">
@@ -81,7 +81,7 @@
           </ul>
         </div>
         <div class="row buttons">
-          <button class="save-img">Disconnect {{ roomId }}</button>
+          <button id="disconnect" class="save-img">Disconnect</button>
         </div>
       </section>
     </div>

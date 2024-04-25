@@ -240,7 +240,7 @@ class CoursesController extends AbstractController
             json_encode([
                 'isConnected' => true,
                 'studentDetail' => "Ouerfelli Mohamed",
-                'idStudent' => 8
+                'idStudent' => 14
                 ])
             );
         $hub->publish($update);

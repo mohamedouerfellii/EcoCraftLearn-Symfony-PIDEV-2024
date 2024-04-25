@@ -120,7 +120,7 @@ canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
 canvas.addEventListener("mouseup", () => isDrawing = false);
 
-// notification for student joined
+// notification for student joined or disconnected
 function notifytutor(studentDetail, idStudent,isConnected){
     let participantList = document.querySelector(".participants");
     if(isConnected === true){
@@ -153,7 +153,6 @@ function sendingData(data){
         if (!response.ok) {
             throw new Error('Erreur de publication sur Mercure');
         }
-        console.log('Publication réussie sur Mercure');
     })
     .catch(error => {
         console.error('Erreur lors de la publication sur Mercure :', error);
