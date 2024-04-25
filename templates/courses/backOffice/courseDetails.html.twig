@@ -53,7 +53,7 @@
                             <div class="details-tab-menu">
                                 <ul class="nav justify-content-center">
                                     <li><button class="active" data-bs-toggle="tab" data-bs-target="#description">Description</button></li>
-                                    <li><button data-bs-toggle="tab" data-bs-target="#reviews">Reviews</button></li>
+                                    <li><button onclick="window.location.href='{{ path('white_board_tutor', {'idCourse' : course.idcourse}) }}'">WB Meeting</button></li>
                                     <li><button onclick="window.location.href='{{ path('add_section', {'idCourse' : course.idcourse})}}'">Add Section</button></li>
                                     {% if course.nbrsection > 0 %}
                                     <li><button onclick="window.location.href='{{ path('show_section', {'idCourse' : course.idcourse, 'sectionIndex' : 0})}}'">Show Sections</button></li>

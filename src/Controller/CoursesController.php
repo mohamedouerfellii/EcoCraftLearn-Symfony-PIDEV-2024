@@ -20,6 +20,8 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 use Symfony\Component\Notifier\TexterInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -218,5 +220,34 @@ class CoursesController extends AbstractController
         $courses = $coursesRep->searchCoursesFront($idUser, $filter);
         $dataToJson = json_encode($courses);
         return new Response($dataToJson);
+    }
+    // start white board tutor
+    #[Route('/whiteBoardTutor/{idCourse}', name: 'white_board_tutor')]
+    public function startWBMeetingTutor(CoursesRepository $coursesRep, Request $request): Response
+    {   
+        $course = $coursesRep->find($request->get('idCourse'));
+        return $this->render('courses/backOffice/whiteBoard.html.twig', [
+            'course' => $course
+        ]);
+    }
+    // start white board student
+    #[Route('/whiteBoardStudent/{idCourse}', name: 'white_board_student')]
+    public function startWBMeetingStudent(CoursesRepository $coursesRep, Request $request, HubInterface $hub): Response
+    {   
+        $course = $coursesRep->find($request->get('idCourse'));
+        $update = new Update(   // notify tutor that student is joined
+            'https://ecocraftlearning/wbmeeting/'.$course->getIdcourse(),
+            json_encode([
+                'isConnected' => true,
+                'studentDetail' => "Ouerfelli Mohamed",
+                'idStudent' => 8
+                ])
+            );
+        $hub->publish($update);
+        $roomId = $course->getIdcourse() + $course->getTutor()->getIduser();
+        return $this->render('courses/frontOffice/whiteBoard.html.twig', [
+            'course' => $course,
+            'roomId' => $roomId
+        ]);
     }
 }
