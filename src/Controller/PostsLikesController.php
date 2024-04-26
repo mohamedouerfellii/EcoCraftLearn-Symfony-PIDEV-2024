@@ -9,7 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\BrowserKit\Request;
+
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,9 +24,18 @@ class PostsLikesController extends AbstractController
             'controller_name' => 'PostsLikesController',
         ]);
     }
-   #[Route('/like/{id_post}', name: 'like_post', methods: ['POST'])]
-public function likePost(int $id_post, EntityManagerInterface $entityManager): JsonResponse
+    #[Route('/like/{id_post}', name: 'like_post', methods: ['POST'])]
+public function likePost(int $id_post, EntityManagerInterface $entityManager, Request $request): JsonResponse
 {
+    // Get the current user (assuming a static user)
+    $user = $this->getStaticUser($entityManager);
+
+    // Get the JSON content from the request body
+    $data = json_decode($request->getContent(), true);
+
+    // Get the action from the JSON data
+    $action = $data['action'] ?? null;
+
     // Get the post from the database
     $post = $entityManager->getRepository(Posts::class)->find($id_post);
     
@@ -34,34 +44,40 @@ public function likePost(int $id_post, EntityManagerInterface $entityManager): J
         return new JsonResponse(['error' => 'Post not found'], 404);
     }
 
-    // Get the current user (assuming a static user)
-    $user = $entityManager->getRepository(Users::class)->find(1); // Static user ID
-
     // Check if the user has already liked the post
-    $like = $entityManager->getRepository(PostsLikes::class)->findOneBy([
-        'user' => $user,
-        'post' => $post,
+    $likedPost = $entityManager->getRepository(Postslikes::class)->findOneBy([
+        'idUser' => $user->getIduser(), // Assuming user ID is stored in 'id' property
+        'post' => $post->getIdPost(),
     ]);
 
-    // Toggle the action between 0 and 1
-    $action = $like ? !$like->getAction() : 1;
-
-    // Create or update the like entity
-    if (!$like) {
-        $like = new PostsLikes();
-        $like->setUser($user);
-        $like->setPost($post); // Set the post object
-        $like->setAction($action);
-        $entityManager->persist($like);
-    } else {
-        $like->setAction($action);
+    // Create or update the liked post entity
+    if (!$likedPost) {
+        $likedPost = new Postslikes();
+        $likedPost->setUser($user); // Set the user
+        $likedPost->setPost($post); // Set the post
     }
 
+    // Set the action
+    $likedPost->setAction($action);
+
     // Persist the changes to the database
+    $entityManager->persist($likedPost);
     $entityManager->flush();
 
-    // Return the action as JSON response
-    return new JsonResponse(['action' => $action]);
+    // Return success response
+    return new JsonResponse(['success' => true]);
+}
+
+// You need to implement this method to get the static user
+private function getStaticUser(EntityManagerInterface $entityManager): Users
+{
+    // Replace this with your logic to get the static user
+    // For example, if the static user ID is 1
+    $user = $entityManager->getRepository(Users::class)->find(8);
+    if (!$user) {
+        // Handle error if user not found
+    }
+    return $user;
 }
 
 }

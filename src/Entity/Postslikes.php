@@ -12,7 +12,7 @@ class Postslikes
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: "idLike", type: "integer", nullable: false)]
     private ?int $idLike = null;
 
     #[ORM\Column]
@@ -20,10 +20,10 @@ class Postslikes
 
     #[ORM\ManyToOne(targetEntity: Users::class)]
     #[ORM\JoinColumn(name: "idUser", referencedColumnName: "idUser", onDelete: "CASCADE")]
-    private ?Users $user = null;
+    private ?Users $idUser = null;
 
     #[ORM\ManyToOne(targetEntity: Posts::class)]
-    #[ORM\JoinColumn(name: "idPost", referencedColumnName: "idPost", onDelete: "CASCADE")]
+    #[ORM\JoinColumn(name: "Post", referencedColumnName: "idPost", onDelete: "CASCADE")]
     private ?Posts $post = null;
 
     public function getIdLike(): ?int
@@ -44,12 +44,12 @@ class Postslikes
 
     public function getUser(): ?Users
     {
-        return $this->user;
+        return $this->idUser;
     }
 
     public function setUser(?Users $user): self
     {
-        $this->user = $user;
+        $this->idUser = $user;
         return $this;
     }
 

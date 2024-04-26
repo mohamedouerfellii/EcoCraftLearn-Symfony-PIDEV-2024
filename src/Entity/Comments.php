@@ -15,8 +15,9 @@ class Comments
     private ?int $idcomment = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'you need to write a post')]
+    #[Assert\NotBlank(message: 'you need to write a Comment')]
     private ?string $content = null;
+    
 
     #[ORM\Column]
     private ?string $attachment = null;

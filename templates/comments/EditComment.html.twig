@@ -12,18 +12,15 @@
 </div>
 <div class="formbold-main-wrapper">
   <div class="formbold-form-wrapper">
-   <h3 class="title">Edit Your Post !</h3>
-    {{ form_start(updatecomment, {'attr': {'method': 'POST', 'novalidate': 'novalidate'}}) }}
+   <h3 class="title">Edit Your Comment !</h3>
+    {{ form_start(updatecommentForm, {'attr': {'method': 'POST', 'novalidate': 'novalidate'}}) }}
     
         <div>
           <div class="single-form">
-              {{ form_widget(updatecomment.content) }}
-              <div  id="image-preview" style="display: none;">
-                 <img id="preview" src="#" alt="Preview" width="100" height="100">
-                  </div>
-              <span class="form-error">{{ form_errors(updatecomment.content, {'attr': {'class': 'form-error'}}) }}</span>
+              {{ form_widget(updatecommentForm.content) }}
+              <span class="form-error">{{ form_errors(updatecommentForm.content, {'attr': {'class': 'form-error'}}) }}</span>
           </div>    
-        </div>
+        
         
          
         
@@ -31,14 +28,16 @@
         <br>
         
          <div class="tab-btn">
-            {{ form_end(updatecomment) }}
+            {{ form_end(updatecommentForm) }}
+            </div>
         </div>
-        
+        </div>
+        </div>
   
    
                 
 
       
-</div>
+
 <!-- Admin Courses Tab End -->
 {% endblock %}

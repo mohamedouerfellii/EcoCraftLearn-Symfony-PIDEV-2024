@@ -243,13 +243,15 @@
                             </div>  
                             
                             <div id="comments-{{ post.idpost }}" class="comments-container">
-                             {{ form_start(commentForms[post.idpost],{'attr': { 'novalidate': 'novalidate'}}) }}
-            {{ form_widget(commentForms[post.idpost]) }}
-           
-            {{ form_end(commentForms[post.idpost]) }}
+                           {{ form_start(commentForms[post.idpost], {'attr': {'novalidate': 'novalidate'}}) }}
+   {{ form_widget(commentForms[post.idpost].content) }}
+{{ form_errors(commentForms[post.idpost].content) }}
+    
+{{ form_end(commentForms[post.idpost]) }}
         {% for comment in post.comments %}
         
             <div class="comment">
+            
                 <strong>{{ comment.owner.firstname }}:</strong>
                 <p>{{ comment.content }}</p>
                <div class="comment-header">
@@ -258,7 +260,7 @@
                                     <a class="post-action" href="{{ path('update_comment', {id:comment.idcomment}) }}" >
                                         <img src="{{ asset('images/pencil-fill.png') }}"width="20px;" height="20px;"/>
                                     </a>   
-                                    <a class="post-action" href="{{ path('update_comment', {id:comment.idcomment}) }}" >
+                                    <a class="post-action" href="{{ path('deletecomment', {id:comment.idcomment}) }}" >
                                         <img src="{{ asset('images/close-circle-fill.png') }}"width="20px;" height="20px;"/>
                                     </a>
                                 </div>
@@ -286,29 +288,48 @@
             </div>  
            <script>
     // Attach event listeners to like buttons
-    document.querySelectorAll('.like-button').forEach(function(button) {
-        button.addEventListener('click', function(event) {
-            event.preventDefault();
-            toggleLike(button);
-        });
-    });
+    function toggleLike(button, action) {
+    var likeIcon = button.querySelector('img');
+    var idPost = button.dataset.postId; // corrected attribute name
 
-    // Function to toggle like status
-    function toggleLike(button) {
-        var likeIcon = button.querySelector('img');
-        var postId = button.dataset.postId;
-
-        // Toggle the like icon
-        if (likeIcon.src.includes('heart-line.png')) {
-            likeIcon.src = '{{ asset('images/heart-green.png') }}';
-            // Simulate sending a request to like the post
-            console.log('Liked post with ID: ' + postId);
-        } else {
-            likeIcon.src = '{{ asset('images/heart-line.png') }}';
-            // Simulate sending a request to unlike the post
-            console.log('Unliked post with ID: ' + postId);
-        }
+    // Toggle the like icon
+    if (likeIcon.src.includes('heart-line.png')) {
+        likeIcon.src = '{{ asset('images/heart-green.png') }}';
+        updateLikeStatus(idPost, 1);
+        console.log('Liked post with ID: ' + idPost);
+    } else {
+        likeIcon.src = '{{ asset('images/heart-line.png') }}';
+        updateLikeStatus(idPost, 0);
+        console.log('Unliked post with ID: ' + idPost);
     }
+    console.log('idPost:', idPost);
+    console.log('action:', action);
+}
+
+// Update the event listener to pass the action parameter
+document.querySelectorAll('.like-button').forEach(function(button) {
+    button.addEventListener('click', function(event) {
+        event.preventDefault();
+        var action = button.querySelector('img').src.includes('heart-line.png') ? 1 : 0;
+        toggleLike(button, action);
+    });
+});
+    function updateLikeStatus(idPost, action) {
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/like/' + idPost, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            console.log('Like action: ' + response.action);
+        }
+    };
+    var data = JSON.stringify({ idPost: idPost, action: action });
+    xhr.send(data);
+    console.log('idPost:', idPost);
+console.log('action:', action);
+}
 </script>
           <script>
           document.addEventListener('DOMContentLoaded', function () {

@@ -17,7 +17,7 @@ class UpdateFormType extends AbstractType
         $builder->add('content', TextareaType::class, [
             'label' => false, 
             'attr' => [
-                'placeholder' => 'Change the comment',
+                'placeholder' => 'Change the Post',
                 'rows' => 3,
                 
             ],
