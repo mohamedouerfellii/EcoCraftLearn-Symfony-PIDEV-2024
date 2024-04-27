@@ -16,6 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use InfoBip;
 use Knp\Component\Pager\PaginatorInterface;
 use LocationInfoService;
+use Symfony\Bridge\Twig\Mime\BodyRenderer;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,6 +25,14 @@ use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Notifier\TexterInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 class CoursesController extends AbstractController
 {
@@ -223,9 +232,32 @@ class CoursesController extends AbstractController
     }
     // start white board tutor
     #[Route('/whiteBoardTutor/{idCourse}', name: 'white_board_tutor')]
-    public function startWBMeetingTutor(CoursesRepository $coursesRep, Request $request): Response
-    {   
-        $course = $coursesRep->find($request->get('idCourse'));
+    public function startWBMeetingTutor(KernelInterface $kernel,ManagerRegistry $doctrine, Request $request): Response
+    {
+        $em = $doctrine->getManager(); 
+        $idCourse = $request->get('idCourse');
+        $url = "http://127.0.0.1:8000/whiteBoardStudent/" .$idCourse; 
+        $mailer = new Mailer(Transport::fromDsn('smtp://mohamedouerfelli3@gmail.com:vbnlkplloybfhowc@smtp.gmail.com:587'));
+        $participants = $em->getRepository(Courseparticipations::class)->getParticipantsMail($idCourse); 
+        $email = ( new TemplatedEmail())
+            ->from('mohamedouerfelli3@gmail.com')
+            ->to(...$participants)
+            ->subject('Join WhiteBoard Meeting')
+            ->text('WhiteBoard Meeting. Click the following link to join: ' . $url)
+            ->htmlTemplate('courses/mailTemplate.html.twig')
+            ->context([
+            'emailTitle' => 'Join WhiteBoard Meeting',
+            'emailDesc' => 'WhiteBoard Meeting.',
+            'url' => $url,
+            'btnTitle' => 'Join Meeting'
+            ]);
+        $templatesDir = $kernel->getProjectDir() . '/templates';
+        $loader = new FilesystemLoader($templatesDir);
+        $twigEnv = new Environment($loader);
+        $twigBodyRenderer = new BodyRenderer($twigEnv);
+        $twigBodyRenderer->render($email);
+        $mailer->send($email);
+        $course = $em->getRepository(Courses::class)->find($idCourse);
         return $this->render('courses/backOffice/whiteBoard.html.twig', [
             'course' => $course
         ]);

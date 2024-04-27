@@ -22,13 +22,27 @@ class CourseparticipationsRepository extends ServiceEntityRepository
         parent::__construct($registry, Courseparticipations::class);
     }
 
-    public function findCpByUserCourse(?int $idCourse, ?int $idUser){
+    public function findCpByUserCourse(int $idCourse, int $idUser){
         return $this->createQueryBuilder('cp')
         ->where('cp.participant = :idUser')
         ->andWhere('cp.course = :idCourse')
         ->setParameters(['idUser' => $idUser, 'idCourse' => $idCourse ])
         ->getQuery()
         ->getSingleResult();
+    }
+
+    public function getParticipantsMail(int $idCourse){
+        $query = $this->createQueryBuilder('cp')
+            ->select('u.email')
+            ->join('cp.participant', 'u')
+            ->where('cp.course = :idCourse')
+            ->setParameter('idCourse', $idCourse)
+            ->getQuery();
+
+        $results = $query->getResult();
+        $emails = array_column($results, 'email'); // Extracting emails from the result array
+
+        return $emails;
     }
 
 //    /**
