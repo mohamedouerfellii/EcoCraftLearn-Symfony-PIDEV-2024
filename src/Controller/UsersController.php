@@ -15,7 +15,8 @@ use Symfony\Component\Filesystem\Filesystem;
 use App\Form\EditUserType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use App\Entity\Courses;
 
 class UsersController extends AbstractController
 {
@@ -40,6 +41,7 @@ class UsersController extends AbstractController
     {
         $em = $doctrine->getManager();
         $user=$this->security->getUser();
+      
         $form = $this->createForm(EditUserType::class,$user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
@@ -56,7 +58,11 @@ class UsersController extends AbstractController
                 } catch (FileException $e) {
                     $e->getMessage();
                 }
-                $user->setImage($newFilename);
+                if ($user instanceof \App\Entity\Users) {
+                    // Now you can access additional properties or methods of your user class
+                    $user->setImage($newFilename);
+                } 
+                
             }
             $em->persist($user);
             $em->flush();
@@ -72,7 +78,10 @@ class UsersController extends AbstractController
     public function deleteProfil(ManagerRegistry $doctrine,Request $request,Filesystem $filesystem, TokenStorageInterface $tokenStorage){
         $em = $doctrine->getManager();
         $user=$this->security->getUser();
-        $userImage = $user->getImage();
+        if ($user instanceof \App\Entity\Users) {
+            $userImage = $user->getImage();
+        } 
+       
         $em->remove($user);
         $em->flush();
         $tokenStorage->setToken(null);
@@ -112,5 +121,16 @@ class UsersController extends AbstractController
         }
         return $this->redirectToRoute('admin_dashboard');
     }
+
+
+    #[Route('/', name: 'visitor_app')]
+    public function over(ManagerRegistry $doctrine,Request $request): Response
+    {
+        $courses = $doctrine->getManager()->getRepository(Courses::class)->showCoursesHomePage(14);
+        return $this->render('users/index.html.twig', [
+            'courses' => $courses
+        ]);
+    }
+
    
 }

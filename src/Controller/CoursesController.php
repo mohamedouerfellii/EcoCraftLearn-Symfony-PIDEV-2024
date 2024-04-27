@@ -27,7 +27,7 @@ class CoursesController extends AbstractController
     ){
         $this->tokenStorage = $tokenStorage;
     }
-    #[Route('/', name: 'home_page')]
+    #[Route('/user/home', name: 'home_page')]
     public function index(ManagerRegistry $doctrine): Response
     {
         $courses = $doctrine->getManager()->getRepository(Courses::class)->showCoursesHomePage(14);
@@ -35,7 +35,7 @@ class CoursesController extends AbstractController
             'courses' => $courses
         ]);
     }
-    #[Route('/tutorCoursesDashboard', name: 'tutor_course_dashboard')]
+    #[Route('/admin/home', name: 'tutor_course_dashboard')]
     public function tutorCoursesDashboard(ManagerRegistry $doctrine): Response
     {
         $idTutor = 8;

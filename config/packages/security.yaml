@@ -1,7 +1,6 @@
 security:
     enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
-   
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
        app_user_provider:
@@ -15,22 +14,29 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-            custom_authenticators:
-                - App\Security\AppCustomAuthenticator  
              
         main:
-       
+            lazy: true
+            provider: app_user_provider
             form_login:
                 # "app_login" is the name of the route created previously
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
-                
+            access_denied_handler: App\Security\AccessDeniedHandler
+            entry_point: App\Security\AppCustomAuthenticator
+            custom_authenticators:
+                - App\Security\AppCustomAuthenticator 
+                - App\Security\GoogleAuthenticator 
             logout:
                 path: /logout
+  
             
-          
-              
+                # where to redirect after logout
+                # target: app_any_route
+         
+    
+            
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
@@ -40,8 +46,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        #- { path: ^/, roles: ROLE_ADMIN, redirect: tutor_course_dashboard }
-      #  - { path: ^/, roles: ROLE_USER, redirect: home_page }
+    - { path: ^/admin , roles: ROLE_ADMIN }
+    - { path: ^/user , roles: ROLE_USER }
+   
+        
 
 when@test:
     security:
