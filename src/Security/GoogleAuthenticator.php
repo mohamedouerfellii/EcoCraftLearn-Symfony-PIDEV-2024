@@ -58,7 +58,21 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
 
                 // 2) do we have a matching user by email?
                 $user = $this->entityManager->getRepository(Users::class)->findOneBy(['email' => $email]);
-
+                if (!$user) {
+                    $user = new Users();
+                    $user->setEmail($email);
+                    // Optionally, set other user properties based on Google OAuth data
+                     $user->setFirstName($googleUser->getFirstName());
+                     $user->setLastName($googleUser->getLastName());
+                     $user->setImage($googleUser->getAvatar());
+                     $user->setPassword("wqeqweqw");
+                    $user->setGender("autre");
+                     $user->setRole("student");
+                    $user->setNumtel(123);
+                   
+                    $this->entityManager->persist($user);
+                    $this->entityManager->flush();
+                }
                 // 3) Maybe you just want to "register" them by creating
                 // a User object
                 // $user->setFacebookId($googleUser->getId());
@@ -75,14 +89,22 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
         // change "app_homepage" to some route in your app
         $user = $token->getUser();
         if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+            $targetUrl = $this->router->generate('admin_dashboard');
+            return new RedirectResponse($targetUrl);
+        }
+        else if(in_array('ROLE_STUDENT', $user->getRoles(), true)) {
+            $targetUrl = $this->router->generate('home_page');
+            return new RedirectResponse($targetUrl);
+        }
+       else if (in_array('ROLE_TEACHER', $user->getRoles(), true)) {
             $targetUrl = $this->router->generate('tutor_course_dashboard');
             return new RedirectResponse($targetUrl);
         }
-        $targetUrl = $this->router->generate('home_page');
-        return new RedirectResponse($targetUrl);
+        
 
         // or, on success, let the request continue to be handled by the controller
-        //return null;
+        $targetUrl = $this->router->generate('visitor_app');
+        return new RedirectResponse($targetUrl);;
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
@@ -91,7 +113,7 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
 
         // return new Response($message, Response::HTTP_FORBIDDEN);
         // $this->addFlash('warning', 'email not associated with zeroWaste account');
-        $request->getSession()->getFlashBag()->add('warning', 'email not associated with zeroWaste account');
+        $request->getSession()->getFlashBag()->add('warning', 'email not associated with ecoCraft account');
         $targetUrl = $this->router->generate('app_register');
         return new RedirectResponse($targetUrl);
     }

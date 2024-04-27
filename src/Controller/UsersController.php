@@ -95,7 +95,7 @@ class UsersController extends AbstractController
         return $this->redirectToRoute('app_login');
     }
 
-    #[Route('/adminDashboard', name: 'admin_dashboard')]
+    #[Route('/admin/Dashboard', name: 'admin_dashboard')]
     public function allUsersDashboard(ManagerRegistry $doctrine): Response
     {
         $users = $doctrine->getManager()->getRepository(Users::class)->findAll();

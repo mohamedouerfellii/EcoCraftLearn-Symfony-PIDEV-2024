@@ -132,7 +132,11 @@
     
 
     <a class="action author" href="#">
-                        <img src="{{ asset('contents/uploads/users/' ~ user.image) }}" alt="Author">
+                          {% if user.image is  empty %}
+        <img src="{{ asset('contents/uploads/users/' ~ user.image) }}" alt="Author">
+    {% else %}
+        <img src="{{ asset(user.image) }}" alt="Author">
+    {% endif %}
                     </a>
 
                     <div class="dropdown">

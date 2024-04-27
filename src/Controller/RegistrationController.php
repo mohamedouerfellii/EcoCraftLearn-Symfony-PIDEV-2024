@@ -13,12 +13,23 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Security\Core\Security;
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager,SluggerInterface $slugger): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager,SluggerInterface $slugger, Security $security): Response
     {
+        if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
+           
+            if ($security->isGranted('ROLE_ADMIN')) {
+                return $this->redirectToRoute('admin_dashboard');
+            } elseif ($security->isGranted('ROLE_TEACHER')) {
+                return $this->redirectToRoute('tutor_course_dashboard');
+            } elseif ($security->isGranted('ROLE_STUDENT')) {
+                return $this->redirectToRoute('home_page');
+            }
+        }
         $user = new Users();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);

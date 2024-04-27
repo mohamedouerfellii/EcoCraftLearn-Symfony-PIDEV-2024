@@ -48,12 +48,15 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
     {
 
 
-        if ($this->security->isGranted('ROLE_USER')) {
+        if ($this->security->isGranted('ROLE_STUDENT')) {
             // Redirect authenticated users with ROLE_USER role to the home page
             return new RedirectResponse($this->urlGenerator->generate('home_page'));
-        } else {
+        } else  if ($this->security->isGranted('ROLE_TEACHER')) {
             // Redirect authenticated users with ROLE_TUTOR role to the tutor course dashboard
             return new RedirectResponse($this->urlGenerator->generate('tutor_course_dashboard'));
+        } else  if ($this->security->isGranted('ROLE_ADMIN')) {
+            // Redirect authenticated users with ROLE_TUTOR role to the tutor course dashboard
+            return new RedirectResponse($this->urlGenerator->generate('admin_dashboard'));
         }
         
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {

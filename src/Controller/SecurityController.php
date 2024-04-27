@@ -6,15 +6,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Security;
 
 class SecurityController extends AbstractController
 {
     #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, Security $security): Response
     {
-       
-       
-       
+        if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
+           
+            if ($security->isGranted('ROLE_ADMIN')) {
+                return $this->redirectToRoute('admin_dashboard');
+            } elseif ($security->isGranted('ROLE_TEACHER')) {
+                return $this->redirectToRoute('tutor_course_dashboard');
+            } elseif ($security->isGranted('ROLE_STUDENT')) {
+                return $this->redirectToRoute('home_page');
+            }
+        }
+
+
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();

@@ -1,6 +1,57 @@
 
 
  {% extends 'baseFront.html.twig' %}
+  {% block header %}
+        <!-- Header Section Start -->
+        <div class="header-section">
+            <!-- Header Main Start -->
+            <div class="header-main">
+                <div class="container">
+
+                    <!-- Header Main Start -->
+                    <div class="header-main-wrapper">
+
+                        <!-- Header Logo Start -->
+                        <div class="header-logo">
+                            <a href="{{path('visitor_app')}}"><img style="height: 60px; width: 60px;" src="{{asset('assets/images/logoDark.png')}}" alt="Logo"></a>
+                        </div>
+                        <!-- Header Logo End -->
+
+                        <!-- Header Menu Start -->
+                       
+                        <!-- Header Menu End -->
+
+                        <!-- Header Sing In & Up Start -->
+
+    {# User is not logged in, so show the sign-in and sign-up links #}
+    <div class="header-sign-in-up d-none d-lg-block">
+        <ul>
+            <li><a class="sign-in" href="{{ path('app_login') }}">Sign In</a></li>
+            <li><a class="sign-up" href="{{ path('app_register') }}">Sign Up</a></li>
+        </ul>
+    </div>
+
+                        <!-- Header Sing In & Up End -->
+
+                        <!-- Header Mobile Toggle Start -->
+                        <div class="header-toggle d-lg-none">
+                            <a class="menu-toggle" href="javascript:void(0)">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </a>
+                        </div>
+                        <!-- Header Mobile Toggle End -->
+
+                    </div>
+                    <!-- Header Main End -->
+                
+                </div>
+            </div>
+            <!-- Header Main End -->
+        </div>
+        <!-- Header Section End -->
+        {% endblock %}
 {% block css %}
     {{ parent() }} 
     <link rel="stylesheet" href="{{asset('assets/css/user.css')}}">
