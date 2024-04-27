@@ -28,15 +28,15 @@ class UsersController extends AbstractController
     }
 
 
-    #[Route('/profil', name: 'profil_app')]
+    #[Route('/student/profil', name: 'profil_app')]
     public function profil(ManagerRegistry $doctrine,Request $request): Response
     {
-        return $this->render('users/profil.html.twig', [
+        return $this->render('users/frontOffice/profil.html.twig', [
             'user' => $this->security->getUser()
         ]);
     }
 
-    #[Route('/editprofil', name: 'edit_user')]
+    #[Route('/student/editprofil', name: 'edit_user')]
     public function editProfil(ManagerRegistry $doctrine,Request $request,SluggerInterface $slugger)
     {
         $em = $doctrine->getManager();
@@ -68,13 +68,13 @@ class UsersController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('profil_app', ['user' => $user]);
             }
-    return $this->render('users/editprofil.html.twig', [
+    return $this->render('users/frontOffice/editprofil.html.twig', [
         'form' => $form->createView()
     ]);
     }
     
 
-    #[Route('/deleteProfil', name: 'delete_profil')]
+    #[Route('/student/deleteProfil', name: 'delete_profil')]
     public function deleteProfil(ManagerRegistry $doctrine,Request $request,Filesystem $filesystem, TokenStorageInterface $tokenStorage){
         $em = $doctrine->getManager();
         $user=$this->security->getUser();
@@ -99,13 +99,13 @@ class UsersController extends AbstractController
     public function allUsersDashboard(ManagerRegistry $doctrine): Response
     {
         $users = $doctrine->getManager()->getRepository(Users::class)->findAll();
-        return $this->render('users/allUsers.html.twig', [
-            'controller_name' => 'CoursesController',
+        return $this->render('users/backOffice/allUsers.html.twig', [
+            'controller_name' => 'UserssController',
             'users' => $users,
             'user' => $this->security->getUser()
         ]);
     }
-    #[Route('/deleteProfil/{id}', name: 'delete_user')]
+    #[Route('/admin/deleteProfil/{id}', name: 'delete_user')]
     public function deleteUser(ManagerRegistry $doctrine,Request $request,Filesystem $filesystem,  $id){
         $em = $doctrine->getManager();
         $user = $em->getRepository(Users::class)->find($id);
