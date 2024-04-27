@@ -1,0 +1,28 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Collectspts {% endblock %}
+
+
+{% block body %}
+    <style>
+    .parallax-window
+    {
+      background-color: #0000 !important;
+
+    }
+</style>
+
+   
+
+    <!-- Fin de la section -->
+     {% form_theme form 'bootstrap_4_layout.html.twig' %}
+    <div class="card-body">
+        <h5 class="card-title">add Collectspts/h5>
+
+        {{form_start(form,{'attr' :{'novalidate':'novalidate'}})}}
+
+        {{ form_end(form) }}
+    </div>
+    <!-- Fin du main -->
+
+    {% endblock %}

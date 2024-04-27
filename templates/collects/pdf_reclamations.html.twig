@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des réclamations</title>
+    <style>
+        /* Ajoutez vos styles CSS ici */
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .card-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .card-text {
+            margin-bottom: 5px;
+        }
+        .btn-group {
+            margin-top: 10px;
+        }
+        /* Ajoutez d'autres styles selon vos besoins */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Liste des réclamations</h1>
+        {% for response in Collects %}
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">Id complet: {{ response.id }}</h5>
+        
+        <h7 class="card-subtitle mb-2 text-muted">collectspts: {{ response.collectsptss.name }}</h7>
+        
+        <p class="card-subtitle mb-2 text-muted">Type de matériel: {{ response.materialType }}</p>
+        <p class="card-subtitle mb-2 text-muted">quantité de ce materiel : {{ response.quantity }}</p>
+
+        
+        
+        <p class="card-text">Date de collect: {{ response.collectDate|date('d-m-Y') }}</p>
+        
+        
+        
+        
+        
+        
+        <div class="btn-group" role="group" aria-label="Actions">
+            <a class="btn cur-p btn-danger" href="{{ path('delete_adh', {'id': response.id}) }}">Supprimer</a>
+            <a class="btn cur-p btn-success" href="{{ path('update_collects', {'id': response.id}) }}">Mettre à jour</a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+    </div>
+</body>
+</html>
