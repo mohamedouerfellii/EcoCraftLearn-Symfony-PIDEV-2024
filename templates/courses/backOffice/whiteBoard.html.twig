@@ -80,7 +80,7 @@
           </ul>
         </div>
         <div class="row buttons">
-          <button class="save-img">End Room</button>
+          <button onclick="endRoom()" class="save-img">End Room</button>
         </div>
       </section>
     </div>
@@ -90,6 +90,13 @@
       eventSource.onmessage = event => {
           notifData = JSON.parse(event.data);
           notifytutor(notifData['studentDetail'],notifData['idStudent'],notifData['isConnected'])
+      }
+      function endRoom(){
+          const data = {
+              action: "endroom",
+          };
+          sendingData(data);
+          window.location.href = "{{ path('tutor_course_dashboard') }}"
       }
     </script>
   </body>

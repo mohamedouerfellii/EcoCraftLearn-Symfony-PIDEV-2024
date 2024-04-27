@@ -16,6 +16,9 @@ use Doctrine\Persistence\ManagerRegistry;
 use InfoBip;
 use Knp\Component\Pager\PaginatorInterface;
 use LocationInfoService;
+use OpenAI;
+use OpenAI\Client;
+use OpenAI\Resources\Chat;
 use Symfony\Bridge\Twig\Mime\BodyRenderer;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -282,4 +285,24 @@ class CoursesController extends AbstractController
             'roomId' => $roomId
         ]);
     }
+    // ECL-GPT
+    #[Route('/askEcl', name: 'question_ecl_gpt')]
+    public function submitQuestion(Request $request): Response
+    {   
+        $question = $request->get('question');
+        try {
+            $myApiKey = $_ENV['OPENAI_API_KEY'];
+            $client = OpenAI::client($myApiKey);
+            $response = $client->chat()->create([
+                'model' => 'gpt-3.5-turbo',  
+                'messages' => [
+                    ['role' => 'user', 'content' => $question]
+                ]
+            ]);
+            return new JsonResponse($response['choices'][0]['message']['content']);
+        } catch (\Throwable $e) {
+            return new JsonResponse(['error' => 'Unable to process your request at this time.', 'details' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        
+    }    
 }

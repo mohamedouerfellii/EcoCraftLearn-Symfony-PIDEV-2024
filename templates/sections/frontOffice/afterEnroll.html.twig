@@ -1,11 +1,14 @@
 {% extends 'baseBack.html.twig' %}
 {% block title %}EcoCraftLearning - {{ course.title }}{% endblock %}
+
 {% block notification %}
 {% endblock %}
 {% block linkHome %} href="{{path('my_learning', {'idUser' : 14 })}}" {% endblock %}
 {% block sideBar %}
 {% endblock %}
 {% block body %}
+<script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script defer src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
 #ecl-gpt-container{
       height: 800px;
@@ -154,52 +157,36 @@
                                     <div class="col-lg-12">
                                     <!-- Answer Message Wrapper Start -->
                                     <div class="answer-message-wrapper">
-                                        <ul>
+                                        <ul id="msgList">
                                             <li>
                                                 <!-- Single Message Start -->
                                                 <div class="single-message">
                                                     <div class="message-author">
                                                         <div class="author-images">
-                                                            <img src="{{asset('assets/images/author/author-12.jpg')}}" alt="Author">
+                                                            <img src="{{asset('assets/images/logoDark.png')}}" alt="Author">
                                                         </div>
                                                         <div class="author-content">
                                                             <h6 class="name"><strong>ECL-GPT</strong></h6>
                                                         </div>
                                                     </div>
-                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make specimen book has survived not only five centuries.</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <!-- Single Message Start -->
-                                                <div class="single-message">
-                                                    <div class="message-author">
-                                                        <div class="author-images">
-                                                            <img src="{{asset('assets/images/author/author-12.jpg')}}" alt="Author">
-                                                        </div>
-                                                        <div class="author-content">
-                                                            <h6 class="name"><strong>ECL-GPT</strong></h6>
-                                                        </div>
-                                                    </div>
-                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make specimen book has survived not only five centuries.</p>
+                                                    <p>Hello! How can I assist you today</p>
                                                 </div>
                                             </li>
                                         </ul>
-                                                <!-- Single Message End -->
-                                                <form action="#">
-                                                    <div class="message-form">
-                                                        <div class="auhtor">
-                                                            <img src="{{ asset('assets/images/author/author-16.jpg')}}" alt="Author">
-                                                        </div>
-                                                        <div class="message-input">
-                                                            <textarea placeholder="Ask a question"></textarea>
+                                        <!-- Single Message End -->
+                                            <div class="message-form" id="questionDiv" data-url="{{ path('question_ecl_gpt') }}">
+                                                <div class="auhtor">
+                                                    <img src="{{ asset('assets/images/author/author-16.jpg')}}" alt="Author">
+                                                </div>
+                                                <div class="message-input">
+                                                    <textarea id="questionInput" placeholder="Ask a question"></textarea>
 
-                                                            <div class="message-btn">
-                                                                <button class="btn btn-secondary btn-hover-primary">Cancel</button>
-                                                                <button class="btn btn-primary btn-hover-dark">Submit</button>
-                                                            </div>
-                                                        </div>
+                                                    <div class="message-btn">
+                                                        <button class="btn btn-secondary btn-hover-primary">Cancel</button>
+                                                        <button onclick="submitQustion()" class="btn btn-primary btn-hover-dark">Submit</button>
                                                     </div>
-                                                </form>
+                                                </div>
+                                            </div>
                                     </div>
                                     <!-- Answer Message Wrapper End -->
                                 </div>

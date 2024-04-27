@@ -7,7 +7,7 @@ colorPicker = document.querySelector("#color-picker"),
 clearCanvas = document.querySelector(".clear-canvas"),
 saveImg = document.querySelector(".save-img"),
 ctx = canvas.getContext("2d");
-
+ 
 // global variables with default value
 const roomId = document.getElementById('container').getAttribute('data-id-room');
 const mercureUrl = "https://localhost:3000/.well-known/mercure";
@@ -145,7 +145,7 @@ function sendingData(data){
             "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOlsiKiJdfX0.a8cjcSRUAcHdnGNMKifA4BK5epRXxQI0UBp2XpNrBdw",
         },
         body: new URLSearchParams({
-            topic: "https://ecocraftlearning/wbmeeting/" + roomId, // Sujet de la publication
+            topic: "https://ecocraftlearning/wbmeeting/" + roomId,
             data: JSON.stringify(data),
         }),
     })

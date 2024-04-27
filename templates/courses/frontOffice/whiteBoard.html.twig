@@ -15,57 +15,13 @@
     <div class="container" id="container" data-id-room="{{ course.idcourse + course.tutor.iduser}}" data-id-course="{{ course.idcourse }}">
       <section class="tools-board">
         <div class="row">
-          <label class="title">Shapes</label>
+          <label class="title">Course</label>
           <ul class="options">
             <li class="option tool" id="rectangle">
-              <img src="{{asset('assets/icons/rectangle.svg')}}" alt="">
-              <span>Rectangle</span>
-            </li>
-            <li class="option tool" id="circle">
-              <img src="{{asset('assets/icons/circle.svg')}}" alt="">
-              <span>Circle</span>
-            </li>
-            <li class="option tool" id="triangle">
-              <img src="{{asset('assets/icons/triangle.svg')}}" alt="">
-              <span>Triangle</span>
-            </li>
-            <li class="option">
-              <input type="checkbox" id="fill-color">
-              <label for="fill-color">Fill color</label>
+              <img style="width: 30px; heigth: 30px;" src="{{ asset('contents/uploads/courses/' ~ course.image) }}" alt="">
+              <span>{{ course.title }}</span>
             </li>
           </ul>
-        </div>
-        <div class="row">
-          <label class="title">Options</label>
-          <ul class="options">
-            <li class="option active tool" id="brush">
-              <img src="{{asset('assets/icons/brush.svg')}}" alt="">
-              <span>Brush</span>
-            </li>
-            <li class="option tool" id="eraser">
-              <img src="{{asset('assets/icons/eraser.svg')}}" alt="">
-              <span>Eraser</span>
-            </li>
-            <li class="option">
-              <input type="range" id="size-slider" min="1" max="30" value="5">
-            </li>
-          </ul>
-        </div>
-        <div class="row colors">
-          <label class="title">Colors</label>
-          <ul class="options">
-            <li class="option"></li>
-            <li class="option selected"></li>
-            <li class="option"></li>
-            <li class="option"></li>
-            <li class="option">
-              <input type="color" id="color-picker" value="#4A98F7">
-            </li>
-          </ul>
-        </div>
-        <div class="row buttons">
-          <button class="clear-canvas">Clear Canvas</button>
-          <button class="save-img">Save As Image</button>
         </div>
       </section>
       <section class="drawing-board">
@@ -91,7 +47,13 @@
         const eventSource = new EventSource("{{ mercure('https://ecocraftlearning/wbmeeting/' ~ roomId)|escape('js') }}");
         eventSource.onmessage = event => {
             notifData = JSON.parse(event.data);
-            if(notifData['action'] == "drawing")
+            if(notifData['action'] == "endroom"){
+                  alert("Hello world!");
+                  setTimeout(function() {
+                      window.location.href = "http://127.0.0.1:8000/"
+                  }, 2000); 
+            }
+            else if(notifData['action'] == "drawing")
               drawing(notifData);
             else if(notifData['action'] == "startDraw")
               startDraw(notifData);

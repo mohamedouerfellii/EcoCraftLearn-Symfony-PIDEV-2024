@@ -38,7 +38,7 @@ const drawing = (data) => { // if isDrawing is false return from here
     if(selectedTool === "brush" || selectedTool === "eraser") {
         // if selected tool is eraser then set strokeStyle to white 
         // to paint white color on to the existing canvas content else set the stroke color to selected color
-        ctx.strokeStyle = selectedTool === "eraser" ? "#fff" : data['selectedColor'];;
+        ctx.strokeStyle = selectedTool === "eraser" ? "#fff" : data['selectedColor'];
         ctx.lineTo(data['ofssetX'], data['ofssetY']); // creating line according to the mouse pointer
         ctx.stroke(); // drawing/filling line with color
         console.log(data);
@@ -76,4 +76,6 @@ disconnectBtn.addEventListener("click", () => {
     .catch(error => {
         console.error('Erreur lors de la publication sur Mercure :', error);
     });
+    window.location.href = "http://127.0.0.1:8000/";
 });
+
