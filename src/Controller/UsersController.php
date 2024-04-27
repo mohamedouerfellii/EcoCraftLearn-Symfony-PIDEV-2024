@@ -17,6 +17,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use App\Entity\Courses;
+use App\Form\RegistrationFormType;
 
 class UsersController extends AbstractController
 {
@@ -132,5 +133,48 @@ class UsersController extends AbstractController
         ]);
     }
 
-   
-}
+
+
+    #[Route('/googleregister', name: 'google_user')]
+    public function googleProfil(ManagerRegistry $doctrine,Request $request,UserPasswordHasherInterface $userPasswordHasher,SluggerInterface $slugger)
+    {
+        $em = $doctrine->getManager();
+        $user = $this->security->getUser();
+    
+        // Check if the user is already fully registered
+       
+    
+        // Handle form submission
+        if ($request->isMethod('POST')) {
+            $password = $request->request->get('password');
+            $role = $request->request->get('role');
+            $gender = $request->request->get('gender');
+            $phoneNumber = $request->request->get('numtel');
+    
+            // Update user properties
+            if ($user instanceof \App\Entity\Users) {
+                // Hash the password
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $password
+                    )
+                );
+                $user->setRole($role);
+                $user->setGender($gender);
+                $user->setNumtel($phoneNumber);
+             
+    
+                // Persist user
+                $em->persist($user);
+                $em->flush();
+                if ($role === 'teacher') {
+                    return $this->redirectToRoute('tutor_course_dashboard');
+                } elseif ($role === 'student') {
+                    return $this->redirectToRoute('home_page');
+                }
+            }
+        }
+    
+        return $this->render('users/googleProfil.html.twig');
+}}

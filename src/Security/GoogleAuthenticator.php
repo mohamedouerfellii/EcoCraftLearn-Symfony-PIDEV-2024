@@ -67,7 +67,7 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
                      $user->setImage($googleUser->getAvatar());
                      $user->setPassword("wqeqweqw");
                     $user->setGender("autre");
-                     $user->setRole("student");
+                     $user->setRole("other");
                     $user->setNumtel(123);
                    
                     $this->entityManager->persist($user);
@@ -103,7 +103,7 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
         
 
         // or, on success, let the request continue to be handled by the controller
-        $targetUrl = $this->router->generate('visitor_app');
+        $targetUrl = $this->router->generate('google_user');
         return new RedirectResponse($targetUrl);;
     }
 
