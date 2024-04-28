@@ -180,10 +180,11 @@
                                                 </div>
                                                 <div class="message-input">
                                                     <textarea id="questionInput" placeholder="Ask a question"></textarea>
-
+                                                    <!-- Ajout d'un input de type file pour les images -->
+                                                    <input type="file" id="questionImage" accept="image/*">
                                                     <div class="message-btn">
-                                                        <button class="btn btn-secondary btn-hover-primary">Cancel</button>
-                                                        <button onclick="submitQustion()" class="btn btn-primary btn-hover-dark">Submit</button>
+                                                        <button type="button" class="btn btn-secondary btn-hover-primary">Cancel</button>
+                                                        <button id="submitQuestionBtn" class="btn btn-primary btn-hover-dark">Submit</button>
                                                     </div>
                                                 </div>
                                             </div>

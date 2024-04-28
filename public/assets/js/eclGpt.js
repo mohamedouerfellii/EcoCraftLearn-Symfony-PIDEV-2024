@@ -1,7 +1,6 @@
-function submitQustion(){
+const submitBtn = document.getElementById('submitQuestionBtn');
+submitBtn.addEventListener("click", () => {
     const question = document.getElementById("questionInput").value;
-    let msgList = document.getElementById("msgList");
-    let url = $("#questionDiv").data("url");
     let userDetails = "Ouerfelli Mohamed";
     let userImg = "/assets/images/author/author-01.jpg";
     let userMsg = `
@@ -22,11 +21,21 @@ function submitQustion(){
     `;
     $("#msgList").append(userMsg);
     document.getElementById("questionInput").value="";
-    $.ajax({
-        type: "GET",
-        url: url,
-        data: { question: question },
+    const imageFile = document.getElementById("questionImage").files[0];
+    let formData = new FormData();
+    formData.append("question", question);
+    if (imageFile) {
+        formData.append("image", imageFile);
+    }
 
+    let url = $("#questionDiv").data("url");
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: formData,
+        processData: false, 
+        contentType: false, 
         success: function (response) {
             if (response) {
                 console.log(response);
@@ -57,9 +66,9 @@ function submitQustion(){
 
                 $("#msgList").append($liMsg);
                 } 
-            },
-        error: function (xhr, status, error) {
-        console.log("Error: " + error);
         },
+        error: function (xhr, status, error) {
+            console.error("Error: " + error);
+        }
     });
-}
+})

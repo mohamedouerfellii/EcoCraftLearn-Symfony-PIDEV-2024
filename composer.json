@@ -12,6 +12,7 @@
         "doctrine/doctrine-bundle": "^2.12",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^2.13.2",
+        "google-gemini-php/symfony": "^1.0",
         "knplabs/knp-paginator-bundle": "^5.9",
         "openai-php/symfony": "^0.8.2",
         "phpdocumentor/reflection-docblock": "^5.3",

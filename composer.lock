@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7047c177332f7773f8f2d05cddebf99d",
+    "content-hash": "4a6472ee8656667c249b49721b487cdd",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1472,6 +1472,133 @@
                 }
             ],
             "time": "2023-10-06T06:47:41+00:00"
+        },
+        {
+            "name": "google-gemini-php/client",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/google-gemini-php/client.git",
+                "reference": "06536196184cb6b29f096e29705a175b7b7350af"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/google-gemini-php/client/zipball/06536196184cb6b29f096e29705a175b7b7350af",
+                "reference": "06536196184cb6b29f096e29705a175b7b7350af",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1.0",
+                "php-http/discovery": "^1.19.2"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^7.8.1",
+                "guzzlehttp/psr7": "^2.6.2",
+                "laravel/pint": "^1.13.10",
+                "mockery/mockery": "^1.6.7",
+                "pestphp/pest": "^2.30",
+                "phpstan/phpstan": "^1.10"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Gemini.php"
+                ],
+                "psr-4": {
+                    "Gemini\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fatih AYDIN",
+                    "email": "aydinfatih52@gmail.com"
+                }
+            ],
+            "description": "Gemini API is a supercharged PHP API client that allows you to interact with the Gemini API",
+            "keywords": [
+                "Gemini",
+                "client",
+                "gemini-pro",
+                "language",
+                "natural",
+                "nlp",
+                "php",
+                "processing",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/google-gemini-php/client/issues",
+                "source": "https://github.com/google-gemini-php/client/tree/1.0.4"
+            },
+            "time": "2024-04-23T18:29:15+00:00"
+        },
+        {
+            "name": "google-gemini-php/symfony",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/google-gemini-php/symfony.git",
+                "reference": "64595aa8488acf2b8660fafaf8d2337e38416cf6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/google-gemini-php/symfony/zipball/64595aa8488acf2b8660fafaf8d2337e38416cf6",
+                "reference": "64595aa8488acf2b8660fafaf8d2337e38416cf6",
+                "shasum": ""
+            },
+            "require": {
+                "google-gemini-php/client": "^1.0.0",
+                "nyholm/psr7": "^1.8.1",
+                "php": "^8.1.0",
+                "psr/http-client": "^1.0.3",
+                "psr/http-factory": "^1.0.2",
+                "symfony/config": "^5.4|^6.3|^7.0",
+                "symfony/dependency-injection": "^5.4|^6.3|^7.0.1",
+                "symfony/http-client": "^5.4|^6.3|^7.0",
+                "symfony/http-kernel": "^5.4|^6.3|^7.0.1"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.13.6",
+                "phpstan/phpstan": "^1.10.47",
+                "symfony/phpunit-bridge": "^5.4|^6.3|^7.0.1"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Gemini\\Symfony\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fatih AYDIN",
+                    "email": "aydinfatih52@gmail.com"
+                }
+            ],
+            "description": "Symfony Bundle for Gemini",
+            "keywords": [
+                "Gemini",
+                "api",
+                "client",
+                "language",
+                "natural",
+                "php",
+                "processing",
+                "sdk",
+                "symfony"
+            ],
+            "support": {
+                "issues": "https://github.com/google-gemini-php/symfony/issues",
+                "source": "https://github.com/google-gemini-php/symfony/tree/1.0.0"
+            },
+            "time": "2024-02-13T05:48:24+00:00"
         },
         {
             "name": "knplabs/knp-components",

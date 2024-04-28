@@ -13,6 +13,9 @@ use App\Form\EditCourseFormType;
 use App\Repository\CoursesRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
+use Gemini;
+use Gemini\Data\Blob;
+use Gemini\Enums\MimeType;
 use InfoBip;
 use Knp\Component\Pager\PaginatorInterface;
 use LocationInfoService;
@@ -289,20 +292,37 @@ class CoursesController extends AbstractController
     #[Route('/askEcl', name: 'question_ecl_gpt')]
     public function submitQuestion(Request $request): Response
     {   
+        
         $question = $request->get('question');
+        $image = $request->files->get('image');
         try {
-            $myApiKey = $_ENV['OPENAI_API_KEY'];
-            $client = OpenAI::client($myApiKey);
-            $response = $client->chat()->create([
-                'model' => 'gpt-3.5-turbo',  
-                'messages' => [
-                    ['role' => 'user', 'content' => $question]
-                ]
-            ]);
-            return new JsonResponse($response['choices'][0]['message']['content']);
+            $client = Gemini::client($_ENV['GEMINI_API_KEY']);
+            if ($image) {
+                $image = $request->files->get('image');
+                $base64EncodedImage = base64_encode(file_get_contents($image));
+                // Prepare the Blob object as per the API requirement
+                $blob = new Blob(
+                    mimeType: MimeType::IMAGE_JPEG, 
+                    data: $base64EncodedImage
+                );
+                // Sending the request to the Gemini API
+                $result = $client
+                    ->geminiProVision()
+                    ->generateContent([
+                        $question,
+                        $blob
+                    ]);
+        
+                return new JsonResponse($result->text());
+            } else {
+                $result = $client
+                ->geminiPro()
+                ->generateContent($question);
+                return new JsonResponse($result->text());
+            }  
         } catch (\Throwable $e) {
             return new JsonResponse(['error' => 'Unable to process your request at this time.', 'details' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
         
-    }    
+    }      
 }
