@@ -131,6 +131,8 @@ class EventsController extends AbstractController
     }
 
 
+
+    
     #[Route('/eventsDetailsfront/{idevent}', name: 'eventsDetailsfront')]
     public function eventsDetailsfront(ManagerRegistry $doctrine,Request $request): Response
     {
