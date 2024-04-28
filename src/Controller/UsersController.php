@@ -18,6 +18,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use App\Entity\Courses;
 use App\Form\RegistrationFormType;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+
+
 
 class UsersController extends AbstractController
 {
@@ -125,8 +128,20 @@ class UsersController extends AbstractController
 
 
     #[Route('/', name: 'visitor_app')]
-    public function over(ManagerRegistry $doctrine,Request $request): Response
-    {
+    public function over(ManagerRegistry $doctrine,Request $request, Security $security): Response
+    { 
+      
+           
+            if ($security->isGranted('ROLE_ADMIN')) {
+                return $this->redirectToRoute('admin_dashboard');
+            } elseif ($security->isGranted('ROLE_TEACHER')) {
+                return $this->redirectToRoute('tutor_course_dashboard');
+            } elseif ($security->isGranted('ROLE_STUDENT')) {
+                return $this->redirectToRoute('home_page');
+            }
+        
+
+
         $courses = $doctrine->getManager()->getRepository(Courses::class)->showCoursesHomePage(14);
         return $this->render('users/index.html.twig', [
             'courses' => $courses

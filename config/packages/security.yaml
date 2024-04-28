@@ -30,8 +30,11 @@ security:
                 - App\Security\GoogleAuthenticator 
             logout:
                 path: /logout
-  
-            
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                path: /
+                always_remember_me: false
                 # where to redirect after logout
                 # target: app_any_route
          
@@ -49,6 +52,9 @@ security:
     - { path: ^/admin , roles: ROLE_ADMIN }
     - { path: ^/student , roles: ROLE_STUDENT }
     - { path: ^/tutor , roles: ROLE_TEACHER }
+
+ 
+
    
    
         
