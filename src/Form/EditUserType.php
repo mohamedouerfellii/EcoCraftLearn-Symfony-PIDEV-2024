@@ -74,7 +74,7 @@ class EditUserType extends AbstractType
             ->add('role', ChoiceType::class, [
                 'choices' => [
                     'Teacher' => 'teacher',
-                    'User' => 'user',
+                    'Student' => 'student',
                     // Ajoutez plus d'options de rôle au besoin
                 ],
                 'placeholder' => 'Choose a role',

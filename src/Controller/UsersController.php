@@ -140,20 +140,14 @@ class UsersController extends AbstractController
     {
         $em = $doctrine->getManager();
         $user = $this->security->getUser();
-    
-        // Check if the user is already fully registered
-       
-    
-        // Handle form submission
         if ($request->isMethod('POST')) {
             $password = $request->request->get('password');
             $role = $request->request->get('role');
             $gender = $request->request->get('gender');
             $phoneNumber = $request->request->get('numtel');
     
-            // Update user properties
             if ($user instanceof \App\Entity\Users) {
-                // Hash the password
+
                 $user->setPassword(
                     $userPasswordHasher->hashPassword(
                         $user,
@@ -177,4 +171,53 @@ class UsersController extends AbstractController
         }
     
         return $this->render('users/googleProfil.html.twig');
-}}
+}
+
+#[Route('/student/editpassword', name: 'update_student_password')]
+public function editstudentpassword(ManagerRegistry $doctrine, Request $request, UserPasswordHasherInterface $userPasswordHasher)
+{
+    $em = $doctrine->getManager();
+    $user = $this->security->getUser();
+    $errorMessages = [];
+
+    if ($request->isMethod('POST')) {
+        $currentPassword = $request->request->get('password');
+        $newPassword = $request->request->get('new');
+        $confirmedPassword = $request->request->get('conf');
+
+        // Check if the current password matches the user's actual password
+        if ($user instanceof \App\Entity\Users && $userPasswordHasher->isPasswordValid($user, $currentPassword)) {
+            // Check if the new password and confirmed password match
+            if ($newPassword === $confirmedPassword) {
+                // Hash and set the new password
+                $hashedPassword = $userPasswordHasher->hashPassword($user, $newPassword);
+                $user->setPassword($hashedPassword);
+
+                $em->persist($user);
+                $em->flush();
+                return $this->redirectToRoute('profil_app');
+            } else {
+                $errorMessages[] = "New password and confirmed password do not match";
+            }
+        } else {
+            $errorMessages[] = "Current password is incorrect";
+        }
+    }
+
+    return $this->render('users/frontOffice/editpassword.html.twig', [
+        'user' => $user,
+        'errorMessages' => $errorMessages,
+    ]);
+}
+
+
+
+
+
+
+
+
+
+
+
+}
