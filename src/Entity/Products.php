@@ -1,9 +1,15 @@
 <?php
 
 namespace App\Entity;
+use App\Entity\Productsevaluations;
 use App\Repository\ProductsRepository;
 use Endroid\QrCode\QrCode;
 use Doctrine\DBAL\Types\Types;
+
+use App\Repository\ProductsevaluationsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ProductsRepository::class)]
@@ -153,8 +159,7 @@ class Products
         return $this;
     }
 
-
-
+    
 
     
     

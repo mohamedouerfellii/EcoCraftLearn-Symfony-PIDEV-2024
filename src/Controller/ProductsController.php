@@ -51,24 +51,42 @@ class ProductsController extends AbstractController
     }
 
     #[Route('/showProducts', name: 'showProducts')]
-    public function show(ProductsRepository $rep, SouscartsRepository $souscartsRepository, CommandesRepository $commandesRepository): Response
-    {
+    public function show(
+        ProductsRepository $rep,
+        SouscartsRepository $souscartsRepository,
+        CommandesRepository $commandesRepository,
+        ProductsevaluationsRepository $repository
+    ): Response {
         $user = $this->getDoctrine()->getRepository(Users::class)->find(12);
-
+    
         if (!$user) {
             throw $this->createNotFoundException('User not found.');
         }
-
+    
         $souscartCount = $souscartsRepository->countByOwner($user);
         $orderCount = $commandesRepository->countByOwner($user);
         $products = $rep->findProductsExceptOwner($user);
-
+    
+        $moyRates = [];
+    
+        foreach ($products as $product) {
+            $idproduct = $product->getIdproduct();
+    
+            $countrate = $repository->countRatingsByProductId($idproduct);
+            $sumrate = $repository->sumRatingByProductId($idproduct);
+            $moyRate = $countrate > 0 ? $sumrate / $countrate : 0;
+    
+            $moyRates[$idproduct] = $moyRate;
+        }
+    
         return $this->render("products/frontOffice/homePageProduct.html.twig", [
             "Products" => $products,
             "souscartCount" => $souscartCount,
-            "orderCount" => $orderCount
+            "orderCount" => $orderCount,
+            'moyRates' => $moyRates,
         ]);
     }
+    
 
 
      #[Route('/cart-and-orders-count', name: 'cart_and_orders_count')]
@@ -238,20 +256,15 @@ class ProductsController extends AbstractController
         #[Route('/filterProduct', name: 'filter_Product')]
         public function filterProduct(ProductsRepository $productsRep, Request $request): Response
         {
-            $owner = 12; // Remplacez par la valeur appropriée
-            $filter = $request->query->get('filter'); // Récupérer le paramètre filter de la requête
-            $products = $productsRep->filterProductbyDate($owner, $filter); // Utiliser le paramètre filter dans la méthode de filtrage
+            $owner = 12; 
+            $filter = $request->query->get('filter');
+            $products = $productsRep->filterProductbyDate($owner, $filter); 
         
             $dataToJson = $this->serializeProducts($products);
         
             return new Response($dataToJson, Response::HTTP_OK, ['Content-Type' => 'application/json']);
         }
         
-        
-        
-        
-        
-
         private function serializeProducts(array $products): string
         {
             $serializer = $this->get('serializer');

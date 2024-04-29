@@ -1,19 +1,21 @@
-
-//script search product
 $(document).ready(function() {
-    $('#searchForm').submit(function(event) {
-        event.preventDefault();
-        var searchTerm = $('#searchInput').val();
-        searchProduct(searchTerm);
+    $('#searchInput').on('input', function() {
+        var searchTerm = $(this).val().trim();
+        if (searchTerm.length > 0) {
+            searchProduct(searchTerm);
+        } else {
+
+            $("#mainAllProductDiv").empty();
+        }
     });
 });
 
-function searchProduct(search) {
+function searchProduct(searchTerm) {
     let url = "/searchProducts"; 
     $.ajax({
         type: "GET",
         url: url,
-        data: { search: search },
+        data: { search: searchTerm },
         success: function (data) {
             if (data) {
                 console.log(data);

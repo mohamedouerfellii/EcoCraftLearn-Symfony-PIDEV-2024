@@ -59,10 +59,12 @@ class OrdersController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($commande);
             $entityManager->flush();
+
             $productsRepository->decrementProductQuantity($idcarts);
             return $this->redirectToRoute('showProducts');
         }
     
+
         return $this->render('products/frontOffice/AddOrderProduct.html.twig', [
             'form' => $form->createView(),
            
@@ -141,19 +143,26 @@ class OrdersController extends AbstractController
     }
 
 
-    private $stripeSecretKey = 'sk_test_51P7QLhC1RShSNDAEBwbiJQs9NhMRsKmaPAKkg6eaAEj7IRr5vgby41OTWM14OFOwhQg4eNpSrRbfiXPmxMdHm9yc00iS0MdqKR';
+
     #[Route('/process-payment', name: 'process_payment')]
     public function processPayment(Request $request, CommandesRepository $commandesRepository, EntityManagerInterface $entityManager): Response
     {
-        Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
+       $stripeSecretKey = 'sk_test_51P7QLhC1RShSNDAEBwbiJQs9NhMRsKmaPAKkg6eaAEj7IRr5vgby41OTWM14OFOwhQg4eNpSrRbfiXPmxMdHm9yc00iS0MdqKR';
+        Stripe::setApiKey($stripeSecretKey);
         $token = $request->request->get('stripeToken');
+
+
         $amount = $request->request->get('total'); 
+
+
         $idCommande = $request->request->get('idCommande');
 
 
         $commande = $commandesRepository->find($idCommande);
         $commande->setEtatPayment('paid');
         $entityManager->flush();
+
+        
         try {
             $charge = \Stripe\Charge::create([
                 'amount' => $amount,

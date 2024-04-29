@@ -90,7 +90,7 @@
 
 
 
- <script src="https://js.stripe.com/v3/"></script>
+ 
     <script>
         var stripe = Stripe('{{ stripe_public_key }}');
         var elements = stripe.elements();
@@ -111,10 +111,6 @@
                 iconColor: '#fa755a'
             }
         };
-
-
-
-        
         var cardNumber = elements.create('cardNumber', { style: style });
         cardNumber.mount('#card-number');
         var cardExpiry = elements.create('cardExpiry', { style: style });

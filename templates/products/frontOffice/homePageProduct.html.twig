@@ -1,5 +1,7 @@
 {% extends 'baseFront.html.twig' %}
 {% block body %}
+
+
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <!-- Overlay Start -->
         <div class="overlay"></div>
@@ -89,24 +91,8 @@
         <!-- All Courses Start -->
         <div class="section section-padding-02">
         
-                {% for label, messages in app.flashes %}
-                {% for message in messages %}
-                    <div class="alert alert-danger" style="color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                        {{ message }}
-                    </div>
-                    <script>
-                        setTimeout(function() {
-                            document.querySelector('.alert').style.display = 'none';
-                        }, 3000); 
-                    </script>
-                {% endfor %}
-            {% endfor %}
          {% block bodyProductQuantity %}
             <div class="container">
-
-
-
-
 
                 <!-- All Courses Top Start -->
                 <div class="courses-top">
@@ -114,21 +100,17 @@
                
                     <!-- Section Title Start -->
                     <div class="section-title shape-01">
-                        <h2 class="main-title">All <span>Products</span> of EcoCraftLearning</h2>
+                        <h2 class="main-title">All <span>Products</span></h2>
                     </div>
                     <!-- Section Title End -->
-
-
-                 
-
 
 
 <div class="courses-search">
     <form id="searchForm" action="#" method="GET">
         <input type="text" id="searchInput" placeholder="Search your Products">
-        <button type="submit"><i class="flaticon-magnifying-glass"></i></button>
     </form>
 </div>
+
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -157,13 +139,7 @@
 
 <script src="{{asset('assets/js/product.js')}}"></script>
 
-
-
-
-
-
-
-        
+       
 <style>
         .badge {
         background-color: #dc3545;
@@ -178,11 +154,14 @@
 </style>
 
 <div class="courses-btn text-center" style="width: 2000px; height: 50px; position: relative;">
-    <a href="{{ path('my_cart') }}" id="myCartBtn" class="btn btn-secondary btn-hover-primary">My Carts <span class="badge badge-danger">Loading...</span></a>
-    <a href="{{ path('My_Order') }}" id="myOrderBtn" class="btn btn-secondary btn-hover-primary">My Orders <span class="badge badge-danger">Loading...</span></a>
+    <a href="{{ path('my_cart') }}" id="myCartBtn" class="btn btn-secondary btn-hover-primary">My Carts <span class="badge badge-danger"></span></a>
+    <a href="{{ path('My_Order') }}" id="myOrderBtn" class="btn btn-secondary btn-hover-primary">My Orders <span class="badge badge-danger"></span></a>
 </div>
 
 <script>
+
+
+
     document.addEventListener('DOMContentLoaded', function () {
         fetch('{{ path('cart_and_orders_count') }}')
             .then(response => response.json())
@@ -192,6 +171,8 @@
             })
             .catch(error => console.error('Error fetching cart and orders count:', error));
     });
+
+    
 </script>
 
 
@@ -205,47 +186,49 @@
                 <div class="courses-wrapper">   
 
                     <div class="row" id="mainAllProductDiv">
-    {% for p in Products %}
-        <div class="col-lg-4 col-md-6">
-            <div class="single-courses">
-
-                <div class="courses-images">
-                    <a href="/addevaluationproduct/{{ p.idproduct }}">
-                        <img src="{{ asset('contents/uploads/products/' ~ p.image) }}" alt="Courses" style="width:330px;height:300px;">
+{% for p in Products %}
+    <div class="col-lg-4 col-md-6">
+        <div class="single-courses">
+            <div class="courses-images">
+                <a href="/addevaluationproduct/{{ p.idproduct }}">
+                    <img src="{{ asset('contents/uploads/products/' ~ p.image) }}" alt="Courses" style="width:330px;height:300px;">
+                </a>
+            </div>
+            <div class="courses-content">
+                <h4 class="title"><a href="#">{{ p.name }}</a></h4>
+                <div class="courses-meta">
+                    <span> Quantity : {{ p.quantite }}</span>
+                </div>
+                <div class="courses-author">
+                    <div class="author">
+                        <div class="author-name"></div>
+                    </div>
+                <div class="tag">
+                    <a id="buyButton" href="/buy_now/{{ p.idproduct }}" 
+                    {% if p.quantite == 0 %} 
+                        onclick="return false;" 
+                        style="pointer-events: none; cursor: default;"
+                    {% endif %}>
+                    Buy Now
                     </a>
                 </div>
-
-                <div class="courses-content">
-
-                    <h4 class="title"><a href="#">{{ p.name }}</a></h4>
-
-                    <div class="courses-meta">
-                        <span> Quantity : {{ p.quantite }}</span>
+                </div>
+                <div class="courses-price-review">
+                    <div class="courses-price">
+                        <span class="sale-parice">{{ p.price }} DT</span>
                     </div>
-
-                    <div class="courses-author">
-                        <div class="author">
-                            <div class="author-name"></div>
-                        </div>
-                        <div class="tag">
-                            <a href="/buy_now/{{ p.idproduct }}">Buy Now</a>
-                        </div>
-                    </div>
-                    <div class="courses-price-review">
-                        <div class="courses-price">
-                            <span class="sale-parice">{{ p.price }} DT</span>
-                        </div>
-                        <div class="courses-review">
-                            <span class="rating-count">4.9</span>
-                            <span class="rating-star">
-                                <span class="rating-bar" style="width: 80%;"></span>
-                            </span>
-                        </div>
+                <div class="courses-review">
+                        <span class="rating-count">{{ moyRates[p.idproduct]|round(1) }}</span>
+                        <span class="rating-star">
+                            <span class="rating-bar" style="width: {{ moyRates[p.idproduct] * 20 }}%;"></span> 
+                        </span>
                     </div>
                 </div>
             </div>
         </div>
-    {% endfor %}
+    </div>
+{% endfor %}
+
 </div>
 
                  </div>
