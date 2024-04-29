@@ -1,9 +1,18 @@
 {% extends 'baseBack.html.twig' %}
 {% block body %}
+</br>
+</br>
+</br>
+</br>
+</br>
+
 <!-- Admin Courses Tab Start -->
 <div class="admin-courses-tab">
     <h3 class="title">Form</h3>
-
+ 
+      
+      <!-- /input-group -->
+  
     <div class="courses-tab-wrapper">
         <div class="courses-select">
             <select>
@@ -24,39 +33,45 @@
 <!-- Admin Courses Tab End -->
 
 <!-- Admin Courses Tab Content Start -->
+<div class="sidebar-search">
+    <div class="input-group custom-search-form">
+        <input type="text" id="search" class="form-control" placeholder="Search...">
+    </div>
+</div>
+
 <div class="admin-courses-tab-content">
     <div class="tab-content">
         <div class="tab-pane fade show active" id="tab1">
-        
-
-
-<tr>
-{% for post in posts %}
-<tr>
-<div class="post">
-    <div class="post-header">
-           <td> <img src="{{ post.owner.image }}" class="profile-picture" alt="Profile Picture"></td>
-        <div class="post-info">
-            <td><span class="post-author">{{ post.owner.firstname }}</span></td>
-             <td><span class="post-time">{{ post.posteddate|date('y-m-d') }}</span></td>
-            
+            <table>
+                <tbody id="search-results">
+                    {% for post in posts %}
+                        <tr>
+                            <td>
+                                <div class="post">
+                                    <div class="post-header">
+                                        <img src="{{ post.owner.image }}" class="profile-picture" alt="Profile Picture">
+                                        <div class="post-info">
+                                            <span class="post-author">{{ post.owner.firstname }}</span>
+                                            <span class="post-time">{{ post.posteddate|date('y-m-d') }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="post-attachment">
+                                        {% if post.attachment %}  
+                                            <p><img src="{{ asset('contents/uploads/posts/' ~ post.attachment) }}" width="200px" height="200px"></p>
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <p>{{ post.content }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-    </div><th>
-    <td><a class="post-action" href="{{ path('deleteBack', {id:post.idpost}) }}">Delete</a></td>
-     <div class="post-attachment">
-        {% if post.attachment %}  
-       <td> <p><img src="{{ asset('contents/uploads/posts/' ~ post.attachment) }}"width="200px;" height="200px;"></p></td>
-        {% endif %}
-        </th>
-        </div>
-    <div >
-        <p>{{ post.content }}</p>
-       
     </div>
 </div>
-{% endfor %}
-</tr>
-</table>
 
 
 
@@ -225,5 +240,65 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
+
+<script>
+    // Wait for the document to be fully loaded
+    document.addEventListener("DOMContentLoaded", function() {
+        // Select the search input field
+        const searchInput = document.getElementById("search");
+
+        // Select the search results container
+        const searchResultsContainer = document.getElementById("search-results");
+
+        // Add event listener for input event
+        searchInput.addEventListener("input", function() {
+            // Get the search query from the input field
+            const query = searchInput.value;
+
+            // Send an AJAX request to the server with the search query
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", `/search?q=${query}`, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Parse the JSON response
+                    const response = JSON.parse(xhr.responseText);
+                    
+                    // Clear the previous search results
+                    searchResultsContainer.innerHTML = "";
+
+                    // Loop through the entities in the response and create HTML elements
+                   for (const [id, content] of Object.entries(response.entities)) {
+    const post = document.createElement("div");
+    post.classList.add("post");
+
+    // Check if content.owner exists before accessing its properties
+    const ownerImage = content.owner ? content.owner.image : '';
+    const ownerFirstname = content.owner ? content.owner.firstname : '';
+    const postedDate = content.posteddate ? content.posteddate : '';
+
+    post.innerHTML = `
+        <div class="post-header">
+            ${ownerImage ? `<img src="${ownerImage}" class="profile-picture" alt="Profile Picture">` : ''}
+            <div class="post-info">
+                <span class="post-author">${ownerFirstname}</span>
+                <span class="post-time">${postedDate}</span>
+            </div>
+        </div>
+        <div class="post-attachment">
+            ${content.attachment ? `<p><img src="contents/uploads/posts/${content.attachment}" width="200px" height="200px"></p>` : ""}
+        </div>
+        <div>
+            <p>${content.content}</p>
+        </div>
+    `;
+    searchResultsContainer.appendChild(post);
+}
+                }
+            };
+            xhr.send();
+        });
+    });
+</script>
 <!-- Admin Courses Tab Content End -->
 {% endblock %}

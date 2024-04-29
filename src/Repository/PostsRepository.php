@@ -22,5 +22,12 @@ class PostsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
+    public function searchByString(string $searchString)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.content LIKE :search')
+            ->setParameter('search', '%'.$searchString.'%')
+            ->getQuery()
+            ->getResult();
+    }
 }
