@@ -98,9 +98,24 @@
 </div>
 
 <div class="main-wrapper">
+
     <!-- Register & Login Start -->
     <div class="section section-padding">
         <div class="container">
+        <section class="section register ">
+            {% for message  in app.flashes('message') %}
+            <div class="alert alert-info">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </section>
+        <section class="section register ">
+            {% for danger  in app.flashes('danger') %}
+                <div class="alert alert-danger">
+                    {{ danger }}
+                </div>
+            {% endfor %}
+        </section>
             <!-- Register & Login Wrapper Start -->
             <div class="register-login-wrapper">
                 <div class="row align-items-center">

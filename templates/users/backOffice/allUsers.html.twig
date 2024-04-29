@@ -45,10 +45,28 @@
                 <div class="content-title">
                     <span class="title">{{ user.email }}</span>
                 </div>
+                {% if user.isactive %}
+                <div class="content-title">
+                    <span class="title" style="color:green;">active</span>
+                </div>
                 <div class="content-wrapper">
               <a href="{{ path('block_user', {'id': user.iduser}) }}" class="btn btn-primary btn-hover-dark">block</a>
-                   
+                 
                 </div>
+                {% else %} 
+                 <div class="content-title">
+                    <span class="title" style="color:red;">blocked</span>
+                </div>
+                <div class="content-wrapper">
+              <a href="{{ path('unblock_user', {'id': user.iduser}) }}" class="btn btn-primary btn-hover-dark">Unblock</a>
+                 
+                </div>
+                {% endif %}
+             <div class="content-wrapper">
+              <a href="{{ path('make_admin', {'id': user.iduser}) }}" class="btn btn-primary btn-hover-dark">admin</a>
+                 
+                </div>
+
             </div>
             <!-- Courses Item End -->
             {% endfor %}

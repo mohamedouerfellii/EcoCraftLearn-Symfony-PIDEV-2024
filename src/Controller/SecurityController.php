@@ -18,6 +18,13 @@ use Symfony\Component\Mailer\Transport;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Users;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Bridge\Twig\Mime\BodyRenderer;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+
+
 
 class SecurityController extends AbstractController
 {
@@ -55,7 +62,7 @@ class SecurityController extends AbstractController
 
 
     #[Route(path: '/forgot', name: 'app_forgot')]
-    public function forgotPassword(Request $request, ManagerRegistry $doctrine,MailerInterface $mailer, TokenGeneratorInterface  $tokenGenerator)
+    public function forgotPassword(Request $request, ManagerRegistry $doctrine,MailerInterface $mailer, TokenGeneratorInterface  $tokenGenerator,KernelInterface $kernel)
     {
 
 
@@ -88,12 +95,23 @@ class SecurityController extends AbstractController
             }
             $mailer = new Mailer(Transport::fromDsn('smtp://mohamedouerfelli3@gmail.com:vbnlkplloybfhowc@smtp.gmail.com:587'));
             $url = $this->generateUrl('app_reset_password',array('token'=>$token),UrlGeneratorInterface::ABSOLUTE_URL);
-            $email = (new Email())
+            $email = (new TemplatedEmail())
             ->from('mohamedouerfelli3@gmail.com') // Replace with your email address
             ->to($user->getEmail()) // Replace with recipient's email address
             ->subject('Forget Password') // Replace with your desired subject
-            ->html("<p>Bonjour,</p><p>Une demande de réinitialisation de mot de passe a été effectuée. Veuillez cliquer sur le lien suivant :</p><p><a href=\"$url\">$url</a></p>");
+            ->htmlTemplate('users/mailTemplate.html.twig')
+                     ->context([
+                     'emailTitle' => 'Rest Password',
+                     'emailDesc' => 'Reset password.',
+                     'url' => $url,
+                     'btnTitle' => 'reset password'
+                     ]);
 
+                     $templatesDir = $kernel->getProjectDir() . '/templates';
+                     $loader = new FilesystemLoader($templatesDir);
+                     $twigEnv = new Environment($loader);
+                     $twigBodyRenderer = new BodyRenderer($twigEnv);
+                     $twigBodyRenderer->render($email);
         // Send the email
         $mailer->send($email);
         $this->addFlash('message','E-mail  de réinitialisation du mp envoyé :');

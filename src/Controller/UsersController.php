@@ -119,6 +119,27 @@ class UsersController extends AbstractController
         
         return $this->redirectToRoute('admin_dashboard');
     }
+    #[Route('/admin/unblockProfil/{id}', name: 'unblock_user')]
+    public function unblockUser(ManagerRegistry $doctrine,Request $request,Filesystem $filesystem,  $id){
+        $em = $doctrine->getManager();
+        $user = $em->getRepository(Users::class)->find($id);
+        $user->setIsactive(true);
+        $em->persist($user);
+        $em->flush();
+        
+        return $this->redirectToRoute('admin_dashboard');
+    }
+    #[Route('/admin/makeAdmin/{id}', name: 'make_admin')]
+    public function makeAdmin(ManagerRegistry $doctrine,Request $request,Filesystem $filesystem,  $id){
+        $em = $doctrine->getManager();
+        $user = $em->getRepository(Users::class)->find($id);
+        $user->setRole("admin");
+        $em->persist($user);
+        $em->flush();
+        
+        return $this->redirectToRoute('admin_dashboard');
+    }
+
 
 
     #[Route('/', name: 'visitor_app')]

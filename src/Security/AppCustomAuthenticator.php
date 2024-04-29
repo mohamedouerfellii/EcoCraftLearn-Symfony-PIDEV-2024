@@ -49,25 +49,24 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
     {
 
 
-        if ($this->security->isGranted('ROLE_STUDENT')) {
-            // Redirect authenticated users with ROLE_USER role to the home page
-            return new RedirectResponse($this->urlGenerator->generate('home_page'));
-        } else  if ($this->security->isGranted('ROLE_TEACHER')) {
-            // Redirect authenticated users with ROLE_TUTOR role to the tutor course dashboard
-            return new RedirectResponse($this->urlGenerator->generate('tutor_course_dashboard'));
-        } else  if ($this->security->isGranted('ROLE_ADMIN')) {
-            // Redirect authenticated users with ROLE_TUTOR role to the tutor course dashboard
-            return new RedirectResponse($this->urlGenerator->generate('admin_dashboard'));
+        $user = $token->getUser();
+        if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+            $targetUrl = $this->urlGenerator->generate('admin_dashboard');
+            return new RedirectResponse($targetUrl);
         }
-        
+        else if(in_array('ROLE_STUDENT', $user->getRoles(), true)) {
+            $targetUrl = $this->urlGenerator->generate('home_page');
+            return new RedirectResponse($targetUrl);
+        }
+       else if (in_array('ROLE_TEACHER', $user->getRoles(), true)) {
+            $targetUrl = $this->urlGenerator->generate('tutor_course_dashboard');
+            return new RedirectResponse($targetUrl);
+        }
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
-
-       
-
         
-        
+      //  return new RedirectResponse($this->urlGenerator->generate('home_page'));
     throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 

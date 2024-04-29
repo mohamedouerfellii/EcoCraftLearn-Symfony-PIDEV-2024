@@ -132,7 +132,7 @@
     
 
     <a class="action author" href="#">
-                          {% if user.image is not empty %}
+                          {% if user.image is empty %}
         <img src="{{ asset('contents/uploads/users/' ~ user.image) }}" alt="Author">
     {% else %}
         <img src="{{ asset(user.image) }}" alt="Author">

@@ -19,11 +19,20 @@ use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Bridge\Twig\Mime\BodyRenderer;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+
+
+
+
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager,SluggerInterface $slugger, Security $security): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager,SluggerInterface $slugger, Security $security,KernelInterface $kernel): Response
     {
         if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
            
@@ -71,21 +80,32 @@ if ($userImage) {
              try {
                  // Create the email
                  $url= "http://127.0.0.1:8000/verify/email/".$user->getEmail();
-                 $email = (new Email())
+                 $email = (new  TemplatedEmail())
                      ->from('mohamedouerfelli3@gmail.com') // Replace with your email address
                      ->to('jr.monam123@gmail.com') // Replace with recipient's email address
-                     ->subject('Test Email Subject') // Replace with your desired subject
-                     ->text('This is a test email sent from Symfony.' . $url); // Replace with plain text content
-             
+                     ->subject('Verification Account') // Replace with your desired subject
+                     ->text('Welcom to EcoCraft learning ,We Hope you enjoy this Experience .' . $url)
+                     ->htmlTemplate('users/mailTemplate.html.twig')
+                     ->context([
+                     'emailTitle' => 'Verify Account',
+                     'emailDesc' => 'Verify Account.',
+                     'url' => $url,
+                     'btnTitle' => 'Active'
+                     ]);
+
+                     $templatesDir = $kernel->getProjectDir() . '/templates';
+                     $loader = new FilesystemLoader($templatesDir);
+                     $twigEnv = new Environment($loader);
+                     $twigBodyRenderer = new BodyRenderer($twigEnv);
+                     $twigBodyRenderer->render($email);
                  // Send the email
                  $mailer->send($email);
              
-                return new Response('a Verfification email sent , check your email', Response::HTTP_OK);
+                $this->addFlash('message','a Verfification email sent , check your email');
              } catch (TransportExceptionInterface $e) {
                  // Handle transport errors and return an error response
-                 return new Response('An error occurred while sending the email: ' . $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+                 $this->addFlash('danger','An error occurred while sending the emaill');
              }
- 
              return $this->redirectToRoute('app_login');
          
         }

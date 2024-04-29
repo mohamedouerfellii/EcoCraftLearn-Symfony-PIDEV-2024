@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UsersRepository;
+use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -11,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 
-class Users implements PasswordAuthenticatedUserInterface,UserInterface
+class Users implements PasswordAuthenticatedUserInterface,UserInterface,TwoFactorInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -56,7 +57,8 @@ class Users implements PasswordAuthenticatedUserInterface,UserInterface
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
-
+    #[ORM\Column(type: 'string', nullable: true)]
+    private  $authCode;
 
     #[ORM\Column(length:255)]
     private ?string $reset_token;
@@ -248,6 +250,32 @@ class Users implements PasswordAuthenticatedUserInterface,UserInterface
     public function setResetToken($reset_token): void
     {
         $this->reset_token = $reset_token;
+    }
+
+
+    
+    public function isEmailAuthEnabled(): bool
+    {
+        return true; // This can be a persisted field to switch email code authentication on/off
+    }
+
+    public function getEmailAuthRecipient(): string
+    {
+        return $this->email;
+    }
+
+    public function getEmailAuthCode(): string
+    {
+        if (null === $this->authCode) {
+            throw new \LogicException('The email authentication code was not set');
+        }
+
+        return $this->authCode;
+    }
+
+    public function setEmailAuthCode(string $authCode): void
+    {
+        $this->authCode = $authCode;
     }
 
 }

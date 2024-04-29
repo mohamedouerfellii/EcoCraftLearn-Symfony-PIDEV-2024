@@ -1,0 +1,167 @@
+
+
+{% extends 'baseFront.html.twig' %}
+ {% block header %}
+        <!-- Header Section Start -->
+        <div class="header-section">
+            <!-- Header Main Start -->
+            <div class="header-main">
+                <div class="container">
+
+                    <!-- Header Main Start -->
+                    <div class="header-main-wrapper">
+
+                        <!-- Header Logo Start -->
+                        <div class="header-logo">
+                            <a href="index.html"><img style="height: 60px; width: 60px;" src="{{asset('assets/images/logoDark.png')}}" alt="Logo"></a>
+                        </div>
+                        <!-- Header Logo End -->
+
+                        <!-- Header Menu Start -->
+                       
+                        <!-- Header Menu End -->
+
+                        <!-- Header Sing In & Up Start -->
+
+    {# User is not logged in, so show the sign-in and sign-up links #}
+    <div class="header-sign-in-up d-none d-lg-block">
+      
+    </div>
+
+                        <!-- Header Sing In & Up End -->
+
+                        <!-- Header Mobile Toggle Start -->
+                        <div class="header-toggle d-lg-none">
+                            <a class="menu-toggle" href="javascript:void(0)">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </a>
+                        </div>
+                        <!-- Header Mobile Toggle End -->
+
+                    </div>
+                    <!-- Header Main End -->
+                
+                </div>
+            </div>
+            <!-- Header Main End -->
+        </div>
+        <!-- Header Section End -->
+        {% endblock %}
+
+{% block body %}
+<div class="section page-banner">
+    <img class="shape-1 animation-round" src="{{ asset('assets/images/shape/shape-8.png')}}" alt="Shape">
+
+    <img class="shape-2" src="{{ asset('assets/images/shape/shape-23.png')}}" alt="Shape">
+
+    <div class="container">
+        <!-- Page Banner Start -->
+        <div class="page-banner-content">
+            <ul class="breadcrumb">
+                <li><a href="#">Home</a></li>
+                <li class="active">login</li>
+            </ul>
+            <h2 class="title">log<span>in</span></h2>
+        </div>
+        <!-- Page Banner End -->
+    </div>
+
+    <!-- Shape Icon Box Start -->
+    <div class="shape-icon-box">
+
+        <img class="icon-shape-1 animation-left" src="{{ asset('assets/images/shape/shape-5.png')}}" alt="Shape">
+
+        <div class="box-content">
+            <div class="box-wrapper">
+                <i class="flaticon-badge"></i>
+            </div>
+        </div>
+
+        <img class="icon-shape-2" src="{{ asset('assets/images/shape/shape-6.png')}}" alt="Shape">
+
+    </div>
+    <!-- Shape Icon Box End -->
+
+    <img class="shape-3" src="{{ asset('assets/images/shape/shape-24.png')}}" alt="Shape">
+
+    <img class="shape-author" src="{{ asset('assets/images/author/author-11.jpg')}}" alt="Shape">
+
+</div>
+
+    <div class="container">
+        <section class="section register ">
+        </section>
+        <section class="section register ">
+        </section>
+        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+                        <p class="label"><label for="_auth_code">{{ "auth_code"|trans({}, 'SchebTwoFactorBundle') }} {{ twoFactorProvider }}:</label></p>
+                        <div class="card mb-3">
+
+                            <div class="register-login-wrapper">
+
+                                <div class="pt-4 pb-2">
+                                    <h5 class="card-title text-center pb-0 fs-0">Confirmation Code</h5>
+                                </div>
+
+<form class="form" action="{{ checkPathUrl ? checkPathUrl: path(checkPathRoute) }}" method="post">
+    <p class="widget">
+        <input
+            id="_auth_code"
+            type="text"
+            name="{{ authCodeParameterName }}"
+            autocomplete="one-time-code"
+            autofocus
+            {#
+            https://www.twilio.com/blog/html-attributes-two-factor-authentication-autocomplete
+            If your 2fa methods are using numeric codes only, add these attributes for better user experience:
+            inputmode="numeric"
+            pattern="[0-9]*"
+            #}
+        />
+    </p>
+    
+    {% if authenticationError %}
+<p>{{ authenticationError|trans(authenticationErrorData, 'SchebTwoFactorBundle') }}</p>
+{% endif %}
+
+    {% if displayTrustedOption %}
+        <p class="widget"><label for="_trusted"><input id="_trusted" type="checkbox" name="{{ trustedParameterName }}" /> {{ "trusted"|trans({}, 'SchebTwoFactorBundle') }}</label></p>
+    {% endif %}
+    {% if isCsrfProtectionEnabled %}
+        <input type="hidden" name="{{ csrfParameterName }}" value="{{ csrf_token(csrfTokenId) }}">
+    {% endif %}
+    <p class="btn btn-primary w-100"><input  class="btn btn-primary w-100" type="submit" value="{{ "login"|trans({}, 'SchebTwoFactorBundle') }}" /></p>
+    <p class="cancel"><a href="{{ logoutPath }}">{{ "cancel"|trans({}, 'SchebTwoFactorBundle') }}</a></p>
+</form>
+                               
+
+                            </div>
+                        </div>
+
+                        <div class="credits">
+                            <!-- All the links in the footer should remain intact. -->
+                            <!-- You can delete the links only if you purchased the pro version. -->
+                            <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+                            
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+
+
+{# The logout link gives the user a way out if they can't complete two-factor authentication #}
+
+{% endblock %}

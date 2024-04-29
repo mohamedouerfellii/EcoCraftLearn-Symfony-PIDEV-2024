@@ -9,7 +9,8 @@ use Symfony\Component\Security\Http\Authorization\AccessDeniedHandlerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AccessDeniedHandler  extends AbstractController implements AccessDeniedHandlerInterface
 {
@@ -21,4 +22,8 @@ class AccessDeniedHandler  extends AbstractController implements AccessDeniedHan
     {
         return $this->render('security/404.html.twig');
     }
+
+
+    
+
 }
