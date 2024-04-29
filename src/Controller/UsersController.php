@@ -139,7 +139,7 @@ class UsersController extends AbstractController
             } elseif ($security->isGranted('ROLE_STUDENT')) {
                 return $this->redirectToRoute('home_page');
             }
-        
+      
 
 
         $courses = $doctrine->getManager()->getRepository(Courses::class)->showCoursesHomePage(14);

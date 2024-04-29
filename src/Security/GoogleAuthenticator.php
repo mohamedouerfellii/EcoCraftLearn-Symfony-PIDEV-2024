@@ -69,6 +69,8 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
                     $user->setGender("autre");
                      $user->setRole("other");
                     $user->setNumtel(123);
+                    $user->setIsactive(true);
+                    $user->setIsVerified(true);
                    
                     $this->entityManager->persist($user);
                     $this->entityManager->flush();
