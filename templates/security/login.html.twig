@@ -52,6 +52,11 @@
         {% endblock %}
 
 {% block body %}
+<style>
+.error-message {
+    color: red; /* Set the text color to red */
+    
+}</style>
    
 <div class="section page-banner">
     <img class="shape-1 animation-round" src="{{ asset('assets/images/shape/shape-8.png')}}" alt="Shape">
@@ -127,17 +132,28 @@
                                     <div class="single-form">
                                         <input type="password" name="_password" placeholder="Password">
                                          <span id="passwordError" class="error"></span>
-                                          {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+                                     {% if error %}
+                                       <div class="error-message">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                    {% endif %}
                                     </div>
+                                       
+                             <div class="form-group">
+                                <label>
+                                    <input type="checkbox" name="_remember_me"> Remember me
+                                  </label>
+                                  <a href="{{ path('app_forgot') }}">Forget password?</a>
+                            </div>
+                            <style>
+                            .form-group label,
+.form-group a {
+    display: inline; /* Display the elements inline */
+    margin-right: 55px; /* Adjust the margin as needed */
+}
+                            </style>
 
-                             <div class="checkbox mb-3">
-                             <label>
-                                        <input type="checkbox" name="_remember_me"> Remember me
-                            </label>
+                            <div class="single-form">
+                                      
                                     </div>
-
 
                                     <!-- Single Form End -->
                                     <!-- Single Form Start -->

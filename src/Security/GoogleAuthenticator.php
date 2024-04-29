@@ -116,7 +116,7 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
         // return new Response($message, Response::HTTP_FORBIDDEN);
         // $this->addFlash('warning', 'email not associated with zeroWaste account');
         $request->getSession()->getFlashBag()->add('warning', 'email not associated with ecoCraft account');
-        $targetUrl = $this->router->generate('app_register');
+        $targetUrl = $this->router->generate('app_login');
         return new RedirectResponse($targetUrl);
     }
 

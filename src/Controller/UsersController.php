@@ -109,20 +109,14 @@ class UsersController extends AbstractController
             'user' => $this->security->getUser()
         ]);
     }
-    #[Route('/admin/deleteProfil/{id}', name: 'delete_user')]
-    public function deleteUser(ManagerRegistry $doctrine,Request $request,Filesystem $filesystem,  $id){
+    #[Route('/admin/blockProfil/{id}', name: 'block_user')]
+    public function blockUser(ManagerRegistry $doctrine,Request $request,Filesystem $filesystem,  $id){
         $em = $doctrine->getManager();
         $user = $em->getRepository(Users::class)->find($id);
-        $userImage = $user->getImage();
-        $em->remove($user);
+        $user->setIsactive(false);
+        $em->persist($user);
         $em->flush();
-        if ($userImage) {
-            $usersDirectory = $this->getParameter('users_directory');
-            $imagePath = $usersDirectory . '/' . $userImage;
-            if ($filesystem->exists($imagePath)) {
-                $filesystem->remove($imagePath);
-            }
-        }
+        
         return $this->redirectToRoute('admin_dashboard');
     }
 

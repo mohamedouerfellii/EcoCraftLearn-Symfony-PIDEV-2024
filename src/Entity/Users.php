@@ -57,6 +57,10 @@ class Users implements PasswordAuthenticatedUserInterface,UserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+
+    #[ORM\Column(length:255)]
+    private ?string $reset_token;
+
     public function getIduser(): ?int
     {
         return $this->iduser;
@@ -234,4 +238,16 @@ class Users implements PasswordAuthenticatedUserInterface,UserInterface
 
         return $this;
     }
+     
+    public function getResetToken()
+    {
+        return $this->reset_token;
+    }
+
+   
+    public function setResetToken($reset_token): void
+    {
+        $this->reset_token = $reset_token;
+    }
+
 }
