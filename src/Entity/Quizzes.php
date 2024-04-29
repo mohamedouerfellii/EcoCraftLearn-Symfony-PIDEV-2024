@@ -22,6 +22,13 @@ class Quizzes
         return $this->idquiz;
     }
 
+    public function setIdquiz(?int $idquiz): static
+    {
+        $this->idquiz = $idquiz;
+
+        return $this;
+    }
+
     public function getSection(): ?Sections
     {
         return $this->section;

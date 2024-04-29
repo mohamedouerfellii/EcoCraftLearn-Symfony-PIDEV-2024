@@ -6,11 +6,12 @@ use App\Repository\CoursesRepository;
 use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ORM\Entity(repositoryClass: CoursesRepository::class)]
-class Courses
+class Courses implements JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -59,6 +60,28 @@ class Courses
     #[ORM\JoinColumn(name: "tutor", referencedColumnName: "iduser", onDelete: "CASCADE")]
     private ?Users $tutor;
 
+    public function jsonSerialize()
+    {
+        return array(
+            'idcourse' => $this->idcourse,
+            'image'=> $this->image,
+            'title'=> $this->title,
+            'description'=> $this->description,
+            'duration'=> $this->duration,
+            'price'=> $this->price,
+            'nbrsection'=> $this->nbrsection,
+            'posteddate'=> $this->posteddate->format('Y-m-d'),
+            'nbrregistred'=> $this->nbrregistred,
+            'rate'=> $this->rate,
+            'nbrpersonrated'=> $this->nbrpersonrated,
+            'tutor' => [
+                'iduser' => $this->tutor->getIduser(),
+                'firstname' => $this->tutor->getFirstname(),
+                'lastname' => $this->tutor->getLastname()
+            ]
+        );
+    }
+    
     public function getIdcourse(): ?int
     {
         return $this->idcourse;

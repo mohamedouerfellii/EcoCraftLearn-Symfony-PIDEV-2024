@@ -2,7 +2,8 @@
 {% block body %}
 
   
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{{asset('assets/js/events.js')}}"></script>
 
         <!-- Overlay Start -->
         <div class="overlay"></div>
@@ -24,7 +25,7 @@
                     <h4 class="sub-title">Start your favourite course</h4>
                     <h2 class="main-title">Now learning from anywhere, and build your <span>bright career.</span></h2>
                     <p>It has survived not only five centuries but also the leap into electronic typesetting.</p>
-                    
+                    <a class="btn btn-primary btn-hover-dark" href="{{ path('showMyParticipations') }}">My Participation</a>
                 </div>
                 <!-- Slider Content End -->
 
@@ -89,34 +90,20 @@
             <div class="container">
              <!-- All Courses Top Start -->
                 <div class="courses-top">
-                {% for label, messages in app.flashes %}
-                    {% for message in messages %}
-                        <div class="alert alert-danger" style="color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endfor %}
+             
 
-                <script>
-                    // Cacher les alertes après 3 secondes
-                    setTimeout(function() {
-                        document.querySelectorAll('.alert').forEach(function(alert) {
-                            alert.style.display = 'none';
-                        });
-                    }, 3000); 
-                </script>
                     <!-- Section Title Start -->
                     <div class="section-title shape-01">
-                        <h2 class="main-title">All <span>Events</span> of EcoCraftLearning</h2>
+                        <h2 class="main-title">All <span>Event</span></h2>
                     </div>
                     <!-- Section Title End -->
 
                     <!-- Courses Search Start -->
                     <div class="courses-search">
-                        <form action="#">
-                            <input type="text" placeholder="Search your course">
-                            <button><i class="flaticon-magnifying-glass"></i></button>
-                        </form>
+                      <form id="searchForm">
+                        <input type="text" id="searchInput" placeholder="Search your Event">
+                        <button type="submit" ><i class="icofont-search"></i></button>
+                    </form>
                     </div>
                     <!-- Courses Search End -->
 
@@ -127,27 +114,30 @@
                 <div class="courses-tabs-menu courses-active">
                     <div class="swiper-container">
                         <ul class="swiper-wrapper nav">
-                           
-
-                                <div class="info-btn">
-                                    <a href="{{ path('showMyParticipations') }}" class="btn btn-primary btn-hover-dark">My Participation</a>
-                                </div>
-
-                        
-
+                            <li class="swiper-slide"><button id="newestTabBtn" class="active" data-bs-toggle="tab" data-bs-target="#tabs1">Newest</button></li>
+                            <li class="swiper-slide"><button id="oldestTabBtn" class="active" data-bs-toggle="tab" data-bs-target="#tabs1">Oldest</button></li>
+                            <li class="swiper-slide"><button id="ExpensiveTabBtn" class="active" data-bs-toggle="tab" data-bs-target="#tabs1">Expensive</button></li>
+                            <li class="swiper-slide"><button id="ShippingTabBtn" class="active" data-bs-toggle="tab" data-bs-target="#tabs1">Shipping</button></li>
                         </ul>
                     </div>
 
-                    <!-- Add Pagination -->
-                    <div class="swiper-button-next"><i class="icofont-rounded-right"></i></div>
-                    <div class="swiper-button-prev"><i class="icofont-rounded-left"></i></div>
-                </div>
-                <!-- All Courses Tabs Menu End -->
+                   <script src="{{asset('assets/js/events.js')}}"></script>
 
-                <!-- Blog Wrapper Start -->
+                </div>
+               
+
+
+ 
+
+             
+  
+
+          
+                
+          
                 <div class="blog-wrapper">
               
-                    <div class="row">
+                    <div id="eventResults" class="row">
                       {% for event in event %}
                         <div class="col-lg-4 col-md-6">
 
@@ -157,7 +147,7 @@
                             <div class="single-blog">
                             
                                 <div class="blog-image">
-                                    <a href="blog-details-left-sidebar.html"><img src="{{ asset('contents/uploads/events/' ~ event.attachment) }}" alt="Blog" width="300" height="200"  ></a>
+                                    <a href=""><img src="{{ asset('contents/uploads/events/' ~ event.attachment) }}" alt="Blog" width="300" height="200"  ></a>
                                 </div>
                                 <div class="blog-content">
                                     <div class="blog-author">
@@ -172,7 +162,7 @@
                                   
                                     </div>
 
-                                    <h4 class="title"><a href="blog-details-left-sidebar.html">{{ event.title }}</a></h4>
+                                    <h4 class="title"><a href="">{{ event.title }}</a></h4>
 
                                     <div class="blog-meta">
                                         <span> <i class="icofont-calendar"></i> {{ event.startdate|date("m/d/y")  }} </span>
@@ -184,15 +174,12 @@
                                 </div>
  
                             </div>
-                  
-   
-                            <!-- Single Blog End -->
-
-                            
+    
                         </div>
                             {% endfor %}
-                       
                   </div> 
+             
+             
               </div>              
 
                        

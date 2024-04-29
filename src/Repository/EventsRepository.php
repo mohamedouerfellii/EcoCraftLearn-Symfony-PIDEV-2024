@@ -44,4 +44,51 @@ class EventsRepository extends ServiceEntityRepository
 
     return $qb->getQuery()->execute();
 }
+
+
+
+public function searchEventByTitle(string $search)
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.title LIKE :search')
+            ->setParameter('search', '%' . $search . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+    public function filterByDateDesc(string $filter)
+    {
+        $queryBuilder = $this->createQueryBuilder('e');
+        switch ($filter) {
+            case 'Newest':
+                $queryBuilder->orderBy('e.startdate', 'DESC');
+                break;
+            case 'Oldest':
+                $queryBuilder->orderBy('e.startdate', 'ASC');
+                break;
+            case 'Expensive':
+                $queryBuilder->orderBy('e.price', 'DESC');
+                break;
+            case 'Shipping':
+                $queryBuilder->orderBy('e.price', 'ASC');
+                break;
+            default:
+                throw new \InvalidArgumentException('Invalid filter provided.');
+        }
+        return $queryBuilder->getQuery()->getResult();    
+    }
+    
+
+  
+    
+    
+    
+    
+    
+
+
+
+
+    
 }

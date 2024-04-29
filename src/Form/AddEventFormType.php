@@ -24,6 +24,8 @@ class AddEventFormType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
+
+            
             ->add('startdate', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'Start Date',
@@ -44,6 +46,10 @@ class AddEventFormType extends AbstractType
                     new NotBlank(['message' => 'End date cannot be blank']),
                 ],
             ])
+
+
+
+
             ->add('attachment', FileType::class, [
                 'mapped' => false,
                 'constraints' => [

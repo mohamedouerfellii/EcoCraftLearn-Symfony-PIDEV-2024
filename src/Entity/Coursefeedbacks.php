@@ -25,11 +25,11 @@ class Coursefeedbacks
     private ?DateTime $posteddate = null;
 
     #[ORM\ManyToOne(targetEntity: "Courses")]
-    #[ORM\JoinColumn(name: "course", referencedColumnName: "idCourse", onDelete: "CASCADE")]
+    #[ORM\JoinColumn(name: "course", referencedColumnName: "idcourse", onDelete: "CASCADE")]
     private ?Courses $course;
 
     #[ORM\ManyToOne(targetEntity: "Users")]
-    #[ORM\JoinColumn(name: "owner", referencedColumnName: "idUser", onDelete: "CASCADE")]
+    #[ORM\JoinColumn(name: "owner", referencedColumnName: "iduser", onDelete: "CASCADE")]
     private ?Users $owner;
 
     public function getIdfeedback(): ?int

@@ -3,9 +3,21 @@
 <!-- Admin Courses Tab Start -->
 <div class="admin-courses-tab">
     <h3 class="title">Design Your Events !</h3>
+      <script src="https://cdn.maptiler.com/maptiler-sdk-js/v1.2.0/maptiler-sdk.umd.min.js"></script>
+  <link href="https://cdn.maptiler.com/maptiler-sdk-js/v1.2.0/maptiler-sdk.css" rel="stylesheet" />
+
+  
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; 
+      position: absolute;
+      top: 250px;
+      left: 170px;
+    bottom: 0; width: 500px; height:600px; }
+  </style>
     <div class="courses-tab-wrapper">
         <div class="tab-btn">
-            <a href="#" class="btn btn-primary btn-hover-dark">Go Back</a>
+            <a href="{{path('showEventsDashboardtutor')}}" class="btn btn-primary btn-hover-dark">Go Back</a>
         </div>
     </div>
 </div>
@@ -25,7 +37,7 @@
 
     <div>
         <div class="single-form">
-            {{ form_widget(form.description, {'attr': {'placeholder': 'Add a description', 'class': 'formbold-form-input', 'id': 'eventDescription'}}) }}
+            {{ form_widget(form.description, {'attr': {'placeholder': 'Add a description', 'class': 'formbold-form-input', 'id': 'eventDescription', 'rows': '6'}}) }}
             <span class="form-error">{{ form_errors(form.description, {'attr': {'class': 'form-error'}}) }}</span>
         </div>    
     </div>
@@ -41,16 +53,12 @@
     </div>    
 </div>
 
-
 <div>
     <div class="single-form">
         {{ form_widget(form.enddate, {'attr': {'placeholder': 'Add an end date', 'class': 'formbold-form-input', 'type': 'date'}}) }}
         <span class="form-error">{{ form_errors(form.enddate, {'attr': {'class': 'form-error'}}) }}</span>
     </div>    
 </div>
-
-
-
 
     <div>
         <div class="single-form">
@@ -59,12 +67,13 @@
         </div>    
     </div>
 
-    <div>
-        <div class="single-form">
-            {{ form_widget(form.place, {'attr': {'placeholder': 'Add a place', 'class': 'formbold-form-input', 'id': 'eventPlace'}}) }}
-            <span class="form-error">{{ form_errors(form.place, {'attr': {'class': 'form-error'}}) }}</span>
-        </div>    
-    </div>
+
+ <div>
+    <div class="single-form">
+        {{ form_widget(form.place, {'attr': {'placeholder': 'Add a place', 'class': 'formbold-form-input', 'id':'place' }}) }}
+        <span class="form-error">{{ form_errors(form.place, {'attr': {'class': 'form-error'}}) }}</span>
+    </div>    
+</div>
 
     <div>
         <div class="single-form">
@@ -75,7 +84,7 @@
 
     <div>
         <div class="single-form">
-            {{ form_widget(form.price, {'attr': {'placeholder': 'Add a price', 'class': 'formbold-form-input', 'id': 'eventPrice'}}) }}
+            {{ form_widget(form.price, {'attr': {'placeholder': 'Add a price', 'class': 'formbold-form-input', 'id': 'eventPrice' }}) }}
             <span class="form-error">{{ form_errors(form.price, {'attr': {'class': 'form-error'}}) }}</span>
         </div>    
     </div>
@@ -104,5 +113,57 @@
     {{ form_end(form) }}
   </div>
 </div>
+
+<div id="map"></div>
+
+
+
+  <script>
+function initializeMap() {
+        maptilersdk.config.apiKey = 'LzhVPkOX8wPO5cbMpk6p';
+        const map = new maptilersdk.Map({
+          container: 'map', // container's id or the HTML element to render the map
+          style: maptilersdk.MapStyle.STREETS,
+          center: [16.62662018, 49.2125578], // starting position [lng, lat]
+          zoom: 14, // starting zoom
+        });
+    const marker = new maptilersdk.Marker()
+        .setLngLat([10.180356455967974, 36.80766601939333])
+        .addTo(map);
+
+    map.on('click', function(event) {
+        const coordinates = [event.lngLat.lng, event.lngLat.lat]; // Convert to [lng, lat] format
+        updateMarker(coordinates);
+        reverseGeocode(coordinates);
+    });
+
+    // Function to update marker position
+    function updateMarker(coordinates) {
+        marker.setLngLat(coordinates);
+    }
+
+    // Function to perform reverse geocoding
+    async function reverseGeocode(coordinates) {
+        const results = await maptilersdk.geocoding.reverse(coordinates);
+        displayAddress(results);
+    }
+
+    // Function to display the reverse geocoded address
+function displayAddress(results) {
+        const addressElements = document.getElementById('add_event_form_place');
+        if (results && results.features && results.features.length > 0) {
+            const address = results.features[0].place_name_fr;
+                addressElements.value=address;
+                console.log(address)
+            }
+         else {
+                addressElements.innerText = 'Address not found';
+            
+        }
+    }
+}
+initializeMap();
+
+  </script>
 <!-- Admin Courses Tab End -->
 {% endblock %}

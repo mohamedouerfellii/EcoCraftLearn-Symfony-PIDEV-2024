@@ -10,18 +10,19 @@ class Carts
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: "idcarts", type: "integer")]
     private ?int $idcarts = null;
-
-    #[ORM\Column]
+    
+    #[ORM\Column(type: "float")]
     private ?float $totalprice = null;
 
-    #[ORM\Column]
-    private ?bool $isconfirmed = false;
+    #[ORM\Column(type: "integer")]
+    private ?int $isconfirmed = null;
 
-    #[ORM\ManyToOne(targetEntity: "Users")]
-    #[ORM\JoinColumn(name: "owner", referencedColumnName: "idUser", onDelete: "CASCADE")]
-    private ?Users $owner;
+    #[ORM\ManyToOne(targetEntity: "Users", inversedBy: "carts")]
+    #[ORM\JoinColumn(name: "owner", referencedColumnName: "iduser", onDelete: "CASCADE")]
+    private ?Users $owner=null;
+    
 
     public function getIdcarts(): ?int
     {
@@ -62,6 +63,11 @@ class Carts
         $this->owner = $owner;
 
         return $this;
+    }
+
+    public function getIsconfirmed(): ?int
+    {
+        return $this->isconfirmed;
     }
 
 }

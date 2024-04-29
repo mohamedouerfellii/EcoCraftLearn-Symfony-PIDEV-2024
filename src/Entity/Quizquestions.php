@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\QuizquestionsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: QuizquestionsRepository::class)]
-class Quizquestions
+class Quizquestions implements JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -14,26 +16,61 @@ class Quizquestions
     private ?int $idquestion = null;
 
     #[ORM\Column(length:65535)]
+    #[Assert\NotBlank(message:"Your quiz must have a question")]
+    #[Assert\Length(min: 10, minMessage:"The question must be at least 10 characters long")]
     private ?string $question = null;
 
-    #[ORM\Column(length:65535)]
+    #[ORM\Column(name: "choice_1", length: 65535)]
+    #[Assert\NotBlank(message:"Choice 1 is required")]
+    #[Assert\NotEqualTo(propertyPath: "choice4", message: "Each choice must be different.")]
+    #[Assert\NotEqualTo(propertyPath: "choice2", message: "Each choice must be different.")]
+    #[Assert\NotEqualTo(propertyPath: "choice3", message: "Each choice must be different.")]
     private ?string $choice1 = null;
 
-    #[ORM\Column(length:65535)]
+    #[ORM\Column(name: "choice_2", length: 65535)]
+    #[Assert\NotBlank(message:"Choice 2 is required")]
+    #[Assert\NotEqualTo(propertyPath: "choice1", message: "Each choice must be different.")]
+    #[Assert\NotEqualTo(propertyPath: "choice3", message: "Each choice must be different.")]
+    #[Assert\NotEqualTo(propertyPath: "choice4", message: "Each choice must be different.")]
     private ?string $choice2 = null;
 
-    #[ORM\Column(length:65535)]
+    #[ORM\Column(name: "choice_3", length: 65535)]
+    #[Assert\NotBlank(message:"Choice 3 is required")]
+    #[Assert\NotEqualTo(propertyPath: "choice1", message: "Each choice must be different.")]
+    #[Assert\NotEqualTo(propertyPath: "choice2", message: "Each choice must be different.")]
+    #[Assert\NotEqualTo(propertyPath: "choice4", message: "Each choice must be different.")]
     private ?string $choice3 = null;
 
-    #[ORM\Column(length:65535)]
+    #[ORM\Column(name: "choice_4", length: 65535)]
+    #[Assert\NotBlank(message:"Choice 4 is required")]
+    #[Assert\NotEqualTo(propertyPath: "choice1", message: "Each choice must be different.")]
+    #[Assert\NotEqualTo(propertyPath: "choice2", message: "Each choice must be different.")]
+    #[Assert\NotEqualTo(propertyPath: "choice3", message: "Each choice must be different.")]
     private ?string $choice4 = null;
 
-    #[ORM\Column(length:255)]
+    #[ORM\Column(name: "correct_choice", length: 255)]
     private ?string $correctChoice = null;
+
 
     #[ORM\ManyToOne(targetEntity: "Quizzes")]
     #[ORM\JoinColumn(name: "quiz", referencedColumnName: "idquiz", onDelete: "CASCADE")]
     private $quiz;
+
+    public function jsonSerialize()
+    {
+        return array(
+            'question' => $this->question,
+            'answer'=> $this->correctChoice,
+            'options' => [
+                $this->choice1,
+                $this->choice2,
+                $this->choice3,
+                $this->choice4
+            ],
+            'idCourse' => $this->quiz->getSection()->getCourse()->getIdcourse(),
+            'idQuiz' => $this->quiz->getIdquiz()
+        );
+    }
 
     public function getIdquestion(): ?int
     {

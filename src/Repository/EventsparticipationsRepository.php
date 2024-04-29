@@ -65,7 +65,15 @@ class EventsparticipationsRepository extends ServiceEntityRepository
     
     
     
-
+    public function countParticipantsForEvent($eventId): int
+    {
+        return $this->createQueryBuilder('ep')
+            ->select('COUNT(ep)')
+            ->where('ep.event = :eventId')
+            ->setParameter('eventId', $eventId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
   
     
     

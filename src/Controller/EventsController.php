@@ -140,5 +140,55 @@ class EventsController extends AbstractController
         ]);
     }
 
+
+
+
+    #[Route('/searchevents', name: 'search_events_Front')]
+    public function searchevents(EventsRepository $eventsRep, Request $request): Response
+    {
+
+        $search = $request->query->get('search');
+        $events = $eventsRep->searchEventByTitle($search);
+
+        $dataToJson = $this->serializeEvents($events);
+        
+        return new Response($dataToJson, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+    }
+
+
+
+
+    #[Route('/filterEventBydate', name: 'filterEventBydate')]
+    public function filterEventBydate(EventsRepository $eventsRep, Request $request): Response
+    {
+       
+        $filter = $request->query->get('filter'); 
+        if (!$filter || !in_array($filter, ['Newest', 'Oldest','Expensive','Shipping'])) {
+
+            return new JsonResponse(['error' => 'Invalid filter provided'], Response::HTTP_BAD_REQUEST);
+        }
+        $events = $eventsRep->filterByDateDesc($filter);
+    
+        $dataToJson = $this->serializeEvents($events);
+    
+   
+        return new Response($dataToJson, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+    }
+
+
+    
+
+    private function serializeEvents(array $events): string
+    {
+        $serializer = $this->get('serializer');
+        return $serializer->serialize($events, 'json');
+    }
+
+    #[Route('/showmap', name: 'showmap')]
+    public function map(): Response
+    {
+        return $this->render('events/backOffice/map.html.twig');
+    }
+
     
 }

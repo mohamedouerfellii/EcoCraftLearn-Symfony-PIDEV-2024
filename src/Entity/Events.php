@@ -30,14 +30,11 @@ class Events
     #[Assert\NotBlank(message: "Your event must have a description !")]
     private ?string $description = null;
 
-    #[ORM\Column(type: "datetime")]
-    #[Assert\NotBlank(message: "Your event must have a start date !")]
+    #[ORM\Column(type: "datetime", nullable: true)]
     private ?\DateTimeInterface $startdate = null;
 
-    #[ORM\Column(type: "datetime")]
-    #[Assert\NotBlank(message: "Your event must have an end date !")]
+    #[ORM\Column(type: "datetime", nullable: true)]
     private ?\DateTimeInterface $enddate = null;
-
     
     #[ORM\Column(length:255)]
     private ?string $attachment = null;
