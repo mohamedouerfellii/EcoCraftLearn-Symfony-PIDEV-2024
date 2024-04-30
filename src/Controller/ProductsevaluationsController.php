@@ -26,17 +26,15 @@ class ProductsevaluationsController extends AbstractController
 
     #[Route('/addevaluationproduct/{idproduct}', name: 'addevaluationproduct')]
     public function addevaluationproduct($idproduct, ManagerRegistry $doctrine, Request $request, ProductsevaluationsRepository $repository): Response
-    {  
+    {     
+
+
         $em = $doctrine->getManager();
         $product = $em->getRepository(Products::class)->find($request->get('idproduct'));
     
-        $user = $this->getDoctrine()->getRepository(Users::class)->find(8);
-    
-       
+        $user = $this->getDoctrine()->getRepository(Users::class)->find(10);
+          
 
-    
-
- 
         $countrate = $repository->countRatingsByProductId($idproduct);
         $sumrate = $repository->sumRatingByProductId($idproduct);
         $moyRate = $countrate > 0 ? $sumrate / $countrate : 0;
@@ -75,7 +73,10 @@ class ProductsevaluationsController extends AbstractController
             'evaluations' => $evaluations,
             'countrate' => $countrate,
             'moyRate' => $moyRate,
+            'user' => $user,
         ]);   
+
+
     }
     
 
@@ -86,6 +87,22 @@ class ProductsevaluationsController extends AbstractController
     {
         $evaluation = $doctrine->getManager()->getRepository(Productsevaluations::class)->findAll();
         return $this->render("products/backOffice/evaluationProductDashboardAdmin.html.twig", ["Evaluation" => $evaluation]);
+    }
+
+    #[Route('/deleteevaluation/{idevaluation}/{idproduct}', name: "deleteevaluation")]
+    public function deleteevaluation(int $idevaluation , int $idproduct , ProductsevaluationsRepository $productsevaluationsRepository): Response
+    {
+        $evaluation = $this->getDoctrine()->getRepository(Productsevaluations::class)->find($idevaluation);
+        if (!$evaluation) {
+            throw $this->createNotFoundException('Entity not found');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($evaluation);
+        $em->flush();
+
+        return $this->redirectToRoute('addevaluationproduct', ['idproduct' => $idproduct]);
+
     }
 
    

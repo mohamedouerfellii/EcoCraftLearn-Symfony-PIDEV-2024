@@ -127,30 +127,32 @@
                                                     <div class="swiper-container">
                                                         <div class="swiper-wrapper">
                  
+                {% for evaluation in evaluations %}
+                    <!-- Single Reviews Start -->
+                    <div class="single-review swiper-slide">
+                        <div class="review-author">
+                            <div class="author-thumb">
+                                <img src="{{ asset('assets/images/author/author-01.jpg') }}" alt="Author">
+                                <i class="icofont-quote-left"></i>
+                            </div>
+                            <div class="author-content">
+                                <h4 class="name">{{ evaluation.evaluator.firstname }}</h4>
+                                <span class="designation">{{ evaluation.evaluator.lastname }}</span>
+                            </div>
+                            {% if evaluation.evaluator.iduser == user.iduser %}
+                                <div>
+                                    <a href="{{ path('deleteevaluation', {'idevaluation': evaluation.idevaluation, 'idproduct': product.idproduct}) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette évaluation ?')">
+                                        <i class="icofont-trash"></i> 
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <p>{{ evaluation.commentaire }}</p>
+                    </div>
+                {% endfor %}
 
-                                     {% for evaluation in evaluations %}
-                                        <!-- Single Reviews Start -->
-                                        <div class="single-review swiper-slide">
-                                            <div class="review-author">
-                                                <div class="author-thumb">
-                                                    <img src="{{asset('assets/images/author/author-01.jpg')}}" alt="Author">
-                                                    <i class="icofont-quote-left"></i>
-                                                </div>
-                                                <div class="author-content">
-                                                    <h4 class="name">{{ evaluation.evaluator.firstname }}</h4>
-                                                    <span class="designation">{{ evaluation.evaluator.lastname }}</span>
-
-
-                                          
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <p>{{ evaluation.commentaire }}</p>
-                                        </div>
-                                        <!-- Single Reviews End -->
-                                    {% endfor %}
                                                         </div>
-                                                        <!-- Add Pagination -->
+                                                      
                                                         <div class="swiper-pagination"></div>
                                                     </div>
                                                 </div>
@@ -230,29 +232,14 @@
                                 </div>
                             
                             </div>
-                            <!-- Sidebar Widget Information End -->
-
-                            <!-- Sidebar Widget Share Start -->
-                            <div class="sidebar-widget">
-                                <h4 class="widget-title">Share Course:</h4>
-
-                                <ul class="social">
-                                    <li><a href="#"><i class="flaticon-facebook"></i></a></li>
-                                    <li><a href="#"><i class="flaticon-linkedin"></i></a></li>
-                                    <li><a href="#"><i class="flaticon-twitter"></i></a></li>
-                                    <li><a href="#"><i class="flaticon-skype"></i></a></li>
-                                    <li><a href="#"><i class="flaticon-instagram"></i></a></li>
-                                </ul>
-                            </div>
-                            <!-- Sidebar Widget Share End -->
-
+                            
                         </div>
-                        <!-- Courses Details Sidebar End -->
+                        
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Courses End -->
+      
 
       
          
