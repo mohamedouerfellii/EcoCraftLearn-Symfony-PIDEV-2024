@@ -18,9 +18,10 @@ class ProductsevaluationsFormType extends AbstractType
         ->add('rate', StarRatingType::class, [
             'label' => 'Rating',
             'stars' => 5, 
-            ])
-            ->add('commentaire', TextareaType::class)
-        ;
+        ])
+        ->add('commentaire', TextareaType::class, [
+            'label' => 'Commentaire'
+        ]);
     }
     public function configureOptions(OptionsResolver $resolver): void
     {
