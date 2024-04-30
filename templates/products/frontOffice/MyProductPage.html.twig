@@ -154,33 +154,10 @@
           
             <div class="container">
 
-                            {% for label, messages in app.flashes %}
-                {% for message in messages %}
-                    <div class="alert alert-danger" style="color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                        {{ message }}
-                    </div>
-                    <script>
-                        setTimeout(function() {
-                            document.querySelector('.alert').style.display = 'none';
-                        }, 3000); 
-                    </script>
-                {% endfor %}
-            {% endfor %}
+
        {% block bodyProduct %}
                 <!-- Courses Category Wrapper Start  -->
-                <div class="courses-category-wrapper">
-                    <div class="courses-search search-2">
-                        <input type="text" placeholder="Search here">
-                        <button><i class="icofont-search"></i></button>
-                    </div>
-
-                    <ul class="category-menu">
-                     
-                    <li><a href="{{path ('AddProduct')}}">Add New</a></li>
-                        <li><a href="#">Top Rated</a></li>
-                        <li><a href="#">Winner </a></li>
-                    </ul>
-                </div>
+              <a class="btn btn-primary btn-hover-dark" href="{{path ('AddProduct')}}" >Design Your Product</a>
                 <!-- Courses Category Wrapper End  -->
                 <!-- Courses Wrapper Start  -->
                 <div class="courses-wrapper-02">

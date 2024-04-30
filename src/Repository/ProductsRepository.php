@@ -105,23 +105,29 @@ public function findUnconfirmedProducts(): array
             ->getResult();
     }
     
-    public function filterProductbyDate(int $owner,string $filter){
+    public function filterProductByPriceAnddate(int $owner, string $filter){
         $queryBuilder = $this->createQueryBuilder('p')
-        ->where('p.owner != :owner')
-        ->setParameter('owner', $owner);
+            ->where('p.owner != :owner')
+            ->setParameter('owner', $owner);
+    
         switch ($filter) {
+            case 'Expensive':
+                $queryBuilder->orderBy('p.price', 'DESC');
+                break;
+            case 'Cheap':
+                $queryBuilder->orderBy('p.price', 'ASC');
+                break;
             case 'Newest':
                 $queryBuilder->orderBy('p.adddate', 'DESC');
                 break;
             case 'Oldest':
                 $queryBuilder->orderBy('p.adddate', 'ASC');
                 break;
-
         }
+    
         return $queryBuilder->getQuery()->getResult();    
     }
     
-
     
     
 

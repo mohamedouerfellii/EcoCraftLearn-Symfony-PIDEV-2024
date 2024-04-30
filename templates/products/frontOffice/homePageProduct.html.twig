@@ -23,7 +23,7 @@
                     <h4 class="sub-title">Start your favourite course</h4>
                     <h2 class="main-title">Now learning from anywhere, and build your <span>bright career.</span></h2>
                     <p>It has survived not only five centuries but also the leap into electronic typesetting.</p>
-                    <a class="btn btn-primary btn-hover-dark" href="{{ path('MyProduct')}}">My Products</a>
+                  
                 </div>
                 <!-- Slider Content End -->
 
@@ -91,55 +91,6 @@
         <!-- All Courses Start -->
         <div class="section section-padding-02">
         
-         {% block bodyProductQuantity %}
-            <div class="container">
-
-                <!-- All Courses Top Start -->
-                <div class="courses-top">
-                 {# Check if there's an error flash message #}
-               
-                    <!-- Section Title Start -->
-                    <div class="section-title shape-01">
-                        <h2 class="main-title">All <span>Products</span></h2>
-                    </div>
-                    <!-- Section Title End -->
-
-
-<div class="courses-search">
-    <form id="searchForm" action="#" method="GET">
-        <input type="text" id="searchInput" placeholder="Search your Products">
-    </form>
-</div>
-
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<script src="{{asset('assets/js/product.js')}}"></script>
-
-   
-
-
-
-                    <!-- Courses Search End -->
-
-</div>
-<div class="courses-tabs-menu courses-active">
-<div class="swiper-container">
-    <ul class="swiper-wrapper nav">
-        <li class="swiper-slide">
-            <button id="newestTabBtn" class="active" data-bs-toggle="tab" data-bs-target="#tabs1">Newest</button>
-        </li>
-        <li class="swiper-slide">
-            <button id="oldestTabBtn" class="active" data-bs-toggle="tab" data-bs-target="#tabs1">Oldest</button>
-        </li>
-    </ul>
-</div>
-</div>
-
-<script src="{{asset('assets/js/product.js')}}"></script>
-
-       
 <style>
         .badge {
         background-color: #dc3545;
@@ -153,10 +104,63 @@
         }
 </style>
 
-<div class="courses-btn text-center" style="width: 2000px; height: 50px; position: relative;">
-    <a href="{{ path('my_cart') }}" id="myCartBtn" class="btn btn-secondary btn-hover-primary">My Carts <span class="badge badge-danger"></span></a>
-    <a href="{{ path('My_Order') }}" id="myOrderBtn" class="btn btn-secondary btn-hover-primary">My Orders <span class="badge badge-danger"></span></a>
+         {% block bodyProductQuantity %}
+            <div class="container">
+
+                <!-- All Courses Top Start -->
+                <div class="swiper-container">
+                 <div class="courses-category-wrapper">
+                    <div class="courses-search search-2">
+                     <form id="searchForm" action="#" method="GET">
+                        <input type="text" id="searchInput" placeholder="Search your Products">
+                        </form>
+
+                    </div>
+
+                    <ul class="category-menu">
+                        <li><a class="active" href="{{ path('showProducts') }}" >All Products</a></li> 
+                        <li><a href="{{ path('MyProduct')}}"> My Products </a></li>
+                        <li><a href="{{ path('my_cart') }}" id="myCartBtn" class="btn btn-secondary btn-hover-primary">My Carts <span class="badge badge-danger"></span></a></li>
+                        <li><a href="{{ path('My_Order') }}" id="myOrderBtn" class="btn btn-secondary btn-hover-primary">My Orders <span class="badge badge-danger"></span></a></li>
+                    </ul>
+                </div>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="{{asset('assets/js/product.js')}}"></script>
+
+   
+
 </div>
+<div class="courses-tabs-menu courses-active">
+<div class="swiper-container">
+<ul class="swiper-wrapper nav">
+    <li class="swiper-slide">
+        <button id="newestTabBtn" data-bs-toggle="tab" data-bs-target="#tabs1">Newest</button>
+    </li>
+    <li class="swiper-slide">
+        <button id="oldestTabBtn" data-bs-toggle="tab" data-bs-target="#tabs2">Oldest</button>
+    </li>
+    <li class="swiper-slide">
+        <button id="expensiveTabBtn" data-bs-toggle="tab" data-bs-target="#tabs3">Expensive</button>
+    </li>
+    <li class="swiper-slide">
+        <button id="cheapTabBtn" data-bs-toggle="tab" data-bs-target="#tabs4">Cheap</button>
+    </li>
+</ul>
+
+
+
+</div>
+
+      <div class="swiper-button-next"><i class="icofont-rounded-right"></i></div>
+      <div class="swiper-button-prev"><i class="icofont-rounded-left"></i></div>
+</div>
+
+<script src="{{asset('assets/js/product.js')}}"></script>
 
 <script>
 
@@ -185,7 +189,7 @@
             <div class="tab-pane fade show active" id="tabs1" >
                 <div class="courses-wrapper">   
 
-                    <div class="row" id="mainAllProductDiv">
+<div class="row" id="mainAllProductDiv">
 {% for p in Products %}
     <div class="col-lg-4 col-md-6">
         <div class="single-courses">
@@ -205,11 +209,15 @@
                     </div>
                 <div class="tag">
                     <a id="buyButton" href="/buy_now/{{ p.idproduct }}" 
-                    {% if p.quantite == 0 %} 
-                        onclick="return false;" 
-                        style="pointer-events: none; cursor: default;"
-                    {% endif %}>
-                    Buy Now
+                        {% if p.quantite == 0 %} 
+                            onclick="return false;" 
+                            style="pointer-events: none; cursor: default; color: red;" 
+                        {% endif %}>
+                        {% if p.quantite == 0 %}
+                            Sold Out 
+                        {% else %}
+                            Buy Now 
+                        {% endif %}
                     </a>
                 </div>
                 </div>

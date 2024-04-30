@@ -20,6 +20,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Repository\SouscartsRepository;
 use App\Repository\CommandesRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpClient\HttpClient;
 
 class ProductsController extends AbstractController
 {
@@ -253,23 +254,27 @@ class ProductsController extends AbstractController
 
         
 
-        #[Route('/filterProduct', name: 'filter_Product')]
-        public function filterProduct(ProductsRepository $productsRep, Request $request): Response
-        {
-            $owner = 12; 
-            $filter = $request->query->get('filter');
-            $products = $productsRep->filterProductbyDate($owner, $filter); 
-        
-            $dataToJson = $this->serializeProducts($products);
-        
-            return new Response($dataToJson, Response::HTTP_OK, ['Content-Type' => 'application/json']);
-        }
-        
-        private function serializeProducts(array $products): string
-        {
-            $serializer = $this->get('serializer');
-            return $serializer->serialize($products, 'json');
-        }
+#[Route('/filterProduct', name: 'filter_Product')]
+public function filterProduct(ProductsRepository $productsRep, Request $request): Response
+{
+    $owner = 12; 
+    $filter = $request->query->get('filter');
+    
+   
+    if ($filter === 'Newest' || $filter === 'Oldest' || $filter === 'Expensive' || $filter === 'Cheap') {
+        $products = $productsRep->filterProductByPriceAnddate($owner, $filter);
+    }
+    else {
+        return new Response('Invalid filter parameter', Response::HTTP_BAD_REQUEST);
+    }
+    $dataToJson = $this->serializeProducts($products);
+    return new Response($dataToJson, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+}
+private function serializeProducts(array $products): string
+{
+    $serializer = $this->get('serializer');
+    return $serializer->serialize($products, 'json');
+}
 
 
 

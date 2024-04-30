@@ -24,7 +24,10 @@ function searchProduct(searchTerm) {
                     let imageSrc = "/contents/uploads/products/" + obj.image;
                     let productUrl = "/addevaluationproduct/" + obj.idproduct;
                     let buyNowUrl = "/buy_now/" + obj.idproduct;
-
+                    
+                    let buttonText = obj.quantite == 0 ? "Sold Out" : "Buy Now";
+                    let buttonStyle = obj.quantite == 0 ? "pointer-events: none; cursor: default; color: red;" : "";
+                
                     let productHtml = `
                         <div class="col-lg-4 col-md-6">
                             <div class="single-courses">
@@ -43,7 +46,11 @@ function searchProduct(searchTerm) {
                                             <div class="author-name"></div>
                                         </div>
                                         <div class="tag">
-                                            <a href="${buyNowUrl}">Buy Now</a>
+                                            <a href="${buyNowUrl}" 
+                                                onclick="${obj.quantite == 0 ? 'return false;' : ''}" 
+                                                style="${buttonStyle}">
+                                                ${buttonText}
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="courses-price-review">
@@ -75,23 +82,44 @@ function searchProduct(searchTerm) {
 
 //filter product
 $(document).ready(function() {
-    // Lorsque vous cliquez sur le bouton "Newest"
+
     $('#newestTabBtn').click(function() {
         $('#newestTabBtn').addClass('active');
         $('#oldestTabBtn').removeClass('active');
+        $('#expensiveTabBtn').removeClass('active');
+        $('#cheapTabBtn').removeClass('active');
         filterProduct('Newest');
     });
 
-    // Lorsque vous cliquez sur le bouton "Oldest"
     $('#oldestTabBtn').click(function() {
         $('#oldestTabBtn').addClass('active');
         $('#newestTabBtn').removeClass('active');
+        $('#expensiveTabBtn').removeClass('active');
+        $('#cheapTabBtn').removeClass('active');
         filterProduct('Oldest');
     });
+
+    $('#expensiveTabBtn').click(function() {
+        $('#expensiveTabBtn').addClass('active');
+        $('#oldestTabBtn').removeClass('active');
+        $('#newestTabBtn').removeClass('active');
+        $('#cheapTabBtn').removeClass('active');
+        filterProduct('Expensive');
+    });
+
+    $('#cheapTabBtn').click(function() {
+        $('#cheapTabBtn').addClass('active');
+        $('#oldestTabBtn').removeClass('active');
+        $('#newestTabBtn').removeClass('active');
+        $('#expensiveTabBtn').removeClass('active');
+        filterProduct('Cheap');
+    });
+
 });
 
+
 function filterProduct(filter) {
-    let url = "/filterProduct?filter=" + filter; // Inclure le paramètre filter dans l'URL
+    let url = "/filterProduct?filter=" + filter; 
     $.ajax({
         type: "GET",
         url: url,
@@ -103,7 +131,10 @@ function filterProduct(filter) {
                     let imageSrc = "/contents/uploads/products/" + obj.image;
                     let productUrl = "/addevaluationproduct/" + obj.idproduct;
                     let buyNowUrl = "/buy_now/" + obj.idproduct;
-
+                    
+                    let buttonText = obj.quantite == 0 ? "Sold Out" : "Buy Now";
+                    let buttonStyle = obj.quantite == 0 ? "pointer-events: none; cursor: default; color: red;" : "";
+                
                     let productHtml = `
                         <div class="col-lg-4 col-md-6">
                             <div class="single-courses">
@@ -122,7 +153,11 @@ function filterProduct(filter) {
                                             <div class="author-name"></div>
                                         </div>
                                         <div class="tag">
-                                            <a href="${buyNowUrl}">Buy Now</a>
+                                            <a href="${buyNowUrl}" 
+                                                onclick="${obj.quantite == 0 ? 'return false;' : ''}" 
+                                                style="${buttonStyle}">
+                                                ${buttonText}
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="courses-price-review">
@@ -142,6 +177,7 @@ function filterProduct(filter) {
                     `;
                     $("#mainAllProductDiv").append(productHtml);
                 });
+                
             } else {
                 console.log("Aucun produit trouvé.");
             }
