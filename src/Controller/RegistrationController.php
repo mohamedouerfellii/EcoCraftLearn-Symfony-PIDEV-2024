@@ -75,14 +75,14 @@ if ($userImage) {
             $entityManager->persist($user);
             $entityManager->flush();
              // generate a signed url and email it to the user
-             $mailer = new Mailer(Transport::fromDsn('smtp://mohamedouerfelli3@gmail.com:vbnlkplloybfhowc@smtp.gmail.com:587'));
-
+             $mailer = new Mailer(Transport::fromDsn('smtp://drjkwowo@gmail.com:zlcctdorfrnnjntb@smtp.gmail.com:587'));
+            $m=$user->getUserIdentifier();
              try {
                  // Create the email
                  $url= "http://127.0.0.1:8000/verify/email/".$user->getEmail();
                  $email = (new  TemplatedEmail())
-                     ->from('mohamedouerfelli3@gmail.com') // Replace with your email address
-                     ->to('jr.monam123@gmail.com') // Replace with recipient's email address
+                     ->from('drjkwowo@gmail.com') // Replace with your email address
+                     ->to($m) // Replace with recipient's email address
                      ->subject('Verification Account') // Replace with your desired subject
                      ->text('Welcom to EcoCraft learning ,We Hope you enjoy this Experience .' . $url)
                      ->htmlTemplate('users/mailTemplate.html.twig')

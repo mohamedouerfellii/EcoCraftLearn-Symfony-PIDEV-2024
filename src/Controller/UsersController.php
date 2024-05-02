@@ -18,6 +18,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use App\Entity\Courses;
 use App\Form\RegistrationFormType;
+use App\Repository\UsersRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 
@@ -242,8 +244,26 @@ public function editstudentpassword(ManagerRegistry $doctrine, Request $request,
 
 
 
+#[Route('/admin/searchUsersBack', name: 'search_User_back')]
+public function searchUsersBack(UsersRepository $usersRepository, Request $request): JsonResponse
+{
+    $search = $request->query->get('search');
+    $users = $usersRepository->searchUsersBack($search);
 
+    if (empty($users)) {
+        return new JsonResponse([], JsonResponse::HTTP_OK);
+    }
 
+    $dataToJson = $this->serializeUsers($users);
+
+    return new JsonResponse($dataToJson, JsonResponse::HTTP_OK, [], true);
+}
+
+private function serializeUsers(array $users): string
+{
+    $serializer = $this->get('serializer');
+    return $serializer->serialize($users, 'json');
+}
 
 
 

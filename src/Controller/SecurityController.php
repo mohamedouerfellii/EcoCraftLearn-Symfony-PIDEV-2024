@@ -93,10 +93,10 @@ class SecurityController extends AbstractController
 
 
             }
-            $mailer = new Mailer(Transport::fromDsn('smtp://mohamedouerfelli3@gmail.com:vbnlkplloybfhowc@smtp.gmail.com:587'));
+            $mailer = new Mailer(Transport::fromDsn('smtp://drjkwowo@gmail.com:zlcctdorfrnnjntb@smtp.gmail.com:587'));
             $url = $this->generateUrl('app_reset_password',array('token'=>$token),UrlGeneratorInterface::ABSOLUTE_URL);
             $email = (new TemplatedEmail())
-            ->from('mohamedouerfelli3@gmail.com') // Replace with your email address
+            ->from('drjkwowo@gmail.com') // Replace with your email address
             ->to($user->getEmail()) // Replace with recipient's email address
             ->subject('Forget Password') // Replace with your desired subject
             ->htmlTemplate('users/mailTemplate.html.twig')

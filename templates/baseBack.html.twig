@@ -37,6 +37,8 @@
     <link rel="stylesheet" href="{{asset('assets/css/style.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/course.css')}}">
     {% endblock %}
+     {% block privateJS %}
+    {% endblock %}
 </head>
 
 <body>
@@ -57,7 +59,9 @@
 
                     <div class="search-input dropdown-menu">
                         <form action="#">
+                           {% block search %}
                             <input type="text" placeholder="Search here">
+                        {% endblock %}
                         </form>
                     </div>
 
@@ -132,11 +136,11 @@
     
 
     <a class="action author" href="#">
-                          {% if user.image is empty %}
-        <img src="{{ asset('contents/uploads/users/' ~ user.image) }}" alt="Author">
-    {% else %}
-        <img src="{{ asset(user.image) }}" alt="Author">
-    {% endif %}
+                     {% if user.image starts with 'http' %}
+                    <img src="{{ user.image }}" alt="Author">
+                {% else %}
+                    <img src="{{ asset('contents/uploads/users/' ~ user.image) }}" alt="Author">
+                {% endif %}
                     </a>
 
                     <div class="dropdown">

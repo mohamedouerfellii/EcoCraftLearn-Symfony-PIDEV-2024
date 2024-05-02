@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UsersRepository;
+use JsonSerializable;
 use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -267,7 +268,7 @@ class Users implements PasswordAuthenticatedUserInterface,UserInterface,TwoFacto
     public function getEmailAuthCode(): string
     {
         if (null === $this->authCode) {
-            throw new \LogicException('The email authentication code was not set');
+           return null;
         }
 
         return $this->authCode;
@@ -277,5 +278,10 @@ class Users implements PasswordAuthenticatedUserInterface,UserInterface,TwoFacto
     {
         $this->authCode = $authCode;
     }
+
+
+
+
+
 
 }

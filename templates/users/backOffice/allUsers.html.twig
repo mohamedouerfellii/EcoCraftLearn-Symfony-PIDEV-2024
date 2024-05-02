@@ -1,4 +1,13 @@
 {% extends 'baseBack.html.twig' %}
+{% block privateJS %}
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script defer src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script defer src="{{asset('assets/js/users.js')}}"></script>
+{% endblock %}
+{% block search %}
+    <input type="text" id="searchinput"  placeholder="Search here">
+    
+{% endblock %}
 {% block body %}
 <!-- Admin Courses Tab Start -->
 <div class="admin-courses-tab">
@@ -24,13 +33,17 @@
 <!-- Admin Courses Tab Content Start -->
 <div class="admin-courses-tab-content">
     <div class="tab-content">
-        <div class="tab-pane fade show active" id="tab1">
+        <div class="tab-pane fade show active" id="mainAllUserseDiv">
         {% for user in users %}
             <!-- Courses Item Start -->
             <div class="courses-item">
                 <div class="item-thumb">
                     <a href="">
-                        <img src="{{ asset('contents/uploads/users/' ~ user.image) }}" alt="Courses">
+                        {% if user.image starts with 'http' %}
+                    <img src="{{ user.image }}" alt="Author">
+                {% else %}
+                    <img src="{{ asset('contents/uploads/users/' ~ user.image) }}" alt="Author">
+                {% endif %}
                     </a>
                 </div>
                 <div class="content-title">
