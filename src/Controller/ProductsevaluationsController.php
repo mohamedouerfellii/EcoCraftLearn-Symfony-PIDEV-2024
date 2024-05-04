@@ -32,7 +32,7 @@ class ProductsevaluationsController extends AbstractController
         $em = $doctrine->getManager();
         $product = $em->getRepository(Products::class)->find($request->get('idproduct'));
     
-        $user = $this->getDoctrine()->getRepository(Users::class)->find(10);
+        $user = $this->getDoctrine()->getRepository(Users::class)->find(8);
           
 
         $countrate = $repository->countRatingsByProductId($idproduct);
