@@ -244,5 +244,6 @@ public function sendMessage(Request $request, ManagerRegistry $doctrine, Session
   
 
 }
+//******* */
 
 
