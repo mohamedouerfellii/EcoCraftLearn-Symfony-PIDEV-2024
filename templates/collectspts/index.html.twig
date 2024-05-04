@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
-
+ {% block js %}
+ <script defer src="{{asset('assets/js/collect.js')}}"></script>
+  {% endblock %}
 {% block body %}
 <div class="content-page">
     <div class="content">
@@ -14,7 +16,7 @@
                             <form action="{{ path('afficher_collectspts') }}" method="GET">
                                 <div class="form-group">
                                     <label for="search">Rechercher par  Description :</label>
-                                    <input type="text" class="form-control" id="search" name="search" value="{{ app.request.query.get('search') }}">
+                                    <input type="text" class="form-control" id="search" name="search" value="">
                                 </div>
                                 <button type="submit" class="btn btn-primary">Rechercher</button>
                             </form>

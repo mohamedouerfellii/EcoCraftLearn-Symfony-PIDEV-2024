@@ -164,5 +164,33 @@ public function generatePdfAction(CollectsRepository $repo, PaginatorInterface $
     );
 }
 
+
+
+
+
+
+
+#[Route('/searchCollects', name: 'search_Collect_Front')]
+public function searchCollects(CollectsRepository $collectsRepository, Request $request): Response
+{
+
+   
+    $search = $request->query->get('search');
+    $Collects = $collectsRepository->searchCollectByQuantity ($search);
+
+    $dataToJson = $this->serializeCollects($Collects);
+    
+    return new Response($dataToJson, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+}
+
+private function serializeCollects(array $Collects): string
+{
+    $serializer = $this->get('serializer');
+    return $serializer->serialize($Collects, 'json');
+}
+
+
+
+
    
 }

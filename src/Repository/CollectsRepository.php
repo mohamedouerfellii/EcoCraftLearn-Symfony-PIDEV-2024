@@ -56,5 +56,14 @@ class CollectsRepository extends ServiceEntityRepository
 }
    
 
+public function searchCollectByQuantity(string $search)
+{
+    return $this->createQueryBuilder('p')
+        ->where('p.quantity LIKE :search')
+        ->setParameter('search', '%' . $search . '%')
+        ->getQuery()
+        ->getResult();
+}
+
 
 }

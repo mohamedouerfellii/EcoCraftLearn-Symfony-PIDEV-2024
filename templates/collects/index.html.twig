@@ -1,44 +1,130 @@
-{% extends 'admin.html.twig' %}
+ {% extends 'front.html.twig' %}
+ 
+  {% block header %}
+        <!-- Header Section Start -->
+        <div class="header-section">
+            <!-- Header Main Start -->
+            <div class="header-main">
+                <div class="container">
 
-{% block title %}Collects {% endblock %}
+                    <!-- Header Main Start -->
+                    <div class="header-main-wrapper">
 
-{% block body %}
+                        <!-- Header Logo Start -->
+                        <div class="header-logo">
+                            <a href="index.html"><img style="height: 60px; width: 60px;" src="{{asset('assets/images/logoDark.png')}}" alt="Logo"></a>
+                        </div>
+                        <!-- Header Logo End -->
 
-<section class="parallax-window" data-parallax="scroll" style="" data-natural-width="1400" data-natural-height="470">
-    <div class="parallax-content-1 opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.4)">
-        <div class="animated fadeInDown">
-            <h1>Voici les Collectss</h1>
-            <p>chaque fausse Collects ne peux pas etre disponnibles bientot</p>
-        </div>
+                        <!-- Header Menu Start -->
+                       
+                        <!-- Header Menu End -->
+
+                        <!-- Header Sing In & Up Start -->
+
+    {# User is not logged in, so show the sign-in and sign-up links #}
+    <div class="header-sign-in-up d-none d-lg-block">
+        <ul>
+            <li><a class="sign-in" href="#">Sign In</a></li>
+            <li><a class="sign-up" href="#">Sign Up</a></li>
+        </ul>
     </div>
-</section>
+
+                        <!-- Header Sing In & Up End -->
+
+                        <!-- Header Mobile Toggle Start -->
+                        <div class="header-toggle d-lg-none">
+                            <a class="menu-toggle" href="javascript:void(0)">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </a>
+                        </div>
+                        <!-- Header Mobile Toggle End -->
+
+                    </div>
+                    <!-- Header Main End -->
+                
+                </div>
+            </div>
+            <!-- Header Main End -->
+        </div>
+        <!-- Header Section End -->
+        {% endblock %}
+{% block js %}
+ <script defer src="{{asset('assets/js/collect.js')}}"></script>
+  {% endblock %}
+{% block body %}
+<style>
+.error-message {
+    color: red; /* Set the text color to red */
+    
+}</style>
+   
+<div class="section page-banner">
+    <img class="shape-1 animation-round" src="{{ asset('assets/images/shape/shape-8.png')}}" alt="Shape">
+
+    <img class="shape-2" src="{{ asset('assets/images/shape/shape-23.png')}}" alt="Shape">
+
+    <div class="container">
+        <!-- Page Banner Start -->
+        <div class="page-banner-content">
+            <ul class="breadcrumb">
+                <li><a href="#">Home</a></li>
+                <li class="active">Collects</li>
+            </ul>
+            <h2 class="title">coll<span>ects</span></h2>
+        </div>
+        <!-- Page Banner End -->
+    </div>
+
+    <!-- Shape Icon Box Start -->
+    <div class="shape-icon-box">
+
+        <img class="icon-shape-1 animation-left" src="{{ asset('assets/images/shape/shape-5.png')}}" alt="Shape">
+
+        <div class="box-content">
+            <div class="box-wrapper">
+                <i class="flaticon-badge"></i>
+            </div>
+        </div>
+
+        <img class="icon-shape-2" src="{{ asset('assets/images/shape/shape-6.png')}}" alt="Shape">
+
+    </div>
+    <!-- Shape Icon Box End -->
+
+    <img class="shape-3" src="{{ asset('assets/images/shape/shape-24.png')}}" alt="Shape">
+
+    <img class="shape-author" src="{{ asset('assets/images/author/author-11.jpg')}}" alt="Shape">
+
+</div>
 
 <!-- Fin de la section -->
 <div class="card-body">
-    <h5 class="card-title">Collectss</h5>
+    <h5 class="card-title">Collects</h5>
 <!-- Formulaire de recherche -->
-                            <form action="{{ path('afficher_collects') }}" method="GET">
-                                <div class="form-group">
-                                    <label for="search">Rechercher par nom, type ou commentaire :</label>
-                                    <input type="text" class="form-control" id="search" name="search" value="{{ app.request.query.get('search') }}">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Rechercher</button>
-                            </form>
+        <div class="courses-search search-2">
+                     <form id="searchForm" action="#" method="GET">
+                        <input type="text" name="search" id="searchInput" placeholder="Search.......">
+                        </form>
+
+                    </div>
+
                             <!-- Fin du formulaire de recherche -->
   <!-- Tableau des resrvations -->
+  <div class="row" id="mainAllCollectsDiv">
 {% for response in Collects %}
 <div class="card mb-3">
     <div class="card-body">
         <h5 class="card-title">Id complet: {{ response.id }}</h5>
         
-        <h7 class="card-subtitle mb-2 text-muted">collectspts: {{ response.collectsptss.name }}</h7>
+       <p <h7 class="card-subtitle mb-2 text-muted">Nom de votre ptscollecte: {{ response.collectsptss.name }}</h7></p>
         
         <p class="card-subtitle mb-2 text-muted">Type de matériel: {{ response.materialType }}</p>
-        <p class="card-subtitle mb-2 text-muted">quantité de ce materiel : {{ response.quantity }}</p>
+        <p class="card-subtitle mb-2 text-muted">Quantité : {{ response.quantity }}</p>
 
-        
-        
-        <p class="card-text">Date de collect: {{ response.collectDate|date('d-m-Y') }}</p>
+         <p class="card-text">Date de collect: {{ response.collectDate|date('d-m-Y') }}</p>
         
         
         
@@ -52,11 +138,12 @@
     </div>
 </div>
 {% endfor %}
-
+</div>
 
     <div class="pagination">
         {{ knp_pagination_render(Collects) }}
     </div>
     <a href="{{ path('generate_pdf') }}">Télécharger PDF</a>
 </div>
+
 {% endblock %}

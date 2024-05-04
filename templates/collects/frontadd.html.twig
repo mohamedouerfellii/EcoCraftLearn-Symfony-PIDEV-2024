@@ -1,6 +1,103 @@
-{% extends 'base.html.twig' %}
+ {% extends 'front.html.twig' %}
+  {% block header %}
+        <!-- Header Section Start -->
+        <div class="header-section">
+            <!-- Header Main Start -->
+            <div class="header-main">
+                <div class="container">
+
+                    <!-- Header Main Start -->
+                    <div class="header-main-wrapper">
+
+                        <!-- Header Logo Start -->
+                        <div class="header-logo">
+                            <a href="index.html"><img style="height: 60px; width: 60px;" src="{{asset('assets/images/logoDark.png')}}" alt="Logo"></a>
+                        </div>
+                        <!-- Header Logo End -->
+
+                        <!-- Header Menu Start -->
+                       
+                        <!-- Header Menu End -->
+
+                        <!-- Header Sing In & Up Start -->
+
+    {# User is not logged in, so show the sign-in and sign-up links #}
+    <div class="header-sign-in-up d-none d-lg-block">
+        <ul>
+            <li><a class="sign-in" href="#">Sign In</a></li>
+            <li><a class="sign-up" href="#">Sign Up</a></li>
+        </ul>
+    </div>
+
+                        <!-- Header Sing In & Up End -->
+
+                        <!-- Header Mobile Toggle Start -->
+                        <div class="header-toggle d-lg-none">
+                            <a class="menu-toggle" href="javascript:void(0)">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </a>
+                        </div>
+                        <!-- Header Mobile Toggle End -->
+
+                    </div>
+                    <!-- Header Main End -->
+                
+                </div>
+            </div>
+            <!-- Header Main End -->
+        </div>
+        <!-- Header Section End -->
+        {% endblock %}
 
 {% block body %}
+<style>
+.error-message {
+    color: red; /* Set the text color to red */
+    
+}</style>
+   
+<div class="section page-banner">
+    <img class="shape-1 animation-round" src="{{ asset('assets/images/shape/shape-8.png')}}" alt="Shape">
+
+    <img class="shape-2" src="{{ asset('assets/images/shape/shape-23.png')}}" alt="Shape">
+
+    <div class="container">
+        <!-- Page Banner Start -->
+        <div class="page-banner-content">
+            <ul class="breadcrumb">
+                <li><a href="#">Home</a></li>
+                <li class="active">Collects</li>
+            </ul>
+            <h2 class="title">add <span>collect</span></h2>
+        </div>
+        <!-- Page Banner End -->
+    </div>
+
+    <!-- Shape Icon Box Start -->
+    <div class="shape-icon-box">
+
+        <img class="icon-shape-1 animation-left" src="{{ asset('assets/images/shape/shape-5.png')}}" alt="Shape">
+
+        <div class="box-content">
+            <div class="box-wrapper">
+                <i class="flaticon-badge"></i>
+            </div>
+        </div>
+
+        <img class="icon-shape-2" src="{{ asset('assets/images/shape/shape-6.png')}}" alt="Shape">
+
+    </div>
+    <!-- Shape Icon Box End -->
+
+    <img class="shape-3" src="{{ asset('assets/images/shape/shape-24.png')}}" alt="Shape">
+
+    <img class="shape-author" src="{{ asset('assets/images/author/author-11.jpg')}}" alt="Shape">
+
+</div>
+
+
     {% form_theme form 'bootstrap_4_layout.html.twig' %}
    
     <div class="content-page">
