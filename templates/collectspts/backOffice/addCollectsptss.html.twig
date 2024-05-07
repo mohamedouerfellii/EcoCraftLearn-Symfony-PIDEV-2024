@@ -1,0 +1,27 @@
+{% extends 'baseAdmin.html.twig' %}
+
+
+
+{% block body %}
+    <style>
+    .parallax-window
+    {
+      background-color: #0000 !important;
+
+    }
+</style>
+
+   
+
+    <!-- Fin de la section -->
+     {% form_theme form 'bootstrap_4_layout.html.twig' %}
+    <div class="card-body">
+        <h5 class="card-title">add Collection Point</h5>
+ <div class="single-form">
+        {{form_start(form,{'attr' :{'novalidate':'novalidate'}})}}
+
+        {{ form_end(form) }}
+    </div> </div>
+    <!-- Fin du main -->
+
+    {% endblock %}

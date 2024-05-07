@@ -1,0 +1,140 @@
+{% extends 'baseFront.html.twig' %}
+{% block body %}
+        <!-- Overlay Start -->
+        <div class="overlay"></div>
+        <!-- Overlay End -->
+
+        <!-- Slider Start -->
+        <div class="section slider-section">
+
+            <!-- Slider Shape Start -->
+            <div class="slider-shape">
+                <img class="shape-1 animation-round" src="{{asset('assets/images/shape/shape-8.png')}}" alt="Shape">
+            </div>
+            <!-- Slider Shape End -->
+
+            <div class="container">
+
+                <!-- Slider Content Start -->
+                <div class="slider-content">
+                    <h4 class="sub-title">Start your favourite course</h4>
+                    <h2 class="main-title">Now learning from anywhere, and build your <span>bright career.</span></h2>
+                    <p>It has survived not only five centuries but also the leap into electronic typesetting.</p>
+                    <a class="btn btn-primary btn-hover-dark" href="{{ path('MyProduct')}}">My Products</a>
+                </div>
+                <!-- Slider Content End -->
+
+            </div>
+
+            <!-- Slider Courses Box Start -->
+            <div class="slider-courses-box">
+
+                <img class="shape-1 animation-left" src="{{asset('assets/images/shape/shape-5.png')}}" alt="Shape">
+
+                <div class="box-content">
+                    <div class="box-wrapper">
+                        <i class="flaticon-open-book"></i>
+                        <span class="count">1,235</span>
+                        <p>courses</p>
+                    </div>
+                </div>
+
+                <img class="shape-2" src="{{asset('assets/images/shape/shape-6.png')}}" alt="Shape">
+
+            </div>
+            <!-- Slider Courses Box End -->
+
+            <!-- Slider Rating Box Start -->
+            <div class="slider-rating-box">
+
+                <div class="box-rating">
+                    <div class="box-wrapper">
+                        <span class="count">4.8 <i class="flaticon-star"></i></span>
+                        <p>Rating (86K)</p>
+                    </div>
+                </div>
+
+                <img class="shape animation-up" src="{{asset('assets/images/shape/shape-7.png')}}" alt="Shape">
+
+            </div>
+            <!-- Slider Rating Box End -->
+
+            <!-- Slider Images Start -->
+            <div class="slider-images">
+                <div class="images">
+                    <img src="{{asset('assets/images/slider/slider-1.png')}}" alt="Slider">
+                </div>
+            </div>
+            <!-- Slider Images End -->
+
+            <!-- Slider Video Start -->
+            <div class="slider-video">
+                <img class="shape-1" src="{{asset('assets/images/shape/shape-9.png')}}" alt="Shape">
+
+                <div class="video-play">
+                    <img src="{{asset('assets/images/shape/shape-10.png')}}" alt="Shape">
+                    <a href="https://www.youtube.com/watch?v=BRvyWfuxGuU" class="play video-popup"><i class="flaticon-play"></i></a>
+                </div>
+            </div>
+            <!-- Slider Video End -->
+
+        </div>
+        <!-- Slider End -->
+                <!-- Engagement Courses End -->
+                        <div class="engagement-courses table-responsive">
+
+                        
+
+
+                    {% block bodyCarts %}
+                  <div class="courses-top" >
+                 <ul>
+                 <li>My Carts </li>
+                 <li>Total Price : </li>
+                <li>{{ userCart.totalprice }} DT</li>
+
+        
+    <div style="width: 200px; height: 60px;">
+        <a href="{{ path('DeleteCart', { 'idcarts': userCart.idcarts}) }}"  class="btn btn-primary btn-hover-dark">Cancel</a>
+    </div>
+<div style="width: 2px; height: 60px;">
+    <a href="{{ path('OrderProduct', { 'idcarts': userCart.idcarts, 'totalPrice': userCart.totalprice}) }}" class="btn btn-primary btn-hover-dark">Order</a>
+</div>
+
+
+             </ul>
+                 </div>
+
+                    {% for souscart in souscarts %}
+             <div class="courses-list" style="max-width: 1000px; margin: 0 auto;" >
+               <ul>
+            <li>
+                <div class="courses">
+                    <div class="thumb">
+                        <img src="{{ asset('contents/uploads/products/' ~ souscart.product.image) }}" alt="{{ souscart.product.name }}">
+                    </div>
+                    <div class="content">
+                        <h4 class="title"><a href="#">{{ souscart.product.name }}</a></h4>
+                    </div>
+                </div>
+                <div class="taught">
+                    <span> Price : {{ souscart.product.price }}</span> 
+                </div>
+                <div class="student">
+                    <span> Quantity : {{ souscart.quantiteproduct }}</span>
+                </div>
+                <div class="button">
+                    <a class="btn" href="{{ path('deletesoucart', { 'idSouscarts': souscart.idSouscarts }) }}">Cancel</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    {% endfor %}
+    {% endblock %}
+
+    </div>
+    <!-- Engagement Courses End -->
+   
+    <br><br><br><br><br><br><br><br><br><br>
+
+{% endblock %}

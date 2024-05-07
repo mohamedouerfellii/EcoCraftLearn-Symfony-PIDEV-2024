@@ -1,0 +1,142 @@
+{% extends 'baseFront.html.twig' %}
+{% block title %}EcoCraftLearning - Courses{% endblock %}
+{% block privateJS %}
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script defer src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script defer src="{{asset('assets/js/courses.js')}}"></script>
+{% endblock %}
+{% block body %}
+<!-- Overlay Start -->
+<div class="overlay"></div>
+<!-- Overlay End -->
+<!-- Page Banner Start -->
+<div class="section page-banner">
+    <img class="shape-1 animation-round" src="{{ asset('assets/images/shape/shape-8.png')}}" alt="Shape">
+
+    <img class="shape-2" src="{{ asset('assets/images/shape/shape-23.png')}}" alt="Shape">
+
+    <div class="container">
+        <!-- Page Banner Start -->
+        <div class="page-banner-content">
+            <ul class="breadcrumb">
+                <li><a href="#">Home</a></li>
+                <li class="active">Courses</li>
+            </ul>
+            <h2 class="title">My <span>Courses</span></h2>
+        </div>
+        <!-- Page Banner End -->
+    </div>
+
+    <!-- Shape Icon Box Start -->
+    <div class="shape-icon-box">
+
+        <img class="icon-shape-1 animation-left" src="{{ asset('assets/images/shape/shape-5.png')}}" alt="Shape">
+
+        <div class="box-content">
+            <div class="box-wrapper">
+                <i class="flaticon-badge"></i>
+            </div>
+        </div>
+
+        <img class="icon-shape-2" src="{{ asset('assets/images/shape/shape-6.png')}}" alt="Shape">
+
+    </div>
+    <!-- Shape Icon Box End -->
+
+    <img class="shape-3" src="{{ asset('assets/images/shape/shape-24.png')}}" alt="Shape">
+
+    <img class="shape-author" src="{{ asset('assets/images/author/author-11.jpg')}}" alt="Shape">
+
+</div>
+<!-- Page Banner End -->
+
+<!-- Courses Start -->
+<div class="section section-padding">
+    <div class="container">
+        <!-- Courses Category Wrapper Start  -->
+        <div class="courses-category-wrapper">
+            <div class="courses-search search-2">
+                <input type="text" id="searchCourse" onkeyup="searchCourse(this.value)" data-url="{{ path('search_course_front') }}" placeholder="Search here">
+                <button><i class="icofont-search"></i></button>
+            </div>
+            <ul class="category-menu">
+                <li><a class="active" href="{{path('all_courses', {'page' : 1})}}">All Courses</a></li>
+                <li><a href="{{ path('my_learning', {'idUser' : app.user.iduser })}}">My Learning</a></li>
+            </ul>
+        </div>
+        <!-- Courses Category Wrapper End  -->
+        <div class="courses-tabs-menu courses-active">
+            <div class="swiper-container">
+                <ul class="swiper-wrapper nav" id="searchFrontDiv" data-url="{{ path('filter_course_front') }}">
+                    <li class="swiper-slide"><button data-value="All" onclick="filterCourseFront(this)">All Courses</button></li>
+                    <li class="swiper-slide"><button data-value="Oldest" onclick="filterCourseFront(this)">Oldest First</button></li>
+                    <li class="swiper-slide"><button data-value="Newest" onclick="filterCourseFront(this)">Newest First</button></li>
+                    <li class="swiper-slide"><button data-value="Most Registered" onclick="filterCourseFront(this)">Most Registered</button></li>
+                    <li class="swiper-slide"><button data-value="Most rated" onclick="filterCourseFront(this)">Most rated</button></li>
+                    <li class="swiper-slide"><button data-value="Price" onclick="filterCourseFront(this)">Price</button></li>
+                </ul>
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-button-next"><i class="icofont-rounded-right"></i></div>
+            <div class="swiper-button-prev"><i class="icofont-rounded-left"></i></div>
+        </div>
+        <!-- Courses Wrapper Start  -->
+        <div class="courses-wrapper-02">
+            <div class="row" id="mainDivCourses">
+                                {% for course in pagination %}
+                <div class="col-lg-4 col-md-6">
+                        <!-- Single Courses Start -->
+                        <div class="single-courses">
+                            <div class="courses-images">
+                                <a href="{{ path('course_details', {'idCourse' : course.idcourse})}}"><img src="{{ asset('contents/uploads/courses/' ~ course.image) }}" alt="Courses" width="330" height="200"></a>
+                            </div>
+                            <div class="courses-content">
+                                <div class="courses-author">
+                                    <div class="author">
+                                        <div class="author-thumb">
+                                            <a href="#"><img src="{{ asset('contents/uploads/users/' ~ course.tutor.image) }}" alt="Author"></a>
+                                        </div>
+                                        <div class="author-name">
+                                            <a class="name" href="#">{{course.tutor.getFirstname}} {{course.tutor.getLastname}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h4 class="title"><a href="{{ path('course_details', {'idCourse' : course.idcourse})}}">{{course.title}}</a></h4>
+                                <div class="courses-meta">
+                                    <span> <i class="icofont-clock-time"></i>{{course.duration}}</span>
+                                    <span> <i class="icofont-read-book"></i> {{course.nbrregistred}} Registered </span>
+                                </div>
+                                <div class="courses-price-review">
+                                    <div class="courses-price">
+                                        <span class="sale-parice">{{course.price}} TND</span>
+                                    </div>
+                                    <div class="courses-review">
+                                        <span class="rating-count">{{course.rate}}</span>
+                                        <span class="rating-star">
+                                                <span class="rating-bar" style="width: 0%;"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Single Courses End -->                       
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <br>
+            <div class="container" id="paginatorID">
+                <div class="row">
+                    <div class="d-flex align-items-center justify-content-center">
+                        {{ knp_pagination_render(pagination) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Courses Wrapper End  -->
+
+    </div>
+</div>
+<!-- Courses End -->
+{% endblock %}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - youtube.com/codingnepal -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>ECL - WB Meeting</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/images/logoDark.png')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/styleWB.css')}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{{asset('assets/js/whiteboard/scriptWBStudent.js')}}" defer></script>
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script defer src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  </head>
+  <body>
+    <div class="container" id="container" data-id-student="{{ app.user.iduser }}" data-id-room="{{ course.idcourse + course.tutor.iduser}}" data-id-course="{{ course.idcourse }}">
+      <section class="tools-board">
+        <div class="row">
+          <label class="title">Course</label>
+          <ul class="options">
+            <li class="option tool" id="rectangle">
+              <img style="width: 30px; heigth: 30px;" src="{{ asset('contents/uploads/courses/' ~ course.image) }}" alt="">
+              <span>{{ course.title }}</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section class="drawing-board">
+        <canvas></canvas>
+      </section>
+      <section class="participants-board">
+        <div class="row">
+          <label class="title">Tutor</label>
+          <ul class="participants">
+            <li class="participant detail">
+              <span>{{ course.tutor.lastname }} {{ course.tutor.lastname }}</span>
+            </li>
+          </ul>
+        </div>
+        <div class="row buttons">
+          <button id="disconnect" class="save-img">Disconnect</button>
+        </div>
+      </section>
+    </div>
+    <!-- mercure notification -->
+    <script>
+        const roomId = document.getElementById('container').getAttribute('data-id-room');
+        const eventSource = new EventSource("{{ mercure('https://ecocraftlearning/wbmeeting/' ~ roomId)|escape('js') }}");
+        eventSource.onmessage = event => {
+            notifData = JSON.parse(event.data);
+            if(notifData['action'] == "endroom"){
+                  alert("Thanks for your participations, END ROOM!");
+                  setTimeout(function() {
+                      window.location.href = "http://127.0.0.1:8000/student/home"
+                  }, 2000); 
+            }
+            else if(notifData['action'] == "drawing")
+              drawing(notifData);
+            else if(notifData['action'] == "startDraw")
+              startDraw(notifData);
+            else
+              clear();
+        }
+    </script>
+  </body>
+</html>

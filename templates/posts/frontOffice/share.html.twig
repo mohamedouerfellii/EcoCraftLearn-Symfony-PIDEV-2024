@@ -1,0 +1,65 @@
+ {% extends 'baseFront.html.twig' %}
+ {% block body %}
+ </br>
+ </br>
+ </br>
+ </br>
+ </br>
+ </br>
+ </br>
+ </br>
+ </br>
+ <div class="post-container">
+                        <div class="post">
+                            <div class="post-header">
+                                <div class="post-header-left">
+                                    <img src="{{ post.owner.image }}" class="profile-picture" alt="Profile Picture"/>
+                                    <div>
+                                        <div>
+                                            <span class="post-author">{{ post.owner.firstname }}</span>
+                                        </div>
+                                        <span class="post-time">{{ post.posteddate|date(' H:i') }}</span>        
+                                    </div>
+                                </div>
+                                <div class="post-header-right">
+                                    <a class="post-action" href="{{ path('update', {id:post.idpost}) }}" >
+                                        <img src="{{ asset('images/pencil-fill.png') }}"width="20px;" height="20px;"/>
+                                    </a>   
+                                    <a class="post-action" href="{{ path('deleteFront', {id:post.idpost}) }}" >
+                                        <img src="{{ asset('images/close-circle-fill.png') }}"width="20px;" height="20px;"/>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p>{{ post.content }}</p>
+                                <div align="center">
+                                    {% if post.attachment %}  
+                                    <p><img src="{{ asset('contents/uploads/posts/' ~ post.attachment) }}"width="300px;" height="250px;"/></p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="flex-container">
+                                <div class="flex-container-divider" >
+                                    <div class="flex-container-divider-bar"></div>
+                                    <div class="flex-container-divider-bar"></div>
+                                </div>
+  <a class="post-reaction like-button" href="" data-post-id="{{ post.idpost }}">
+                <img class="post-reaction-img" src="{{ asset('images/heart-line.png') }}" alt="Like"/>
+            </a>                             
+                                    <a class="post-reaction">
+                                         <img class="post-comment-img" src="{{ asset('images/chat-1-line.png') }}"/>
+                                    </a>      
+                                <a class="post-reaction" href="https://www.facebook.com/sharer/sharer.php?u={{ absolute_url(path('thatPost', {postId: post.idpost})) }}" >
+    <svg class="w-6 h-6 text-blue-600 fill-current mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+    </svg>
+    <img class="post-reaction-img" src="{{ asset('images/share-forward-line.png') }}" />
+</a>
+                             
+                            </div>  
+                            
+                           
+    </div>
+    {% endblock %}

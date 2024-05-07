@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from template.hasthemes.com/edule/eduLe/courses-admin.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 03 Jun 2023 22:29:53 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %}EcoCraftLearning{% endblock %}</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/images/logoDark.png')}}">
+    {% block css %}
+    <!-- CSS
+	============================================ -->
+    <!-- Google Fonts CSS -->  
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <!-- Icon Font CSS -->
+    <!-- <link rel="stylesheet" href="assets/css/plugins/icofont.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/flaticon.css">
+    <link rel="stylesheet" href="assets/css/plugins/font-awesome.min.css"> -->
+    <!-- Plugins CSS -->
+    <!-- <link rel="stylesheet" href="assets/css/plugins/animate.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/plugins/nice-select.css">
+    <link rel="stylesheet" href="assets/css/plugins/apexcharts.css">
+    <link rel="stylesheet" href="assets/css/plugins/jqvmap.min.css"> -->
+    <!-- Main Style CSS -->
+    <!-- <link rel="stylesheet" href="assets/css/style.css"> -->
+    <!--====== Use the minified version files listed below for better performance and remove the files listed above ======-->
+    <link rel="stylesheet" href="{{asset('assets/css/vendor/plugins.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/style.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/course.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/forum.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/forumBack.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/comments.min.css')}}">
+        <!-- FontAweome CDN Link for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    {% endblock %}
+    {% block privateJS %}
+    {% endblock %}
+</head>
+
+<body>
+    <div class="main-wrapper main-wrapper-02">
+        <!-- Login Header Start -->
+        <div class="section login-header">
+            <!-- Login Header Wrapper Start -->
+            <div class="login-header-wrapper navbar navbar-expand">
+               <!-- Header Logo Start -->
+                <div id="urlNotify" class="login-header-logo logo-2" data-url="{{ path('notify_tutor') }}">
+                    <a id="idTutor" data-id-tutor="{{ app.user.iduser }}"  {% block linkHome %} href="{{path('tutor_course_dashboard')}}" {% endblock %}><img  src="{{asset('assets/images/customLogo.png')}}" alt="Logo"></a></li>
+                </div>
+                    <script>
+                const idTutor = document.getElementById('idTutor').getAttribute('data-id-tutor');
+                    document.addEventListener('DOMContentLoaded', function() {
+                        notifytutor(idTutor,false);
+                    });
+                </script>
+                <!-- Header Logo End -->
+                <!-- Header Search Start -->
+                <div class="login-header-search dropdown">
+                    <button class="search-toggle" data-bs-toggle="dropdown"><i class="flaticon-loupe"></i></button>
+
+                    <div class="search-input dropdown-menu">
+                        {% block search %}
+                            <input type="text" placeholder="Search here">
+                        {% endblock %}
+                    </div>
+
+                </div>
+                <!-- Header Search End -->
+
+                <!-- Header Action Start -->
+                <div class="login-header-action ml-auto">
+                {% block notification %}
+                    <div class="dropdown">
+                        <button class="action notification" data-bs-toggle="dropdown">
+                            <i class="flaticon-notification"></i>
+                            <span id="notifAlert"></span>
+                        </button>
+                        <div class="dropdown-menu dropdown-notification">
+                            <ul id="notifList" class="notification-items-list">
+                                
+                            </ul>
+                            <a class="all-notification" href="{{ path('read_notification_course',{'idTutor': app.user.iduser})}}">See all notifications</a>
+                        </div>
+                    </div>
+                    {% endblock %}
+                      {% if app.user %}
+    {# User is logged in, so hide the sign-in and sign-up links #}
+    
+
+    <a class="action author" href="#">
+                      {% if app.user.image starts with "https" %}
+                        <img src="{{ app.user.image }}" alt="Author">
+                    {% else %}
+                        <img src="{{ asset('contents/uploads/users/' ~ app.user.image) }}" alt="Author">
+                    {% endif %}
+                    </a>
+
+                    <div class="dropdown">
+                        <button class="action more" data-bs-toggle="dropdown">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="" href="#"><i class="icofont-user"></i> Profile</a></li>
+                            <li><a class="" href="#"><i class="icofont-inbox"></i> Inbox</a></li>
+                            <li><a class="" href="{{ path('app_logout') }}"><i class="icofont-logout"></i> Sign Out</a></li>
+                        </ul>
+                    </div>
+{% else %}
+    {# User is not logged in, so show the sign-in and sign-up links #}
+    <div class="header-sign-in-up d-none d-lg-block">
+        <ul>
+            <li><a class="sign-in" href="{{ path('app_login') }}">Sign In</a></li>
+            <li><a class="sign-up" href="{{ path('app_register') }}">Sign Up</a></li>
+        </ul>
+    </div>
+
+                    
+    {% endif %}
+                </div>
+                <!-- Header Action End -->
+
+            </div>
+            <!-- Login Header Wrapper End -->
+        </div>
+        <!-- Login Header End -->
+                <!-- Courses Admin Start -->
+        <div class="section overflow-hidden position-relative" id="wrapper">
+                    {% block sideBar %}
+            <!-- Sidebar Wrapper Start -->
+            <div class="sidebar-wrapper">
+                <div class="menu-list">
+                    <a class="active" href="{{ path('admin_dashboard')}}"><img src="{{asset('assets/sidebar/home-4-line.png')}}" alt="Icon"></a>
+                    <a href="{{ path('showProductsDashboard')}}"><img src="{{asset('assets/sidebar/inbox-line.png')}}" alt="Icon"></a>
+                    <a href="{{ path('afficher_collectspts2')}}"><img src="{{asset('assets/sidebar/recycle-line.png')}}" alt="Icon"></a>
+                </div>
+            </div>
+            <!-- Sidebar Wrapper End -->
+            {% endblock %}
+        <div class="page-content-wrapper">
+            <div class="container-fluid custom-container">
+            {% block body %}
+            {% endblock %}
+            <br>
+            <br>
+            <br>
+            </div>
+        </div>
+        </div>
+        <!-- mercure notification -->
+        <script>
+                let notifDesc = document.getElementById("notifDesc");
+                const eventSource = new EventSource("{{ mercure('https://ecocraftlearning/enroll/'~ app.user.iduser)|escape('js') }}");
+                eventSource.onmessage = event => {
+                    notifData = JSON.parse(event.data);
+                    notifytutor(notifData['idTutor'],true);
+                }
+        </script>
+        {% block footer %}
+        <!-- Footer Start  -->
+        <div class="section footer-section">
+            <!-- Footer Copyright Start -->
+            <div class="footer-copyright">
+                <div class="container">
+                    <!-- Footer Copyright Start -->
+                    <div class="copyright-wrapper">
+                        <div class="copyright-link">
+                            <a href="#">Terms of Service</a>
+                            <a href="#">Privacy Policy</a>
+                            <a href="#">Sitemap</a>
+                            <a href="#">Security</a>
+                        </div>
+                        <div class="copyright-text">
+                            <p>&copy; 2023 <span> EcoCraftLearning </span> Made By <a href="#">SIRIUS</a></p>
+                        </div>
+                    </div>
+                    <!-- Footer Copyright End -->
+                </div>
+            </div>
+            <!-- Footer Copyright End -->
+        </div>
+        <!-- Footer End -->
+        <!--Back To Start-->
+        <a href="#" class="back-to-top">
+            <i class="icofont-simple-up"></i>
+        </a>
+        <!--Back To End-->
+        {% endblock %}
+    </div>
+    {% block js %}
+    <!-- JS
+    ============================================ -->
+    <!-- Modernizer & jQuery JS -->
+    <script src="{{asset('assets/js/vendor/modernizr-3.11.2.min.js')}}"></script>
+    <script src="{{asset('assets/js/vendor/jquery-3.5.1.min.js')}}"></script>
+    <!-- Bootstrap JS -->
+    <!-- <script src="assets/js/plugins/popper.min.js"></script>
+    <script src="assets/js/plugins/bootstrap.min.js"></script> -->
+    <!-- Plugins JS -->
+    <!-- <script src="assets/js/plugins/swiper-bundle.min.js"></script>
+    <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
+    <script src="assets/js/plugins/video-playlist.js"></script>
+    <script src="assets/js/plugins/jquery.nice-select.min.js"></script>
+    <script src="assets/js/plugins/ajax-contact.js"></script> -->
+    <!--====== Use the minified version files listed below for better performance and remove the files listed above ======-->
+    <script src="{{asset('assets/js/plugins.min.js')}}"></script>
+    <!-- Main JS -->
+    <script src="{{asset('assets/js/main.js')}}"></script>
+    <script defer src="{{asset('assets/js/notificationCourse.js')}}"></script>
+    {% endblock %}
+</body>
+
+
+<!-- Mirrored from template.hasthemes.com/edule/eduLe/courses-admin.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 03 Jun 2023 22:29:59 GMT -->
+</html>

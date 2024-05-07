@@ -1,0 +1,43 @@
+{% extends 'basefront.html.twig' %}
+{% block body %}
+<!-- Admin Courses Tab Start -->
+<div class="admin-courses-tab">
+</br>
+</br>
+</br>
+</br>
+
+   
+    
+</div>
+<div class="formbold-main-wrapper">
+  <div class="formbold-form-wrapper">
+   <h3 class="title">Edit Your Comment !</h3>
+    {{ form_start(updatecommentForm, {'attr': {'method': 'POST', 'novalidate': 'novalidate'}}) }}
+    
+        <div>
+          <div class="single-form">
+              {{ form_widget(updatecommentForm.content) }}
+              <span class="form-error">{{ form_errors(updatecommentForm.content, {'attr': {'class': 'form-error'}}) }}</span>
+          </div>    
+        
+        
+         
+        
+        
+        <br>
+        
+         <div class="tab-btn">
+            {{ form_end(updatecommentForm) }}
+            </div>
+        </div>
+        </div>
+        </div>
+  
+   
+                
+
+      
+
+<!-- Admin Courses Tab End -->
+{% endblock %}

@@ -1,0 +1,211 @@
+{% extends 'baseFront.html.twig' %}
+{% block body %}
+
+  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{{asset('assets/js/events.js')}}"></script>
+
+        <!-- Overlay Start -->
+        <div class="overlay"></div>
+        <!-- Overlay End -->
+
+        <!-- Slider Start -->
+        <div class="section slider-section">
+
+            <!-- Slider Shape Start -->
+            <div class="slider-shape">
+                <img class="shape-1 animation-round" src="{{asset('assets/images/shape/shape-8.png')}}" alt="Shape">
+            </div>
+            <!-- Slider Shape End -->
+
+            <div class="container">
+
+                <!-- Slider Content Start -->
+                <div class="slider-content">
+                    <h4 class="sub-title">Start your favourite course</h4>
+                    <h2 class="main-title">Now learning from anywhere, and build your <span>bright career.</span></h2>
+                    <p>It has survived not only five centuries but also the leap into electronic typesetting.</p>
+                    <a class="btn btn-primary btn-hover-dark" href="{{ path('showMyParticipations') }}">My Participation</a>
+                </div>
+                <!-- Slider Content End -->
+
+            </div>
+
+            <!-- Slider Courses Box Start -->
+            <div class="slider-courses-box">
+
+                <img class="shape-1 animation-left" src="{{asset('assets/images/shape/shape-5.png')}}" alt="Shape">
+
+                <div class="box-content">
+                    <div class="box-wrapper">
+                        <i class="flaticon-open-book"></i>
+                        <span class="count">1,235</span>
+                        <p>courses</p>
+                    </div>
+                </div>
+
+                <img class="shape-2" src="{{asset('assets/images/shape/shape-6.png')}}" alt="Shape">
+
+            </div>
+            <!-- Slider Courses Box End -->
+
+            <!-- Slider Rating Box Start -->
+            <div class="slider-rating-box">
+
+                <div class="box-rating">
+                    <div class="box-wrapper">
+                        <span class="count">4.8 <i class="flaticon-star"></i></span>
+                        <p>Rating (86K)</p>
+                    </div>
+                </div>
+
+                <img class="shape animation-up" src="{{asset('assets/images/shape/shape-7.png')}}" alt="Shape">
+
+            </div>
+            <!-- Slider Rating Box End -->
+
+            <!-- Slider Images Start -->
+            <div class="slider-images">
+                <div class="images">
+                    <img src="{{asset('assets/images/slider/slider-1.png')}}" alt="Slider">
+                </div>
+            </div>
+            <!-- Slider Images End -->
+
+            <!-- Slider Video Start -->
+            <div class="slider-video">
+                <img class="shape-1" src="{{asset('assets/images/shape/shape-9.png')}}" alt="Shape">
+
+                <div class="video-play">
+                    <img src="{{asset('assets/images/shape/shape-10.png')}}" alt="Shape">
+                    <a href="https://www.youtube.com/watch?v=BRvyWfuxGuU" class="play video-popup"><i class="flaticon-play"></i></a>
+                </div>
+            </div>
+            <!-- Slider Video End -->
+
+        </div>
+        <!-- Slider End -->
+
+        <div class="section section-padding mt-n1">
+            <div class="container">
+             <!-- All Courses Top Start -->
+                <div class="courses-top">
+             
+
+                    <!-- Section Title Start -->
+                    <div class="section-title shape-01">
+                        <h2 class="main-title">All <span>Event</span></h2>
+                    </div>
+                    <!-- Section Title End -->
+
+                    <!-- Courses Search Start -->
+                    <div class="courses-search">
+                      <form id="searchForm">
+                        <input type="text" id="searchInput" placeholder="Search your Event">
+                        <button type="submit" ><i class="icofont-search"></i></button>
+                    </form>
+                    </div>
+                    <!-- Courses Search End -->
+
+                </div>
+                <!-- All Courses Top End -->
+
+                <!-- All Courses Tabs Menu Start -->
+                <div class="courses-tabs-menu courses-active">
+                    <div class="swiper-container">
+                        <ul class="swiper-wrapper nav">
+                            <li class="swiper-slide"><button id="newestTabBtn" class="active" data-bs-toggle="tab" data-bs-target="#tabs1">Newest</button></li>
+                            <li class="swiper-slide"><button id="oldestTabBtn" class="active" data-bs-toggle="tab" data-bs-target="#tabs1">Oldest</button></li>
+                            <li class="swiper-slide"><button id="ExpensiveTabBtn" class="active" data-bs-toggle="tab" data-bs-target="#tabs1">Expensive</button></li>
+                            <li class="swiper-slide"><button id="ShippingTabBtn" class="active" data-bs-toggle="tab" data-bs-target="#tabs1">Shipping</button></li>
+                        </ul>
+                    </div>
+
+                   <script src="{{asset('assets/js/events.js')}}"></script>
+
+                </div>
+               
+
+
+ 
+
+             
+  
+
+          
+                
+          
+                <div class="blog-wrapper">
+              
+                    <div id="eventResults" class="row">
+                      {% for event in event %}
+                        <div class="col-lg-4 col-md-6">
+
+     
+                            <!-- Single Blog Start -->
+                            
+                            <div class="single-blog">
+                            
+                                <div class="blog-image">
+                                    <a href=""><img src="{{ asset('contents/uploads/events/' ~ event.attachment) }}" alt="Blog" width="300" height="200"  ></a>
+                                </div>
+                                <div class="blog-content">
+                                    <div class="blog-author">
+                                        <div class="author">
+                                            <div class="author-thumb">
+                                                      {% if event.owner.image starts with "https" %}
+                                <img src="{{ event.owner.image }}" alt="Author">
+                            {% else %}
+                                <img src="{{ asset('contents/uploads/users/' ~ event.owner.image) }}" alt="Author">
+                            {% endif %}
+                                            </div>
+                                            <div class="author-name">
+                                                <a class="name" href="#">{{event.owner.firstname}} {{event.owner.lastname}}</a>
+                                            </div>
+                                        </div>
+                                  
+                                    </div>
+
+                                    <h4 class="title"><a href="">{{ event.title }}</a></h4>
+
+                                    <div class="blog-meta">
+                                        <span> <i class="icofont-calendar"></i> {{ event.startdate|date("m/d/y")  }} </span>
+                                        <span> <i class=""></i>{{ event.placenbr }} </span>
+                                    </div>
+
+                                    <a href="{{ path('eventsDetailsfront', {'idevent' : event.idevent})}}" class="btn btn-secondary btn-hover-primary">Read More</a>
+                                    
+                                </div>
+ 
+                            </div>
+    
+                        </div>
+                            {% endfor %}
+                  </div> 
+             
+             
+              </div>              
+
+                       
+
+                        </div>
+                    </div>
+                      
+                </div>
+              
+                <!-- Blog Wrapper End -->
+
+            </div>
+            </div>
+        <!-- Blog End -->
+
+                  <br>
+                  <br> 
+                <!-- All Courses BUtton End -->
+            </div>
+          
+        </div>   
+        <!-- All Courses End -->       
+
+
+{% endblock %}  

@@ -1,0 +1,58 @@
+{% extends 'baseBack.html.twig' %}
+{% block privateJS %}
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script defer src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script defer src="{{asset('assets/js/courses.js')}}"></script>
+{% endblock %}
+{% block search %}
+    <input type="text" id="searchCourse" onkeyup="searchCourse(this.value)" data-url="{{ path('search_course_back') }}" placeholder="Search here">
+{% endblock %}
+{% block body %}
+<!-- Message Start -->
+<div class="message">
+    <div class="message-icon">
+        <img src="assets/images/menu-icon/icon-6.png" alt="">
+    </div>
+    <div class="message-content">
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic.</p>
+    </div>
+</div>
+<!-- Message End -->
+<!-- Admin Courses Tab Start -->
+<div class="admin-courses-tab">
+    <h3 class="title">Notifications</h3>
+</div>
+<!-- Admin Courses Tab End -->
+
+<!-- Admin Courses Tab Content Start -->
+<div class="admin-courses-tab-content">
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="mainAllCourseDiv">
+        {% for notif in notifications %}
+            <!-- Courses Item Start -->
+            <div class="courses-item">
+                <div class="item-thumb">
+                    <a href="{{ path('tutor_course_details', {'idCourse' : notif.course_notified.idcourse})}}">
+                        <img src="{{ asset('contents/uploads/courses/' ~ notif.course_notified.image) }}" alt="Courses">
+                    </a>
+                </div>
+                <div class="content-title">
+                    <h3 ><a>{{ notif.title }}</a></h3>
+                </div>
+                <div class="content-title">
+                   <span class="title">
+                        {% if notif.date < "now" %}
+                            {{ notif.date|date("Y-m-d") }}
+                        {% else %}
+                            {{ notif.date|date("H:i") }}
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <!-- Courses Item End -->
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<!-- Admin Courses Tab Content End -->
+{% endblock %}

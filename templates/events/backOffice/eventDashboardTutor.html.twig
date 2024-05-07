@@ -1,0 +1,49 @@
+{% extends 'baseBack.html.twig' %}
+{% block body %}
+  <!-- Engagement Courses End -->
+                        <div class="engagement-courses table-responsive">
+      <div class="tab-btn">
+            <a href="{{path('AddEvent')}}" class="btn btn-primary btn-hover-dark">New Event</a>
+        </div>
+                            <div class="courses-top">
+                                <ul>
+                                    <li>All Events</li>
+                                    <li>Date</li>
+                                    <li>N° Place</li>
+                                </ul>
+                            </div>
+
+                            <div class="courses-list">
+                                {% for e in Events %}
+                                <ul>
+                           
+                                    <li>
+                                        <div class="courses">
+                                            <div class="thumb">
+                                                <img src="{{ asset('contents/uploads/events/' ~ e.attachment) }}" alt="Courses">
+                                            </div>
+                                            <div class="content">
+                                                <h4 class="title"><a href="#">{{ e.title }}</a></h4>
+                                            </div>
+                                        </div>
+                                        <div class="taught">
+                                            <span> de {{ e.startdate|date("d/m/Y")  }} a {{ e.enddate|date("d/m/Y") }} </span>
+                                          
+                                        </div>
+                                        <div class="student">
+                                            <span>{{ e.placenbr }}</span>
+                                        </div>
+                                        <div class="button">
+                                            <a class="btn" href="{{ path('eventsDetails', {'idevent' : e.idevent})}}">View Details</a>
+                                             <a class="btn" href="{{ path('showparticipants', {'idevent' : e.idevent})}}">Participant</a>
+                                        </div>
+                                          
+                                    </li>
+                                </ul>
+                                    {% endfor %}
+                            </div>
+                        </div>
+
+                            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                        <!-- Engagement Courses End -->
+                        {% endblock %}

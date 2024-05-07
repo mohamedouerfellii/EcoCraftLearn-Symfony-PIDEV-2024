@@ -1,0 +1,67 @@
+{% extends 'baseAdmin.html.twig' %}
+{% block body %}
+<!-- Page Content Wrapper Start -->
+           <!-- Admin Tab Menu Start -->
+                <div class="nav flex-column nav-pills admin-tab-menu">
+                   <a href="{{ path('showProductsDashboard') }}">Products</a>
+                    <a href="{{ path('ordersinprogress') }}">Orders</a>
+                     <a href="{{ path('showEvaluationsDashboard') }}">Evaluations</a>
+                </div>
+                <!-- Admin Tab Menu End -->
+                <div class="page-content-wrapper">
+                <!-- Page Content Wrapper Start -->
+                <div class="main-content-wrapper">
+                    <div class="container-fluid">
+                        <!-- Engagement Courses Start -->
+                        <div class="engagement-courses">
+
+                            <div class="courses-top">
+                                <ul>
+                                    <li>All Orders</li>
+                                    <li>Prices</li>
+                                    <li>Status</li>
+                                    <li>Payment</li>
+                                </ul>
+                            </div>
+                            {% for o in Orders %}
+                            <div class="courses-list">
+                                <ul>
+                                    <li>
+                                        <div class="courses">
+                                            <div class="content">
+                                                <h4 class="title"><a href="#">{{ o.city }}</a></h4>
+                                            </div>
+                                        </div>
+                                        <div class="taught">
+                                            <span>{{ o.total }}DT</span>
+                                        </div>
+                                        <div class="student">
+                                            <span>{{ o.status }}</span>
+                                        </div>
+                                        <div class="student">
+                                            <span>{{ o.etatPayment }}</span>
+                                        </div>
+                                        <div class="button">
+                                            <a class="btn" href="{{ path('DeleviredOrder', { 'idcommande': o.idcommande}) }}">Delevred</a>
+                                        </div>
+                                    </li>
+               
+                                </ul>
+                            </div>
+                            {% endfor %}
+
+
+                        </div>
+                        <!-- Engagement Courses End -->
+
+              
+                </div>
+                <!-- Page Content Wrapper End -->
+
+            </div>
+
+        <!-- Courses Admin End -->
+
+</div>
+<!-- Page Content Wrapper End -->
+{% endblock %}

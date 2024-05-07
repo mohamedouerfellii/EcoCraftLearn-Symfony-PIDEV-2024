@@ -1,0 +1,264 @@
+{% extends 'baseFront.html.twig' %}
+{% block body %}
+
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- Overlay Start -->
+        <div class="overlay"></div>
+        <!-- Overlay End -->
+
+        <!-- Slider Start -->
+        <div class="section slider-section">
+
+            <!-- Slider Shape Start -->
+            <div class="slider-shape">
+                <img class="shape-1 animation-round" src="{{asset('assets/images/shape/shape-8.png')}}" alt="Shape">
+            </div>
+            <!-- Slider Shape End -->
+
+            <div class="container">
+
+                <!-- Slider Content Start -->
+                <div class="slider-content">
+                    <h4 class="sub-title">Start your favourite course</h4>
+                    <h2 class="main-title">Now learning from anywhere, and build your <span>bright career.</span></h2>
+                    <p>It has survived not only five centuries but also the leap into electronic typesetting.</p>
+                  
+                </div>
+                <!-- Slider Content End -->
+
+            </div>
+
+            <!-- Slider Courses Box Start -->
+            <div class="slider-courses-box">
+
+                <img class="shape-1 animation-left" src="{{asset('assets/images/shape/shape-5.png')}}" alt="Shape">
+
+                <div class="box-content">
+                    <div class="box-wrapper">
+                        <i class="flaticon-open-book"></i>
+                        <span class="count">1,235</span>
+                        <p>courses</p>
+                    </div>
+                </div>
+
+                <img class="shape-2" src="{{asset('assets/images/shape/shape-6.png')}}" alt="Shape">
+
+            </div>
+            <!-- Slider Courses Box End -->
+
+            <!-- Slider Rating Box Start -->
+            <div class="slider-rating-box">
+
+                <div class="box-rating">
+                    <div class="box-wrapper">
+                        <span class="count">4.8 
+                        
+                        <i class="flaticon-star"></i>
+                        
+                        </span>
+                        <p>Rating (86K)</p>
+                    </div>
+                </div>
+
+                <img class="shape animation-up" src="{{asset('assets/images/shape/shape-7.png')}}" alt="Shape">
+
+            </div>
+            <!-- Slider Rating Box End -->
+
+            <!-- Slider Images Start -->
+            <div class="slider-images">
+                <div class="images">
+                    <img src="{{asset('assets/images/slider/slider-1.png')}}" alt="Slider">
+                </div>
+            </div>
+            <!-- Slider Images End -->
+
+            <!-- Slider Video Start -->
+            <div class="slider-video">
+                <img class="shape-1" src="{{asset('assets/images/shape/shape-9.png')}}" alt="Shape">
+
+                <div class="video-play">
+                    <img src="{{asset('assets/images/shape/shape-10.png')}}" alt="Shape">
+                    <a href="https://www.youtube.com/watch?v=BRvyWfuxGuU" class="play video-popup"><i class="flaticon-play"></i></a>
+                </div>
+            </div>
+            <!-- Slider Video End -->
+
+        </div>
+        <!-- Slider End -->
+
+        <!-- All Courses Start -->
+        <div class="section section-padding-02">
+        
+<style>
+        .badge {
+        background-color: #dc3545;
+        color: white;
+        border-radius: 10px;
+        padding: 5px 10px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(40%, -40%);
+        }
+</style>
+
+         {% block bodyProductQuantity %}
+            <div class="container">
+
+                <!-- All Courses Top Start -->
+                <div class="swiper-container">
+                 <div class="courses-category-wrapper">
+                    <div class="courses-search search-2">
+                     <form id="searchForm" action="#" method="GET">
+                        <input type="text" id="searchInput" placeholder="Search your Products">
+                        </form>
+
+                    </div>
+
+                    <ul class="category-menu">
+                        <li><a class="active" href="{{ path('showProducts') }}" >All Products</a></li> 
+                        <li><a href="{{ path('MyProduct')}}"> My Products </a></li>
+                        <li><a href="{{ path('my_cart') }}" id="myCartBtn" class="btn btn-secondary btn-hover-primary">My Carts <span class="badge badge-danger"></span></a></li>
+                        <li><a href="{{ path('My_Order') }}" id="myOrderBtn" class="btn btn-secondary btn-hover-primary">My Orders <span class="badge badge-danger"></span></a></li>
+                    </ul>
+                </div>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="{{asset('assets/js/product.js')}}"></script>
+
+   
+
+</div>
+<div class="courses-tabs-menu courses-active">
+<div class="swiper-container">
+<ul class="swiper-wrapper nav">
+    <li class="swiper-slide">
+        <button id="newestTabBtn" data-bs-toggle="tab" data-bs-target="#tabs1">Newest</button>
+    </li>
+    <li class="swiper-slide">
+        <button id="oldestTabBtn" data-bs-toggle="tab" data-bs-target="#tabs2">Oldest</button>
+    </li>
+    <li class="swiper-slide">
+        <button id="expensiveTabBtn" data-bs-toggle="tab" data-bs-target="#tabs3">Expensive</button>
+    </li>
+    <li class="swiper-slide">
+        <button id="cheapTabBtn" data-bs-toggle="tab" data-bs-target="#tabs4">Cheap</button>
+    </li>
+</ul>
+
+
+
+</div>
+
+      <div class="swiper-button-next"><i class="icofont-rounded-right"></i></div>
+      <div class="swiper-button-prev"><i class="icofont-rounded-left"></i></div>
+</div>
+
+<script src="{{asset('assets/js/product.js')}}"></script>
+
+<script>
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('{{ path('cart_and_orders_count') }}')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('myCartBtn').querySelector('span.badge').textContent = data.souscartCount;
+                document.getElementById('myOrderBtn').querySelector('span.badge').textContent = data.orderCount;
+            })
+            .catch(error => console.error('Error fetching cart and orders count:', error));
+    });
+
+    
+</script>
+
+
+
+                   
+                <!-- All Courses Top End -->
+                <!-- All Courses tab content Start -->
+               
+<div class="tab-content courses-tab-content" >
+            <div class="tab-pane fade show active" id="tabs1" >
+                <div class="courses-wrapper">   
+
+<div class="row" id="mainAllProductDiv">
+{% for p in Products %}
+    <div class="col-lg-4 col-md-6">
+        <div class="single-courses">
+            <div class="courses-images">
+                <a href="/addevaluationproduct/{{ p.idproduct }}">
+                    <img src="{{ asset('contents/uploads/products/' ~ p.image) }}" alt="Courses" style="width:330px;height:300px;">
+                </a>
+            </div>
+            <div class="courses-content">
+                <h4 class="title"><a href="#">{{ p.name }}</a></h4>
+                <div class="courses-meta">
+                    <span> Quantity : {{ p.quantite }}</span>
+                </div>
+                <div class="courses-author">
+                    <div class="author">
+                        <div class="author-name"></div>
+                    </div>
+                <div class="tag">
+                    <a id="buyButton" href="/buy_now/{{ p.idproduct }}" 
+                        {% if p.quantite == 0 %} 
+                            onclick="return false;" 
+                            style="pointer-events: none; cursor: default; color: red;" 
+                        {% endif %}>
+                        {% if p.quantite == 0 %}
+                            Sold Out 
+                        {% else %}
+                            Buy Now 
+                        {% endif %}
+                    </a>
+                </div>
+                </div>
+                <div class="courses-price-review">
+                    <div class="courses-price">
+                        <span class="sale-parice">{{ p.price }} DT</span>
+                    </div>
+                <div class="courses-review">
+                        <span class="rating-count">{{ moyRates[p.idproduct]|round(1) }}</span>
+                        <span class="rating-star">
+                            <span class="rating-bar" style="width: {{ moyRates[p.idproduct] * 20 }}%;"></span> 
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+</div>
+
+                 </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br> 
+</div>
+                <!-- All Courses tab content End -->
+               
+
+                <!-- All Courses BUtton Start -->
+         
+
+                  <br>
+                  <br> 
+                <!-- All Courses BUtton End -->
+            </div>
+             {% endblock %}
+        </div>   
+        <!-- All Courses End -->       
+
+
+{% endblock %}

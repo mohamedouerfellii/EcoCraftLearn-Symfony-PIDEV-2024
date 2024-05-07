@@ -1,0 +1,163 @@
+{% extends 'baseFront.html.twig' %}
+{% block body %}
+        <!-- Overlay Start -->
+        <div class="overlay"></div>
+        <!-- Overlay End -->
+
+        <!-- Slider Start -->
+        <div class="section slider-section">
+
+            <!-- Slider Shape Start -->
+            <div class="slider-shape">
+                <img class="shape-1 animation-round" src="{{asset('assets/images/shape/shape-8.png')}}" alt="Shape">
+            </div>
+            <!-- Slider Shape End -->
+
+            <div class="container">
+
+                <!-- Slider Content Start -->
+                <div class="slider-content">
+                    <h4 class="sub-title">Start your favourite course</h4>
+                    <h2 class="main-title">Now learning from anywhere, and build your <span>bright career.</span></h2>
+                    <p>It has survived not only five centuries but also the leap into electronic typesetting.</p>
+                    
+                </div>
+                <!-- Slider Content End -->
+
+            </div>
+
+            <!-- Slider Courses Box Start -->
+            <div class="slider-courses-box">
+
+                <img class="shape-1 animation-left" src="{{asset('assets/images/shape/shape-5.png')}}" alt="Shape">
+
+                <div class="box-content">
+                    <div class="box-wrapper">
+                        <i class="flaticon-open-book"></i>
+                        <span class="count">1,235</span>
+                        <p>courses</p>
+                    </div>
+                </div>
+
+                <img class="shape-2" src="{{asset('assets/images/shape/shape-6.png')}}" alt="Shape">
+
+            </div>
+            <!-- Slider Courses Box End -->
+
+            <!-- Slider Rating Box Start -->
+            <div class="slider-rating-box">
+
+                <div class="box-rating">
+                    <div class="box-wrapper">
+                        <span class="count">4.8 <i class="flaticon-star"></i></span>
+                        <p>Rating (86K)</p>
+                    </div>
+                </div>
+
+                <img class="shape animation-up" src="{{asset('assets/images/shape/shape-7.png')}}" alt="Shape">
+
+            </div>
+            <!-- Slider Rating Box End -->
+
+            <!-- Slider Images Start -->
+            <div class="slider-images">
+                <div class="images">
+                    <img src="{{asset('assets/images/slider/slider-1.png')}}" alt="Slider">
+                </div>
+            </div>
+            <!-- Slider Images End -->
+
+            <!-- Slider Video Start -->
+            <div class="slider-video">
+                <img class="shape-1" src="{{asset('assets/images/shape/shape-9.png')}}" alt="Shape">
+
+                <div class="video-play">
+                    <img src="{{asset('assets/images/shape/shape-10.png')}}" alt="Shape">
+                    <a href="https://www.youtube.com/watch?v=BRvyWfuxGuU" class="play video-popup"><i class="flaticon-play"></i></a>
+                </div>
+            </div>
+            <!-- Slider Video End -->
+
+        </div>
+        <!-- Slider End -->
+
+        <div class="section section-padding mt-n1">
+            <div class="container">
+             <!-- All Courses Top Start -->
+                <div class="courses-top">
+
+                 
+                    <div class="section-title shape-01">
+                        <h2 class="main-title">My <span>Participation </span> of Event</h2>
+                    </div>
+                
+
+
+                </div>
+         
+                <div class="blog-wrapper">
+              
+                    <div class="row">
+                      {% for participations in participations %}
+                        <div class="col-lg-4 col-md-6">
+                            <!-- Single Blog Start -->
+                            
+                            <div class="single-blog">
+                            
+                                <div class="blog-image">
+                                    <a href="#"><img src="{{ asset('contents/uploads/events/' ~ participations.event.attachment) }}" alt="Blog" width="300" height="200"  ></a>
+                                </div>
+                                <div class="blog-content">
+                                    <div class="blog-author">
+                                        <div class="author">
+                        
+                                
+                                        </div>
+                                
+                                    </div>
+                                    <h4 class="title"><a href="#">{{ participations.event.title }}</a></h4>
+
+                                    <div class="blog-meta">
+                                        <span> <i class="icofont-calendar"></i> {{ participations.event.startdate|date("m/d/y")  }} </span>
+                                        <span> <i class=""></i>{{ participations.event.place }} </span>
+                                    </div>
+
+                                    <a href="{{ path('cancelParticipation', {'idparticipation' : participations.idparticipation})}}" class="btn btn-secondary btn-hover-primary">cancel</a>
+                                    
+                                </div>
+ 
+                            </div>
+                  
+   
+                            <!-- Single Blog End -->
+
+                            
+                        </div>
+                            {% endfor %}
+                       
+                </div> 
+              </div>              
+
+                       
+
+                        </div>
+                    </div>
+                      
+                </div>
+              
+                <!-- Blog Wrapper End -->
+
+            </div>
+            </div>
+        <!-- Blog End -->
+
+                  <br>
+                  <br> 
+                <!-- All Courses BUtton End -->
+            </div>
+          
+        </div>   
+        <!-- All Courses End -->       
+
+
+{% endblock %}  

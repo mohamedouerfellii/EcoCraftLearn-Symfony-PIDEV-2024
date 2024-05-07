@@ -1,0 +1,129 @@
+{% extends 'baseFront.html.twig' %}
+ {% block js %}
+ <script defer src="{{asset('assets/js/collect.js')}}"></script>
+  {% endblock %}
+{% block body %}
+<div class="section page-banner">
+    <img class="shape-1 animation-round" src="{{ asset('assets/images/shape/shape-8.png')}}" alt="Shape">
+
+    <img class="shape-2" src="{{ asset('assets/images/shape/shape-23.png')}}" alt="Shape">
+
+    <div class="container">
+        <!-- Page Banner Start -->
+        <div class="page-banner-content">
+            <ul class="breadcrumb">
+                <li><a href="#">Home</a></li>
+                <li class="active">Collection Points</li>
+            </ul>
+            <h2 class="title">Collection<span> Points</span></h2>
+        </div>
+        <!-- Page Banner End -->
+    </div>
+
+    <!-- Shape Icon Box Start -->
+    <div class="shape-icon-box">
+
+        <img class="icon-shape-1 animation-left" src="{{ asset('assets/images/shape/shape-5.png')}}" alt="Shape">
+
+        <div class="box-content">
+            <div class="box-wrapper">
+                <i class="flaticon-badge"></i>
+            </div>
+        </div>
+
+        <img class="icon-shape-2" src="{{ asset('assets/images/shape/shape-6.png')}}" alt="Shape">
+
+    </div>
+    <!-- Shape Icon Box End -->
+
+    <img class="shape-3" src="{{ asset('assets/images/shape/shape-24.png')}}" alt="Shape">
+
+    <img class="shape-author" src="{{ asset('assets/images/author/author-11.jpg')}}" alt="Shape">
+
+</div>
+
+
+
+
+<div class="tab-content courses-tab-content" >
+            <div class="tab-pane fade show active" id="tabs1" >
+                <div class="courses-wrapper">   
+
+<div class="row" id="mainAllProductDiv">
+                           
+
+                            <!-- Formulaire de recherche -->
+                          
+                            <!-- Fin du formulaire de recherche -->
+
+                            <!-- Tableau des collectsptss filtrées -->
+                            {% for recl in Collectspts %}
+                           
+
+
+
+
+  <div class="col-lg-4 col-md-6">
+        <div class="single-courses">
+            <div class="courses-images">
+                <a href="{{ path('afficher_collects') }}">
+                    <img src="{{ asset('uploads/images/' ~ recl.image) }}" alt="Courses" style="width:330px;height:300px;">
+                </a>
+            </div>
+            <div class="courses-content">
+                <h4 class="title"><a href="#">{{ recl.name }}</a></h4>
+                <div class="courses-meta">
+                    <span> Address : {{ recl.adresse }}</span>
+                </div>
+                <div class="courses-author">
+                    <div class="author">
+                        <div class="author-name"></div>
+                    </div>
+            
+                </div>
+                <div class="courses-price-review">
+                    <div class="courses-price">
+                        <span class="sale-parice">{{ recl.capacity }} KG</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+                            {% endfor %}
+                            <!-- Fin du tableau des collectsptss filtrées -->
+
+                            <!-- Pagination -->
+                            <div class="pagination">
+                                {% set currentPage = Collectspts.currentPageNumber %}
+                                {% set previous = currentPage > 1 ? currentPage - 1 : false %}
+                                {% set next = currentPage < Collectspts.pageCount ? currentPage + 1 : false %}
+                                <ul class="pagination">
+                                    {% if previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ path('afficher_collectspts') }}?page={{ previous }}">Précédent</a>
+                                        </li>
+                                    {% endif %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ currentPage }}</span>
+                                    </li>
+                                    {% if next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ path('afficher_collectspts') }}?page={{ next }}">Suivant</a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                            <!-- Fin de la pagination -->
+                            <!-- Ajoutez ce lien à la suite de votre contenu -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+      
+
+{% endblock %}

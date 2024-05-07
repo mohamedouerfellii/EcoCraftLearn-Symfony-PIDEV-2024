@@ -1,0 +1,72 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block body %}
+
+<div class="admin-courses-tab">
+    <h3 class="title">Collection Points</h3>
+<div class="courses-tab-wrapper">
+        
+           
+                <a class="btn cur-p btn-success" >Add new Collection Point</a>
+              
+            
+        </div>
+  
+        </div>
+
+
+<div class="admin-courses-tab-content">
+    <div class="tab-content">
+    
+        <div class="tab-pane fade show active" id="mainAllUserseDiv">
+         {% for recl in Collectspts %}
+            <!-- Courses Item Start -->
+            <div class="courses-item">
+                <div class="item-thumb">
+                    <a href="">
+                       
+                    <img src="{{ asset('uploads/images/' ~ recl.image) }}" alt="Author">
+               
+                    </a>
+                </div>
+                <div class="content-title">
+                <h3 ><a href="">{{ recl.name }}</a></h3>
+                </div>
+                <div class="content-title">
+                    <span class="title">{{ recl.adresse }}</span>
+                </div>
+                <div class="content-title">
+                    <span class="title"> {{ recl.capacity }} KG</span>
+                </div>
+              
+             <div class="content-wrapper">
+              
+                 <a class="btn cur-p btn-danger" href="{{ path('delete_av', {'id': recl.id}) }}">Delete</a>
+                                        <a class="btn cur-p btn-success" href="{{ path('update_av', {'id': recl.id}) }}">Update</a>
+                </div>
+
+            </div>
+            <!-- Courses Item End -->
+            {% endfor %}
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

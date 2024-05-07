@@ -1,0 +1,300 @@
+{% extends 'baseFront.html.twig' %}
+ {% block body %}
+
+
+
+    <div class="main-wrapper">
+        <!-- Overlay Start -->
+        <div class="overlay"></div>
+        <!-- Overlay End -->
+
+        <!-- Page Banner Start -->
+        <div class="section page-banner">
+
+            <img class="shape-1 animation-round" src="{{asset('assets/images/shape/shape-8.png')}}" alt="Shape">
+
+            <img class="shape-2" src="{{asset('assets/images/shape/shape-23.png')}}" alt="Shape">
+
+            <div class="container">
+                <!-- Page Banner Start -->
+                <div class="page-banner-content">
+                    <ul class="breadcrumb">
+                        <li><a href="#">Home</a></li>
+                        <li class="active">Products Details</li>
+                    </ul>
+                    <h2 class="title">Products <span> Details</span></h2>
+                </div>
+                <!-- Page Banner End -->
+            </div>
+
+            <!-- Shape Icon Box Start -->
+            <div class="shape-icon-box">
+
+                <img class="icon-shape-1 animation-left" src="{{asset('assets/images/shape/shape-5.png')}}" alt="Shape">
+
+                <div class="box-content">
+                    <div class="box-wrapper">
+                        <i class="flaticon-badge"></i>
+                    </div>
+                </div>
+
+                <img class="icon-shape-2" src="{{asset('assets/images/shape/shape-6.png')}}" alt="Shape">
+
+            </div>
+            <!-- Shape Icon Box End -->
+
+            <img class="shape-3" src="{{asset('assets/images/shape/shape-24.png')}}" alt="Shape">
+
+            <img class="shape-author" src="{{asset('assets/images/author/author-11.jpg')}}" alt="Shape">
+
+        </div>
+        <!-- Page Banner End -->
+
+        <!-- Courses Start -->
+        <div class="section section-padding mt-n10">
+            <div class="container">
+                <div class="row gx-10">
+                    <div class="col-lg-8">
+
+                        <!-- Courses Details Start -->
+                        <div class="courses-details">
+
+                            <div class="courses-details-images">
+                             <div class="courses-details-images">
+                                <img src="{{asset('contents/uploads/products/' ~ product.image) }}" alt="Courses Details" style="width:820px;height:500px;">
+                        
+                            </div>
+                            </div>
+
+                           <h2 class="title">{{ product.name }}</h2>                
+                            <div class="courses-details-admin">
+                                <div class="admin-author">
+                                    <div class="author-thumb">
+                                                  {% if product.owner.image starts with "https" %}
+                        <img src="{{ product.owner.image }}" alt="Author">
+                    {% else %}
+                        <img src="{{ asset('contents/uploads/users/' ~ product.owner.image) }}" alt="Author">
+                    {% endif %}
+                                    </div>
+                                    <div class="author-content">
+                                        <a class="name" href="#">{{ product.owner.firstname }} {{ product.owner.lastname }} </a>
+                                    </div>
+                                </div>
+                                     <div class="admin-rating">
+                               <span class="rating-count">{{ moyRate|round(1) }}</span>
+                                    <span class="rating-star">
+                                        <span class="rating-bar" style="width: {{ moyRate * 20 }}%;"></span>
+                                    </span>
+                                    <span class="rating-text">({{ countrate }} Rating)</span>
+                                </div>
+                            </div>
+
+                            <!-- Courses Details Tab Start -->
+                            <div class="courses-details-tab">
+
+                                <!-- Details Tab Menu Start -->
+                                <div class="details-tab-menu">
+                                    <ul class="nav justify-content-center">
+                                        <li><button class="active" data-bs-toggle="tab" data-bs-target="#description">Description</button></li>
+                                        <li><button data-bs-toggle="tab" data-bs-target="#reviews">Reviews</button></li>
+                                    </ul>
+                                </div>
+                                <!-- Details Tab Menu End -->
+
+                                <!-- Details Tab Content Start -->
+                                <div class="details-tab-content">
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade show active" id="description">
+
+                                   
+                                            <!-- Tab Description Start -->
+                                            <div class="tab-description">
+                                                <div class="description-wrapper">
+                                                    <h3 class="tab-title">Description:</h3>
+                                                    <p>{{ product.description }}</p>
+                                                </div>
+                                            </div>
+                                            <!-- Tab Description End -->
+
+                                        </div>
+                                        <div class="tab-pane fade" id="instructors">
+
+
+                                        </div>
+                                        <div class="tab-pane fade" id="reviews">
+
+                                            <!-- Tab Reviews Start -->
+                                            <div class="tab-reviews">
+                                                <h3 class="tab-title">Student Reviews:</h3>
+
+                                                <div class="reviews-wrapper reviews-active">
+                                                    <div class="swiper-container">
+                                                        <div class="swiper-wrapper">
+                 
+                {% for evaluation in evaluations %}
+                    <!-- Single Reviews Start -->
+                    <div class="single-review swiper-slide">
+                        <div class="review-author">
+                            <div class="author-thumb">
+                              {% if evaluation.evaluator.image starts with "https" %}
+                        <img src="{{ evaluation.evaluator.image }}" alt="Author">
+                    {% else %}
+                        <img src="{{ asset('contents/uploads/users/' ~ evaluation.evaluator.image) }}" alt="Author">
+                    {% endif %}
+                                
+                                <i class="icofont-quote-left"></i>
+                            </div>
+                            <div class="author-content">
+                                <h4 class="name">{{ evaluation.evaluator.firstname }}</h4>
+                                <span class="designation">{{ evaluation.evaluator.lastname }}</span>
+                            </div>
+                            {% if evaluation.evaluator.iduser == user.iduser %}
+                                <div>
+                                    <a href="{{ path('deleteevaluation', {'idevaluation': evaluation.idevaluation, 'idproduct': product.idproduct}) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette évaluation ?')">
+                                        <i class="icofont-trash"></i> 
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <p>{{ evaluation.commentaire }}</p>
+                    </div>
+                {% endfor %}
+
+                                                        </div>
+                                                      
+                                                        <div class="swiper-pagination"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="reviews-btn">
+                                                    <button type="button" class="btn btn-primary btn-hover-dark" data-bs-toggle="modal" data-bs-target="#reviewsModal">Write A Review</button>
+                                                </div>
+
+                                                <!-- Reviews Form Modal Start -->
+                                                <div class="modal fade" id="reviewsModal">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Add a Review </h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <!-- Reviews Form Start -->
+                                                            <div class="modal-body reviews-form">
+                                                                {{ form_start(form, {'attr': {'method': 'POST', 'novalidate': 'novalidate'}}) }}
+                                                       <div class="row">
+                                                       <div class="col-md-12">
+                                                        <!-- Empty column -->
+                                                       </div>
+                                                      <div class="col-md-12">
+                                                        <!-- Single Form Start -->
+                                                        <div class="single-form">          
+                                                            {{ form_widget(form.commentaire, {'attr': {'placeholder': 'Write your comments here', 'class': 'formbold-form-input', 'rows': '6'}}) }}
+                                                            <span class="form-error">{{ form_errors(form.commentaire) }}</span>
+                                                        </div>
+                                                        <!-- Single Form End -->
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <!-- Single Form Start -->
+                                                        <div class="single-form">
+                                                            <button class="btn btn-primary btn-hover-dark">Submit Review</button>
+                                                        </div>
+                                                        <!-- Single Form End -->
+                                                    </div>
+                                                </div>
+                                                {{ form_end(form) }}
+                                                            </div>
+                                                            <!-- Reviews Form End -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Reviews Form Modal End -->
+
+                                            </div>
+                                            <!-- Tab Reviews End -->
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Details Tab Content End -->
+
+                            </div>
+                            <!-- Courses Details Tab End -->
+
+                        </div>
+                        <!-- Courses Details End -->
+
+                    </div>
+                    <div class="col-lg-4">
+                        <!-- Courses Details Sidebar Start -->
+                        <div class="sidebar">
+
+                           <div class="sidebar-widget widget-information">
+                                <div class="info-price">
+                                    <span class="price">{{ product.price }}</span>
+                                </div>
+                                <div class="info-list">
+                                    <ul>
+                                        <li><i class="icofont-man-in-glasses"></i> <strong>Name</strong> <span>{{ product.name }}</span></li>
+                                        <li><i class="icofont-clock-time"></i> <strong>Quantity</strong> <span>{{ product.quantite }}</span></li>
+                                        <li><i class="icofont-ui-video-play"></i> <strong>Date </strong> <span>{{ product.adddate|date }}</span></li>
+                                    </ul>
+                                </div>
+                            
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+
+      
+         
+                             
+
+        
+
+        <!--Back To Start-->
+        <a href="#" class="back-to-top">
+            <i class="icofont-simple-up"></i>
+        </a>
+        <!--Back To End-->
+
+    </div>
+    <!-- JS
+    ============================================ -->
+
+<script src="{{asset('assets/js/vendor/modernizr-3.11.2.min.js')}}"></script>
+
+<!-- jQuery JS -->
+<script src="{{asset('assets/js/vendor/jquery-3.5.1.min.js')}}"></script>
+
+<!-- Bootstrap JS -->
+<!-- <script src="assets/js/plugins/popper.min.js')}}"></script>
+<script src="assets/js/plugins/bootstrap.min.js')}}"></script> -->
+
+<!-- Plugins JS -->
+<!-- <script src="assets/js/plugins/swiper-bundle.min.js"></script>
+<script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
+<script src="assets/js/plugins/video-playlist.js"></script>
+<script src="assets/js/plugins/jquery.nice-select.min.js"></script>
+<script src="assets/js/plugins/ajax-contact.js"></script> -->
+
+<!-- Star Rating Bundle JS -->
+<script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
+
+<!-- Bootstrap Icons CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+<!-- Star Rating Bundle CSS -->
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
+
+<!-- Minified Plugins JS -->
+<script src="{{asset('assets/js/plugins.min.js')}}"></script>
+
+<!-- Main JS -->
+<script src="{{asset('assets/js/main.js')}}" ></script>
+
+{% endblock %}

@@ -1,0 +1,13 @@
+framework:
+    notifier:
+        chatter_transports:
+        texter_transports:
+            infobip: 'infobip://adac923e648a46110102aa7a42ce72ae-d0ace92f-0d09-4529-a0fc-05a0a2dbbea1@default?from=ServiceSMS'
+        channel_policy:
+            # use chat/slack, chat/telegram, sms/twilio or sms/nexmo
+            urgent: ['email']
+            high: ['email']
+            medium: ['email']
+            low: ['email']
+        admin_recipients:
+            - { email: admin@example.com }
